@@ -1,2 +1,0 @@
-# InvoiceTemplate
-Created with CodeSandbox
