@@ -10,6 +10,51 @@
 // Color Picker - Colors
 // File Upload - Upload Logo
 
+const spacer = height => {
+    return {
+        svg: '<svg width="10" height="' + height + '"><rect style="fill:transparent" /></svg>'
+    };
+};
+
+const coloredRect = (height, color) => {
+    return {
+        layout: "noBorders",
+        table: {
+            widths: ["*"],
+            heights: [height],
+            body: [[{ text: "", fillColor: color }]]
+        }
+    };
+};
+
+const LightenDarkenColor = (col, amt) => {
+    let usePound = false;
+
+    if (col[0] == "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
+
+    let num = parseInt(col, 16);
+
+    let r = (num >> 16) + amt;
+
+    if (r > 255) r = 255;
+    else if (r < 0) r = 0;
+
+    let b = ((num >> 8) & 0x00ff) + amt;
+
+    if (b > 255) b = 255;
+    else if (b < 0) b = 0;
+
+    let g = (num & 0x0000ff) + amt;
+
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+
+    return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+};
+
 let a4Paper = { width: 595.28, height: 841.89 };
 let letterPaper = { width: 612, height: 792 };
 let paperSize = a4Paper;
@@ -19,6 +64,11 @@ let colorPrimary = "#ff3e00";
 let colorSecondary = "#676778";
 let colorError = "#b71c1c";
 let colorBackground = "#ffffff";
+
+let colorLightPrimary = LightenDarkenColor(colorPrimary, 100);
+console.log(colorLightPrimary);
+let colorDarkPrimary = LightenDarkenColor(colorPrimary, -100);
+console.log(colorDarkPrimary);
 
 // Invoice Header - Invoice
 // Company Logo
@@ -138,63 +188,6 @@ let clientAddressCity = "New York City";
 let clientAddressState = "NY 00011";
 let clientAddressCountry = "USA";
 
-const coloredRect = (height, color) => {
-    return {
-        layout: "noBorders",
-        table: {
-            widths: ["*"],
-            heights: [height],
-            body: [[{ text: "", fillColor: color }]]
-        }
-    };
-};
-
-const pSBC = (p, c0, c1, l) => {
-    let r,
-        g,
-        b,
-        P,
-        f,
-        t,
-        h,
-        i = parseInt,
-        m = Math.round,
-        a = typeof c1 == "string";
-    if (typeof p != "number" || p < -1 || p > 1 || typeof c0 != "string" || (c0[0] != "r" && c0[0] != "#") || (c1 && !a)) return null;
-    if (!this.pSBCr)
-        this.pSBCr = d => {
-            let n = d.length,
-                x = {};
-            if (n > 9) {
-                ([r, g, b, a] = d = d.split(",")), (n = d.length);
-                if (n < 3 || n > 4) return null;
-                (x.r = i(r[3] == "a" ? r.slice(5) : r.slice(4))), (x.g = i(g)), (x.b = i(b)), (x.a = a ? parseFloat(a) : -1);
-            } else {
-                if (n == 8 || n == 6 || n < 4) return null;
-                if (n < 6) d = "#" + d[1] + d[1] + d[2] + d[2] + d[3] + d[3] + (n > 4 ? d[4] + d[4] : "");
-                d = i(d.slice(1), 16);
-                if (n == 9 || n == 5) (x.r = (d >> 24) & 255), (x.g = (d >> 16) & 255), (x.b = (d >> 8) & 255), (x.a = m((d & 255) / 0.255) / 1000);
-                else (x.r = d >> 16), (x.g = (d >> 8) & 255), (x.b = d & 255), (x.a = -1);
-            }
-            return x;
-        };
-    (h = c0.length > 9),
-        (h = a ? (c1.length > 9 ? true : c1 == "c" ? !h : false) : h),
-        (f = this.pSBCr(c0)),
-        (P = p < 0),
-        (t = c1 && c1 != "c" ? this.pSBCr(c1) : P ? { r: 0, g: 0, b: 0, a: -1 } : { r: 255, g: 255, b: 255, a: -1 }),
-        (p = P ? p * -1 : p),
-        (P = 1 - p);
-    if (!f || !t) return null;
-    if (l) (r = m(P * f.r + p * t.r)), (g = m(P * f.g + p * t.g)), (b = m(P * f.b + p * t.b));
-    else (r = m((P * f.r ** 2 + p * t.r ** 2) ** 0.5)), (g = m((P * f.g ** 2 + p * t.g ** 2) ** 0.5)), (b = m((P * f.b ** 2 + p * t.b ** 2) ** 0.5));
-    (a = f.a), (t = t.a), (f = a >= 0 || t >= 0), (a = f ? (a < 0 ? t : t < 0 ? a : a * P + t * p) : 0);
-    if (h) return "rgb" + (f ? "a(" : "(") + r + "," + g + "," + b + (f ? "," + m(a * 1000) / 1000 : "") + ")";
-    else return "#" + (4294967296 + r * 16777216 + g * 65536 + b * 256 + (f ? m(a * 255) : 0)).toString(16).slice(1, f ? undefined : -2);
-};
-
-console.log(pSBC(-0.2, colorPrimary));
-
 let dd = {
     pageSize: {
         width: paperSize.width,
@@ -230,8 +223,19 @@ let dd = {
         ]
     },
     content: [
-        coloredRect(10, colorPrimary),
-
+        coloredRect(-2, colorPrimary),
+        {
+            svg: '<svg width="' + paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
+        },
+        spacer(40),
+        {
+            svg:
+                '<svg width="' +
+                paperSize.width +
+                '" height="10"><rect width="' +
+                paperSize.width +
+                '" height="10" style="fill:rgb(0,0,255)" /></svg>'
+        },
         {
             table: {
                 widths: ["15%", "*", "35%"],
@@ -265,15 +269,13 @@ let dd = {
             svg:
                 '<svg width="' +
                 paperSize.width +
-                '" height="110"><rect width="' +
-                paperSize.width +
-                '" height="100" style="fill:rgb(0,0,255)" /></svg>'
-        },
-        {
-            svg:
-                '<svg width="' +
-                paperSize.width +
-                '" height="110"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" /><stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" /></linearGradient></defs><rect width="' +
+                '" height="110"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:' +
+                colorDarkPrimary +
+                ';stop-opacity:1" /><stop offset="50%" style="stop-color:' +
+                colorPrimary +
+                ';stop-opacity:1" /><stop offset="100%" style="stop-color:' +
+                colorLightPrimary +
+                ';stop-opacity:1" /></linearGradient></defs><rect width="' +
                 paperSize.width +
                 '" height="100" fill="url(#grad1)" /></svg>'
         },
@@ -281,7 +283,7 @@ let dd = {
             svg:
                 '<svg width="' +
                 paperSize.width +
-                '" height="100"><defs><pattern id="pattern_gWSAk" patternUnits="userSpaceOnUse" width="24" height="24" patternTransform="rotate(45)"><line x1="0" y="0" x2="0" y2="24" stroke="#16874E" stroke-width="24" /></pattern></defs><rect width="100%" height="100%" fill="url(#pattern_gWSAk)"/></svg>'
+                '" height="10"><defs><pattern id="pattern_gWSAk" patternUnits="userSpaceOnUse" width="24" height="24" patternTransform="rotate(45)"><line x1="0" y="0" x2="0" y2="24" stroke="#16874E" stroke-width="24" /></pattern></defs><rect width="100%" height="100%" fill="url(#pattern_gWSAk)"/></svg>'
         },
         {
             columns: [
@@ -353,7 +355,9 @@ let dd = {
                     text: labelBillingFrom,
                     style: ["font14", "bold", "leftAlign", "marginL0T20R0B5"]
                 },
-                coloredRect(40, colorPrimary),
+                {
+                    svg: '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
+                },
                 coloredRect(40, colorPrimary),
                 {
                     text: labelBillingTo,
@@ -425,9 +429,6 @@ let dd = {
         // Line breaks
         "\n\n",
         // Items
-        coloredRect(40, colorSecondary),
-        coloredRect(20, colorPrimary),
-        coloredRect(40, colorSecondary),
         {
             table: {
                 // headers are automatically repeated if the table spans over multiple pages
@@ -587,9 +588,9 @@ let dd = {
                 },
                 {
                     stack: [
+                        spacer(70),
                         {
-                            text: "_________________________________",
-                            style: ["marginL0T70R0B0"]
+                            text: "_________________________________"
                         },
                         {
                             text: "Your Name",
@@ -604,9 +605,10 @@ let dd = {
                 }
             ]
         },
+        spacer(50),
         {
             text: "NOTES",
-            style: ["font10", "bold", "marginL0T50R0B3"]
+            style: ["font10", "bold"]
         },
         {
             text: "Some notes goes here \n Notes second line",
@@ -628,12 +630,6 @@ let dd = {
         },
         marginH0V5: {
             margin: [0, 5, 0, 5]
-        },
-        marginL0T70R0B0: {
-            margin: [0, 70, 0, 0]
-        },
-        marginL0T50R0B3: {
-            margin: [0, 50, 0, 3]
         },
         font10: {
             fontSize: 10
