@@ -65,9 +65,9 @@ let colorSecondary = "#676778";
 let colorError = "#b71c1c";
 let colorBackground = "#ffffff";
 
-let colorLightPrimary = LightenDarkenColor(colorPrimary, 100);
+let colorLightPrimary = LightenDarkenColor(colorPrimary, 60);
 console.log(colorLightPrimary);
-let colorDarkPrimary = LightenDarkenColor(colorPrimary, -100);
+let colorDarkPrimary = LightenDarkenColor(colorPrimary, -60);
 console.log(colorDarkPrimary);
 
 // Invoice Header - Invoice
@@ -210,22 +210,56 @@ let dd = {
     },
     // header: {
     // columns: [
-    // { text: headerLeft, style: ["margin5", "leftAlign", "font10"] },
-    // { text: headerCenter, style: ["margin5", "centerAlign", "font10"] },
-    // { text: headerRight, style: ["margin5", "rightAlign", "font10"] }
+    // { text: headerLeft, style: ["margin5", "left", "font10"] },
+    // { text: headerCenter, style: ["margin5", "center", "font10"] },
+    // { text: headerRight, style: ["margin5", "right", "font10"] }
     // ]
     // },
     footer: {
         columns: [
-            { text: footerLeft, style: ["margin5", "leftAlign", "font10"] },
-            { text: footerCenter, style: ["margin5", "centerAlign", "font10"] },
-            { text: footerRight, style: ["margin5", "rightAlign", "font10"] }
+            { text: footerLeft, style: ["margin5", "left", "font10"] },
+            { text: footerCenter, style: ["margin5", "center", "font10"] },
+            { text: footerRight, style: ["margin5", "right", "font10"] }
         ]
     },
     content: [
-        coloredRect(-2, colorPrimary),
+        coloredRect(0, colorPrimary),
         {
             svg: '<svg width="' + paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
+        },
+        {
+            table: {
+                widths: ["*", "*", "*", "*", "*", "*"],
+                body: [
+                    [
+                        {
+                            text: "",
+                            fillColor: colorDarkPrimary
+                        },
+                        {
+                            text: "",
+                            fillColor: colorLightPrimary
+                        },
+                        {
+                            text: "",
+                            fillColor: colorDarkPrimary
+                        },
+                        {
+                            text: "",
+                            fillColor: colorLightPrimary
+                        },
+                        {
+                            text: "",
+                            fillColor: colorDarkPrimary
+                        },
+                        {
+                            text: "",
+                            fillColor: colorLightPrimary
+                        }
+                    ]
+                ]
+            },
+            layout: "noBorders"
         },
         spacer(40),
         {
@@ -296,7 +330,7 @@ let dd = {
                 [
                     {
                         text: labelInvoice,
-                        style: ["font22", "rightAlign", "bold", "marginL0T0R0B15"],
+                        style: ["font22", "right", "bold", "marginL0T0R0B15"],
                         width: "*"
                     },
                     {
@@ -305,12 +339,12 @@ let dd = {
                                 columns: [
                                     {
                                         text: labelInvoiceNum,
-                                        style: ["font12", "rightAlign"],
+                                        style: ["font12", "right"],
                                         width: "*"
                                     },
                                     {
                                         text: invoiceNum,
-                                        style: ["font12", "rightAlign"],
+                                        style: ["font12", "right"],
                                         width: 100
                                     }
                                 ]
@@ -319,12 +353,12 @@ let dd = {
                                 columns: [
                                     {
                                         text: labelInvoiceDate,
-                                        style: ["font12", "rightAlign"],
+                                        style: ["font12", "right"],
                                         width: "*"
                                     },
                                     {
                                         text: invoiceDate,
-                                        style: ["font12", "rightAlign"],
+                                        style: ["font12", "right"],
                                         width: 100
                                     }
                                 ]
@@ -333,12 +367,12 @@ let dd = {
                                 columns: [
                                     {
                                         text: labelDueDate,
-                                        style: ["font12", "rightAlign"],
+                                        style: ["font12", "right"],
                                         width: "*"
                                     },
                                     {
                                         text: dueDate,
-                                        style: ["font12", "rightAlign"],
+                                        style: ["font12", "right"],
                                         width: 100
                                     }
                                 ]
@@ -353,7 +387,7 @@ let dd = {
             columns: [
                 {
                     text: labelBillingFrom,
-                    style: ["font14", "bold", "leftAlign", "marginL0T20R0B5"]
+                    style: ["font14", "bold", "left", "marginL0T20R0B5"]
                 },
                 {
                     svg: '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
@@ -361,7 +395,7 @@ let dd = {
                 coloredRect(40, colorPrimary),
                 {
                     text: labelBillingTo,
-                    style: ["font14", "bold", "leftAlign", "marginL0T20R0B5"]
+                    style: ["font14", "bold", "left", "marginL0T20R0B5"]
                 }
             ]
         },
@@ -370,11 +404,11 @@ let dd = {
             columns: [
                 {
                     text: sellerName + "\n" + sellerCompany,
-                    style: ["leftAlign"]
+                    style: ["left"]
                 },
                 {
                     text: clientName + "\n" + clientCompany,
-                    style: ["leftAlign"]
+                    style: ["left"]
                 }
             ]
         },
@@ -445,23 +479,23 @@ let dd = {
                         },
                         {
                             text: "Qty",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         },
                         {
                             text: "Price",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         },
                         {
                             text: "Tax",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         },
                         {
                             text: "Discount",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         },
                         {
                             text: "Total",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         }
                     ],
                     // Items
@@ -479,23 +513,23 @@ let dd = {
                         ],
                         {
                             text: "1",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "$999.99",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "0%",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "0%",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "$999.99",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         }
                     ],
                     // Item 2
@@ -512,23 +546,23 @@ let dd = {
                         ],
                         {
                             text: "1",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "$999.99",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "0%",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "0%",
-                            style: ["marginH0V5", "centerAlign"]
+                            style: ["marginH0V5", "center"]
                         },
                         {
                             text: "$999.99",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         }
                     ]
                     // END Items
@@ -549,31 +583,31 @@ let dd = {
                     [
                         {
                             text: "Subtotal",
-                            style: ["marginH0V5", "bold", "rightAlign"]
+                            style: ["marginH0V5", "bold", "right"]
                         },
                         {
                             text: "$2000.00",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         }
                     ],
                     [
                         {
                             text: "Tax 21%",
-                            style: ["marginH0V5", "bold", "rightAlign"]
+                            style: ["marginH0V5", "bold", "right"]
                         },
                         {
                             text: "$523.13",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         }
                     ],
                     [
                         {
                             text: "TOTAL",
-                            style: ["marginH0V5", "bold", "rightAlign"]
+                            style: ["marginH0V5", "bold", "right"]
                         },
                         {
                             text: "$2523.93",
-                            style: ["marginH0V5", "bold", "centerAlign"]
+                            style: ["marginH0V5", "bold", "center"]
                         }
                     ]
                 ]
@@ -594,11 +628,11 @@ let dd = {
                         },
                         {
                             text: "Your Name",
-                            style: ["bold", "centerAlign"]
+                            style: ["bold", "center"]
                         },
                         {
                             text: "Your job title",
-                            style: ["italics", "font10", "centerAlign"]
+                            style: ["italics", "font10", "center"]
                         }
                     ],
                     width: 180
@@ -646,13 +680,13 @@ let dd = {
         font22: {
             fontSize: 22
         },
-        rightAlign: {
+        right: {
             alignment: "right"
         },
-        leftAlign: {
+        left: {
             alignment: "left"
         },
-        centerAlign: {
+        center: {
             alignment: "center"
         },
         bold: {
