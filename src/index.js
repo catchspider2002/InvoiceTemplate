@@ -2,22 +2,84 @@
 // Also on https://codesandbox.io/s/oj81y
 // var canvasElement = document.getElementById("canvas");
 
+// Controls
+// Radio button - Paper Size
+// Checkbox -
+// Drop Down - Language
+// Autocomplete - Country, Currency
+// Color Picker - Colors
+// File Upload - Upload Logo
 
+let a4Paper = { width: 595.28, height: 841.89 };
+let letterPaper = { width: 612, height: 792 };
+let paperSize = a4Paper;
+
+// Colors
+let colorPrimary = "#ff3e00";
+let colorSecondary = "#676778";
+let colorError = "#b71c1c";
+let colorBackground = "#ffffff";
+
+// Invoice Header - Invoice
+// Company Logo
+// Invoice Details
+// - Invoice Number
+// - Order Date
+// - Terms
+// - Due Date
+// - P.O Num
+// - Project Name
+// - Payment (Visa 8118)
+// - Shipping (Express Shipping)
+// Bill To Details
+// - Bill To Name
+// - Bill To Address
+// - Bill To Phone
+// Ship To Details
+// - Ship To Name
+// - Ship To Address
+// - Ship To Phone
+// Item Table
+// - Item Header
+// - Item Details
+// - Item Image
+// - Item Description
+// - Qty
+// - Price
+// - Total
+// - Item Footer
+// - Subtotal
+// - Discount (-)
+// - Refund (-)
+// - Paid (-)
+// - Shipping (+)
+// - Total excluding tax
+// - Tax 1 (+)
+// - Tax 2 (+)
+// - Total
+
+// Notes
+// Info to Customer
+// Company Details
+// - Company Name
+// - Company Address
+// - Company Phone
+// - Company Email
 // Dropdown
-let dateFormat="MMMM Do YYYY" // February 19th 2020
-dateFormat="MMM Do YYYY" // Feb 19th 2020
-dateFormat="DD-MM-YYYY" // 19-02-2020  
-dateFormat="DD-MM-YY" // 19-02-20
-dateFormat="D-M-YY" // 19-2-20
-dateFormat="D-M-YYYY" // 19-2-2020
-dateFormat="DD.MM.YY" // 19.02.20
-dateFormat="D.M.YY" // 19.2.20
-dateFormat="YYYY-MM-DD" // 2020-02-19
-dateFormat="DD MMMM YYYY" // 19 February 2020
-dateFormat="DD MMM YYYY" // 19 Feb 2020
-dateFormat="M/D/YYYY" // 2/19/2020
-dateFormat="M/D/YY" // 2/19/20
-dateFormat="MM/DD/YYYY" // 02/19/2020
+let dateFormat = "MMMM Do YYYY"; // February 19th 2020
+dateFormat = "MMM Do YYYY"; // Feb 19th 2020
+dateFormat = "DD-MM-YYYY"; // 19-02-2020
+dateFormat = "DD-MM-YY"; // 19-02-20
+dateFormat = "D-M-YY"; // 19-2-20
+dateFormat = "D-M-YYYY"; // 19-2-2020
+dateFormat = "DD.MM.YY"; // 19.02.20
+dateFormat = "D.M.YY"; // 19.2.20
+dateFormat = "YYYY-MM-DD"; // 2020-02-19
+dateFormat = "DD MMMM YYYY"; // 19 February 2020
+dateFormat = "DD MMM YYYY"; // 19 Feb 2020
+dateFormat = "M/D/YYYY"; // 2/19/2020
+dateFormat = "M/D/YY"; // 2/19/20
+dateFormat = "MM/DD/YYYY"; // 02/19/2020
 // dateFormat="MM/DD/YY" // 02/19/20
 // dateFormat="MMMM DD, YYYY" // February 19, 2020
 // dateFormat="MMM DD, YYYY" // Feb 19, 2020
@@ -28,12 +90,12 @@ dateFormat="MM/DD/YYYY" // 02/19/2020
 // dateFormat="D/M/YYYY" // 19/2/2020
 // dateFormat="YYYY, MMMM DD" // 2020, February 19
 // dateFormat="YYYY, MMM DD" // 2020, Feb 19
-  
+
 let currency1;
 let currency2;
-let currencyPrecision;  
+let currencyPrecision;
 
-moment.locale('tr');
+moment.locale("tr");
 // console.log(moment(1316116057189).fromNow()); // il y a une heure
 // moment.locale('en');
 // console.log(moment(1316116057189).fromNow()); // an hour ago
@@ -42,7 +104,7 @@ let headerLeft = moment().format(dateFormat);
 let headerCenter = "NEW HEADER CENTER";
 let headerRight = "NEW HEADER RIGHT";
 
-let footerLeft = "NEW FOOTER LEFT";
+let footerLeft = "NEW FOOTER LEFT\nNEW FOOTER LEFT";
 let footerCenter = "NEW FOOTER CENTER";
 let footerRight = "NEW FOOTER RIGHT";
 
@@ -51,7 +113,7 @@ let labelInvoiceNum = "Invoice #";
 let labelInvoiceDate = "Invoice Date";
 let labelDueDate = "Due Date";
 let invoiceNum = "000021";
-let invoiceDate = moment("20111031").format('MMM Do YY'); ;
+let invoiceDate = moment("20111031").format("MMM Do YY");
 let dueDate = "Jan 06, 2020";
 
 let labelBillingFrom = "Billing From";
@@ -76,23 +138,106 @@ let clientAddressCity = "New York City";
 let clientAddressState = "NY 00011";
 let clientAddressCountry = "USA";
 
+function coloredRect(height, color) {
+  return {
+    layout: "noBorders",
+    table: {
+      widths: ["*"],
+      heights: [height],
+      body: [[{ text: "", fillColor: color }]]
+    }
+  };
+}
+
 let dd = {
-  header: {
-    columns: [
-      { text: headerLeft, style: "documentHeaderLeft" },
-      { text: headerCenter, style: "documentHeaderCenter" },
-      { text: headerRight, style: "documentHeaderRight" }
-    ]
+  pageSize: {
+    width: paperSize.width,
+    height: paperSize.height
   },
+  pageMargins: [0, 0, 0, 40],
+  background: function() {
+    return {
+      canvas: [
+        {
+          type: "rect",
+          x: 0,
+          y: 0,
+          w: paperSize.width,
+          h: paperSize.height,
+          color: "#00BFFF"
+        }
+      ]
+    };
+  },
+  // header: {
+  // columns: [
+  // { text: headerLeft, style: ["margin5", "leftAlign", "font10"] },
+  // { text: headerCenter, style: ["margin5", "centerAlign", "font10"] },
+  // { text: headerRight, style: ["margin5", "rightAlign", "font10"] }
+  // ]
+  // },
   footer: {
     columns: [
-      { text: footerLeft, style: "documentFooterLeft" },
-      { text: footerCenter, style: "documentFooterCenter" },
-      { text: footerRight, style: "documentFooterRight" }
+      { text: footerLeft, style: ["margin5", "leftAlign", "font10"] },
+      { text: footerCenter, style: ["margin5", "centerAlign", "font10"] },
+      { text: footerRight, style: ["margin5", "rightAlign", "font10"] }
     ]
   },
   content: [
+    coloredRect(10, colorPrimary),
+
+    {
+      table: {
+        widths: ["15%", "*", "35%"],
+        body: [
+          [
+            {
+              text: "first column",
+              fillColor: "#555555",
+              color: "#00FFFF"
+            },
+            {
+              text: "second column",
+              color: "#555555",
+              fillColor: "#dedede"
+            },
+            {
+              text: "third column",
+              fillColor: "#555555"
+            }
+          ]
+        ]
+      },
+      layout: "noBorders"
+    },
     // Header
+    {
+      // If no width/height/fit is used, then dimensions from the svg element is used.
+      svg:
+        '<svg height="30" width="200"><text x="0" y="15" fill="red">I love SVG!</text></svg>'
+    },
+    {
+      svg:
+        '<svg width="' +
+        paperSize.width +
+        '" height="110"><rect width="' +
+        paperSize.width +
+        '" height="100" style="fill:rgb(0,0,255)" /></svg>'
+    },
+    {
+      svg:
+        '<svg width="' +
+        paperSize.width +
+        '" height="110"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" /><stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" /></linearGradient></defs><rect width="' +
+        paperSize.width +
+        '" height="100" fill="url(#grad1)" /></svg>'
+    },
+    {
+      svg:
+        '<svg width="' +
+        paperSize.width +
+        '" height="100"><defs><pattern id="pattern_gWSAk" patternUnits="userSpaceOnUse" width="24" height="24" patternTransform="rotate(45)"><line x1="0" y="0" x2="0" y2="24" stroke="#16874E" stroke-width="24" /></pattern></defs><rect width="100%" height="100%" fill="url(#pattern_gWSAk)"/></svg>'
+    },
     {
       columns: [
         {
@@ -104,7 +249,7 @@ let dd = {
         [
           {
             text: labelInvoice,
-            style: "invoiceTitle",
+            style: ["font22", "rightAlign", "bold", "marginL0T0R0B15"],
             width: "*"
           },
           {
@@ -113,12 +258,12 @@ let dd = {
                 columns: [
                   {
                     text: labelInvoiceNum,
-                    style: "invoiceSubTitle",
+                    style: ["font12", "rightAlign"],
                     width: "*"
                   },
                   {
                     text: invoiceNum,
-                    style: "invoiceSubValue",
+                    style: ["font12", "rightAlign"],
                     width: 100
                   }
                 ]
@@ -127,12 +272,12 @@ let dd = {
                 columns: [
                   {
                     text: labelInvoiceDate,
-                    style: "invoiceSubTitle",
+                    style: ["font12", "rightAlign"],
                     width: "*"
                   },
                   {
                     text: invoiceDate,
-                    style: "invoiceSubValue",
+                    style: ["font12", "rightAlign"],
                     width: 100
                   }
                 ]
@@ -141,12 +286,12 @@ let dd = {
                 columns: [
                   {
                     text: labelDueDate,
-                    style: "invoiceSubTitle",
+                    style: ["font12", "rightAlign"],
                     width: "*"
                   },
                   {
                     text: dueDate,
-                    style: "invoiceSubValue",
+                    style: ["font12", "rightAlign"],
                     width: 100
                   }
                 ]
@@ -161,11 +306,13 @@ let dd = {
       columns: [
         {
           text: labelBillingFrom,
-          style: "invoiceBillingTitle"
+          style: ["font14", "bold", "leftAlign", "marginL0T20R0B5"]
         },
+        coloredRect(40, colorPrimary),
+        coloredRect(40, colorPrimary),
         {
           text: labelBillingTo,
-          style: "invoiceBillingTitle"
+          style: ["font14", "bold", "leftAlign", "marginL0T20R0B5"]
         }
       ]
     },
@@ -174,11 +321,11 @@ let dd = {
       columns: [
         {
           text: sellerName + "\n" + sellerCompany,
-          style: "invoiceBillingDetails"
+          style: ["leftAlign"]
         },
         {
           text: clientName + "\n" + clientCompany,
-          style: "invoiceBillingDetails"
+          style: ["leftAlign"]
         }
       ]
     },
@@ -187,11 +334,11 @@ let dd = {
       columns: [
         {
           text: labelSellerAddress,
-          style: "invoiceBillingAddressTitle"
+          style: ["bold", "marginL0T7R0B3"]
         },
         {
           text: labelClientAddress,
-          style: "invoiceBillingAddressTitle"
+          style: ["bold", "marginL0T7R0B3"]
         }
       ]
     },
@@ -233,6 +380,9 @@ let dd = {
     // Line breaks
     "\n\n",
     // Items
+    coloredRect(40, colorSecondary),
+    coloredRect(20, colorPrimary),
+    coloredRect(40, colorSecondary),
     {
       table: {
         // headers are automatically repeated if the table spans over multiple pages
@@ -245,27 +395,27 @@ let dd = {
           [
             {
               text: "Product",
-              style: "itemsHeader"
+              style: ["marginH0V5", "bold"]
             },
             {
               text: "Qty",
-              style: ["itemsHeader", "center"]
+              style: ["marginH0V5", "bold", "centerAlign"]
             },
             {
               text: "Price",
-              style: ["itemsHeader", "center"]
+              style: ["marginH0V5", "bold", "centerAlign"]
             },
             {
               text: "Tax",
-              style: ["itemsHeader", "center"]
+              style: ["marginH0V5", "bold", "centerAlign"]
             },
             {
               text: "Discount",
-              style: ["itemsHeader", "center"]
+              style: ["marginH0V5", "bold", "centerAlign"]
             },
             {
               text: "Total",
-              style: ["itemsHeader", "center"]
+              style: ["marginH0V5", "bold", "centerAlign"]
             }
           ],
           // Items
@@ -274,32 +424,32 @@ let dd = {
             [
               {
                 text: "Item 1",
-                style: "itemTitle"
+                style: ["bold"]
               },
               {
                 text: "Item Description",
-                style: "itemSubTitle"
+                style: ["italics", "font11"]
               }
             ],
             {
               text: "1",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "$999.99",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "0%",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "0%",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "$999.99",
-              style: "itemTotal"
+              style: ["marginH0V5", "bold", "centerAlign"]
             }
           ],
           // Item 2
@@ -307,32 +457,32 @@ let dd = {
             [
               {
                 text: "Item 2",
-                style: "itemTitle"
+                style: ["bold"]
               },
               {
                 text: "Item Description",
-                style: "itemSubTitle"
+                style: ["italics", "font11"]
               }
             ],
             {
               text: "1",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "$999.99",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "0%",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "0%",
-              style: "itemNumber"
+              style: ["marginH0V5", "centerAlign"]
             },
             {
               text: "$999.99",
-              style: "itemTotal"
+              style: ["marginH0V5", "bold", "centerAlign"]
             }
           ]
           // END Items
@@ -353,31 +503,31 @@ let dd = {
           [
             {
               text: "Subtotal",
-              style: "itemsFooterSubTitle"
+              style: ["marginH0V5", "bold", "rightAlign"]
             },
             {
               text: "$2000.00",
-              style: "itemsFooterSubValue"
+              style: ["marginH0V5", "bold", "centerAlign"]
             }
           ],
           [
             {
               text: "Tax 21%",
-              style: "itemsFooterSubTitle"
+              style: ["marginH0V5", "bold", "rightAlign"]
             },
             {
               text: "$523.13",
-              style: "itemsFooterSubValue"
+              style: ["marginH0V5", "bold", "centerAlign"]
             }
           ],
           [
             {
               text: "TOTAL",
-              style: "itemsFooterTotalTitle"
+              style: ["marginH0V5", "bold", "rightAlign"]
             },
             {
               text: "$2523.93",
-              style: "itemsFooterTotalValue"
+              style: ["marginH0V5", "bold", "centerAlign"]
             }
           ]
         ]
@@ -394,15 +544,15 @@ let dd = {
           stack: [
             {
               text: "_________________________________",
-              style: "signaturePlaceholder"
+              style: ["marginL0T70R0B0"]
             },
             {
               text: "Your Name",
-              style: "signatureName"
+              style: ["bold", "centerAlign"]
             },
             {
               text: "Your job title",
-              style: "signatureJobTitle"
+              style: ["italics", "font10", "centerAlign"]
             }
           ],
           width: 180
@@ -411,144 +561,64 @@ let dd = {
     },
     {
       text: "NOTES",
-      style: "notesTitle"
+      style: ["font10", "bold", "marginL0T50R0B3"]
     },
     {
       text: "Some notes goes here \n Notes second line",
-      style: "notesText"
+      style: ["font10"]
     }
   ],
   styles: {
-    // Document Header
-    documentHeaderLeft: {
-      fontSize: 10,
-      margin: [5, 5, 5, 5],
-      alignment: "left"
+    margin5: {
+      margin: [5, 5, 5, 5]
     },
-    documentHeaderCenter: {
-      fontSize: 10,
-      margin: [5, 5, 5, 5],
-      alignment: "center"
-    },
-    documentHeaderRight: {
-      fontSize: 10,
-      margin: [5, 5, 5, 5],
-      alignment: "right"
-    },
-    // Document Footer
-    documentFooterLeft: {
-      fontSize: 10,
-      margin: [5, 5, 5, 5],
-      alignment: "left"
-    },
-    documentFooterCenter: {
-      fontSize: 10,
-      margin: [5, 5, 5, 5],
-      alignment: "center"
-    },
-    documentFooterRight: {
-      fontSize: 10,
-      margin: [5, 5, 5, 5],
-      alignment: "right"
-    },
-    // Invoice Title
-    invoiceTitle: {
-      fontSize: 22,
-      bold: true,
-      alignment: "right",
+    marginL0T0R0B15: {
       margin: [0, 0, 0, 15]
     },
-    // Invoice Details
-    invoiceSubTitle: {
-      fontSize: 12,
-      alignment: "right"
-    },
-    invoiceSubValue: {
-      fontSize: 12,
-      alignment: "right"
-    },
-    // Billing Headers
-    invoiceBillingTitle: {
-      fontSize: 14,
-      bold: true,
-      alignment: "left",
+    marginL0T20R0B5: {
       margin: [0, 20, 0, 5]
     },
-    // Billing Details
-    invoiceBillingDetails: {
-      alignment: "left"
+    marginL0T7R0B3: {
+      margin: [0, 7, 0, 3]
     },
-    invoiceBillingAddressTitle: {
-      margin: [0, 7, 0, 3],
-      bold: true
+    marginH0V5: {
+      margin: [0, 5, 0, 5]
     },
-    invoiceBillingAddress: {},
-    // Items Header
-    itemsHeader: {
-      margin: [0, 5, 0, 5],
-      bold: true
-    },
-    // Item Title
-    itemTitle: {
-      bold: true
-    },
-    itemSubTitle: {
-      italics: true,
-      fontSize: 11
-    },
-    itemNumber: {
-      margin: [0, 5, 0, 5],
-      alignment: "center"
-    },
-    itemTotal: {
-      margin: [0, 5, 0, 5],
-      bold: true,
-      alignment: "center"
-    },
-
-    // Items Footer (Subtotal, Total, Tax, etc)
-    itemsFooterSubTitle: {
-      margin: [0, 5, 0, 5],
-      bold: true,
-      alignment: "right"
-    },
-    itemsFooterSubValue: {
-      margin: [0, 5, 0, 5],
-      bold: true,
-      alignment: "center"
-    },
-    itemsFooterTotalTitle: {
-      margin: [0, 5, 0, 5],
-      bold: true,
-      alignment: "right"
-    },
-    itemsFooterTotalValue: {
-      margin: [0, 5, 0, 5],
-      bold: true,
-      alignment: "center"
-    },
-    signaturePlaceholder: {
+    marginL0T70R0B0: {
       margin: [0, 70, 0, 0]
     },
-    signatureName: {
-      bold: true,
-      alignment: "center"
-    },
-    signatureJobTitle: {
-      italics: true,
-      fontSize: 10,
-      alignment: "center"
-    },
-    notesTitle: {
-      fontSize: 10,
-      bold: true,
+    marginL0T50R0B3: {
       margin: [0, 50, 0, 3]
     },
-    notesText: {
+    font10: {
       fontSize: 10
     },
-    center: {
+    font11: {
+      fontSize: 11
+    },
+    font12: {
+      fontSize: 12
+    },
+    font14: {
+      fontSize: 14
+    },
+    font22: {
+      fontSize: 22
+    },
+    rightAlign: {
+      alignment: "right"
+    },
+    leftAlign: {
+      alignment: "left"
+    },
+    centerAlign: {
       alignment: "center"
+    },
+    bold: {
+      bold: true
+    },
+    italics: {
+      italics: true
     }
   },
   defaultStyle: {
@@ -557,180 +627,287 @@ let dd = {
 };
 
 // var docDefinition = {
-  // content: [
-    // {
-      // alignment: "center",
-      // text: "PPRA",
-      // style: "header",
-      // fontSize: 23,
-      // bold: true,
-      // margin: [0, 10]
-    // },
-    // {
-      // margin: [0, 0, 0, 10],
-      // layout: {
-        // fillColor: function(rowIndex, node, columnIndex) {
-          // return rowIndex % 2 === 0 ? "#ebebeb" : "#f5f5f5";
-        // }
-      // },
-      // table: {
-        // widths: ["100%"],
-        // heights: [20, 10],
-        // body: [
-          // [
-            // {
-              // text: "SETOR: ADMINISTRATIVO",
-              // fontSize: 9,
-              // bold: true
-            // }
-          // ],
-          // [
-            // {
-              // text: "FUNÇÃO: DIRETOR DE ENSINO",
-              // fontSize: 9,
-              // bold: true
-            // }
-          // ]
-        // ]
-      // }
-    // },
-    // {
-      // style: "tableExample",
-      // layout: {
-        // fillColor: function(rowIndex, node, columnIndex) {
-          // return rowIndex === 0 ? "#c2dec2" : null;
-        // }
-      // },
-      // table: {
-        // widths: ["30%", "10%", "25%", "35%"],
-        // heights: [10, 10, 10, 10, 30, 10, 25],
-        // headerRows: 1,
-        // body: [
-          // [
-            // {
-              // text: "AGENTE: Não Identificados",
-              // colSpan: 3,
-              // bold: true,
-              // fontSize: 9
-            // },
-            // {},
-            // {},
-            // {
-              // text: "GRUPO: Grupo 1 - Riscos Físicos",
-              // fontSize: 9,
-              // bold: true
-            // }
-          // ],
-          // [
-            // {
-              // text: "Limite de Tolerância:",
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {
-              // text: "Meio de Propagação:",
-              // colSpan: 3,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {},
-            // {}
-          // ],
-          // [
-            // {
-              // text: [
-                // "Frequência: ",
-                // {
-                  // text: "Habitual",
-                  // bold: false
-                // }
-              // ],
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {
-              // text: [
-                // "Classificação do Efeito: ",
-                // {
-                  // text: "Leve",
-                  // bold: false
-                // }
-              // ],
-              // colSpan: 3,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {},
-            // {}
-          // ],
-          // [
-            // {
-              // text: "Tempo de Exposição:",
-              // colSpan: 2,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {},
-            // {
-              // text: "Medição:",
-              // colSpan: 2,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {}
-          // ],
-          // [
-            // {
-              // text: "Fonte Geradora:",
-              // border: [true, true, false, false],
-              // colSpan: 2,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {},
-            // {
-              // text: "Téc. Utilizada:",
-              // border: [false, true, true, false],
-              // colSpan: 2,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {}
-          // ],
-          // [
-            // {
-              // text: "Conclusão:",
-              // border: [true, false, true, true],
-              // colSpan: 4,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {},
-            // {},
-            // {}
-          // ],
-          // [
-            // {
-              // text: "EPIs/EPCs:",
-              // border: [true, true, false, true],
-              // colSpan: 3,
-              // fontSize: 9,
-              // bold: true
-            // },
-            // {},
-            // {},
-            // {
-              // text: "CAs:",
-              // border: [false, true, true, true],
-              // fontSize: 9,
-              // bold: true
-            // }
-          // ]
-        // ]
-      // }
-    // }
-  // ]
+// content: [
+// {
+// alignment: "center",
+// text: "PPRA",
+// style: "header",
+// fontSize: 23,
+// bold: true,
+// margin: [0, 10]
+// },
+// {
+// margin: [0, 0, 0, 10],
+// layout: {
+// fillColor: function(rowIndex, node, columnIndex) {
+// return rowIndex % 2 === 0 ? "#ebebeb" : "#f5f5f5";
+// }
+// },
+// table: {
+// widths: ["100%"],
+// heights: [20, 10],
+// body: [
+// [
+// {
+// text: "SETOR: ADMINISTRATIVO",
+// fontSize: 9,
+// bold: true
+// }
+// ],
+// [
+// {
+// text: "FUNÇÃO: DIRETOR DE ENSINO",
+// fontSize: 9,
+// bold: true
+// }
+// ]
+// ]
+// }
+// },
+// {
+// style: "tableExample",
+// layout: {
+// fillColor: function(rowIndex, node, columnIndex) {
+// return rowIndex === 0 ? "#c2dec2" : null;
+// }
+// },
+// table: {
+// widths: ["30%", "10%", "25%", "35%"],
+// heights: [10, 10, 10, 10, 30, 10, 25],
+// headerRows: 1,
+// body: [
+// [
+// {
+// text: "AGENTE: Não Identificados",
+// colSpan: 3,
+// bold: true,
+// fontSize: 9
+// },
+// {},
+// {},
+// {
+// text: "GRUPO: Grupo 1 - Riscos Físicos",
+// fontSize: 9,
+// bold: true
+// }
+// ],
+// [
+// {
+// text: "Limite de Tolerância:",
+// fontSize: 9,
+// bold: true
+// },
+// {
+// text: "Meio de Propagação:",
+// colSpan: 3,
+// fontSize: 9,
+// bold: true
+// },
+// {},
+// {}
+// ],
+// [
+// {
+// text: [
+// "Frequência: ",
+// {
+// text: "Habitual",
+// bold: false
+// }
+// ],
+// fontSize: 9,
+// bold: true
+// },
+// {
+// text: [
+// "Classificação do Efeito: ",
+// {
+// text: "Leve",
+// bold: false
+// }
+// ],
+// colSpan: 3,
+// fontSize: 9,
+// bold: true
+// },
+// {},
+// {}
+// ],
+// [
+// {
+// text: "Tempo de Exposição:",
+// colSpan: 2,
+// fontSize: 9,
+// bold: true
+// },
+// {},
+// {
+// text: "Medição:",
+// colSpan: 2,
+// fontSize: 9,
+// bold: true
+// },
+// {}
+// ],
+// [
+// {
+// text: "Fonte Geradora:",
+// border: [true, true, false, false],
+// colSpan: 2,
+// fontSize: 9,
+// bold: true
+// },
+// {},
+// {
+// text: "Téc. Utilizada:",
+// border: [false, true, true, false],
+// colSpan: 2,
+// fontSize: 9,
+// bold: true
+// },
+// {}
+// ],
+// [
+// {
+// text: "Conclusão:",
+// border: [true, false, true, true],
+// colSpan: 4,
+// fontSize: 9,
+// bold: true
+// },
+// {},
+// {},
+// {}
+// ],
+// [
+// {
+// text: "EPIs/EPCs:",
+// border: [true, true, false, true],
+// colSpan: 3,
+// fontSize: 9,
+// bold: true
+// },
+// {},
+// {},
+// {
+// text: "CAs:",
+// border: [false, true, true, true],
+// fontSize: 9,
+// bold: true
+// }
+// ]
+// ]
+// }
+// }
+// ]
 // };
+
+var dd2 = {
+  content: [
+    "This paragraph fills full width, as there are no columns. Next paragraph however consists of three columns",
+    {
+      style: "section",
+      table: {
+        widths: ["15%", "*", "35%"],
+        body: [
+          [
+            {
+              text: "first column",
+              fillColor: "#555555",
+              color: "#00FFFF"
+            },
+            {
+              text: "second column",
+              color: "#555555",
+              fillColor: "#dedede"
+            },
+            {
+              text: "third column",
+              fillColor: "#555555"
+            }
+          ]
+        ]
+      },
+      layout: "noBorders"
+    }
+  ],
+  styles: {
+    section: {
+      fontSize: 9,
+      color: "#FFFFFF",
+      fillColor: "#2361AE",
+      margin: [0, 15, 0, 5]
+    }
+  },
+  defaultStyle: {
+    alignment: "center"
+  }
+};
+
+let docDefinition2 = {
+  content: [
+    "This paragraph fills full width, as there are no columns. Next paragraph however consists of three columns",
+    {
+      columns: [
+        {
+          // auto-sized columns have their widths based on their content
+          width: "auto",
+          text: "First column",
+          background: "#ff00ff"
+        },
+        {
+          // star-sized columns fill the remaining space
+          // if there's more than one star-column, available width is divided equally
+          width: "*",
+          text: "Second column",
+          background: "#ff0000",
+          fill: "#f000ff"
+        },
+        {
+          // fixed width
+          width: 100,
+          text: "Third column",
+          background: "#0000ff"
+        },
+        {
+          // % width
+          width: "20%",
+          text: "Fourth column",
+          background: "#ffff00"
+        }
+      ],
+      // optional space between columns
+      columnGap: 10
+    },
+    "This paragraph goes below all columns and has full width"
+  ]
+};
+
+var dd3 = {
+  pageSize: {
+    width: 595.28,
+    height: 841.89
+  },
+  background: function() {
+    return {
+      canvas: [
+        {
+          type: "rect",
+          x: 0,
+          y: 0,
+          w: 595.28,
+          h: 841.89,
+          color: "#00BFFF"
+        }
+      ]
+    };
+  },
+  content: [
+    { text: "Simple text 1", pageBreak: "after" },
+    { text: "Simple text 2", pageBreak: "after" },
+    { text: "Simple text 3", pageBreak: "after" }
+  ]
+};
 
 let docDef = dd;
 // let docDef = docDefinition;
