@@ -2,6 +2,8 @@
 // Also on https://codesandbox.io/s/oj81y
 // var canvasElement = document.getElementById("canvas");
 
+const lib = require("./functions");
+
 // Controls
 // Radio button - Paper Size
 // Checkbox -
@@ -10,63 +12,8 @@
 // Color Picker - Colors
 // File Upload - Upload Logo
 
-const lib = require("./functions");
-
 let length = 10;
 let breadth = 5;
-
-// Calling the functions
-// defined in the lib module
-lib.area(length, breadth);
-lib.perimeter(length, breadth);
-
-const spacer = height => {
-  return {
-    svg:
-      '<svg width="10" height="' +
-      height +
-      '"><rect style="fill:transparent" /></svg>'
-  };
-};
-
-const coloredRect = (height, color) => {
-  return {
-    layout: "noBorders",
-    table: {
-      widths: ["*"],
-      heights: [height],
-      body: [[{ text: "", fillColor: color }]]
-    }
-  };
-};
-
-const LightenDarkenColor = (col, amt) => {
-  let usePound = false;
-
-  if (col[0] == "#") {
-    col = col.slice(1);
-    usePound = true;
-  }
-
-  let num = parseInt(col, 16);
-
-  let r = (num >> 16) + amt;
-
-  if (r > 255) r = 255;
-  else if (r < 0) r = 0;
-
-  let b = ((num >> 8) & 0x00ff) + amt;
-
-  if (b > 255) b = 255;
-  else if (b < 0) b = 0;
-
-  let g = (num & 0x0000ff) + amt;
-
-  if (g > 255) g = 255;
-  else if (g < 0) g = 0;
-
-  return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
-};
 
 let a4Paper = { width: 595.28, height: 841.89 };
 let letterPaper = { width: 612, height: 792 };
@@ -78,9 +25,9 @@ let colorSecondary = "#676778";
 let colorError = "#b71c1c";
 let colorBackground = "#ffffff";
 
-let colorLightPrimary = LightenDarkenColor(colorPrimary, 60);
+let colorLightPrimary = lib.lightenDarkenColor(colorPrimary, 60);
 console.log(colorLightPrimary);
-let colorDarkPrimary = LightenDarkenColor(colorPrimary, -60);
+let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 console.log(colorDarkPrimary);
 
 // Invoice Header - Invoice
@@ -236,13 +183,13 @@ let dd = {
     ]
   },
   content: [
-    coloredRect(0, colorPrimary),
     {
       svg:
         '<svg width="' +
         paperSize.width +
         '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
     },
+    lib.coloredRect(0, colorPrimary),
     {
       table: {
         widths: ["*", "*", "*", "*", "*", "*"],
@@ -277,7 +224,7 @@ let dd = {
       },
       layout: "noBorders"
     },
-    spacer(40),
+    lib.spacer(40),
     {
       svg:
         '<svg width="' +
@@ -410,7 +357,7 @@ let dd = {
           svg:
             '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
         },
-        coloredRect(40, colorPrimary),
+        lib.coloredRect(40, colorPrimary),
         {
           text: labelBillingTo,
           style: ["font14", "bold", "left", "marginL0T20R0B5"]
@@ -640,7 +587,7 @@ let dd = {
         },
         {
           stack: [
-            spacer(70),
+            lib.spacer(70),
             {
               text: "_________________________________"
             },
@@ -657,7 +604,7 @@ let dd = {
         }
       ]
     },
-    spacer(50),
+    lib.spacer(50),
     {
       text: "NOTES",
       style: ["font10", "bold"]
