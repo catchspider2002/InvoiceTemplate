@@ -31,7 +31,7 @@ const labelText = (text = "TEXT", color = "black", fontSize = "font22", alignmen
 const textWithRule = () => {
     return {
         table: {
-            widths: ["*"],
+            widths: ["auto"],
             body: [[labelText("labelInvoice", "red", "font48", "right")], [""]]
         },
         layout: {

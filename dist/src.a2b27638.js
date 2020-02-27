@@ -158,7 +158,7 @@ var labelText = function labelText() {
 var textWithRule = function textWithRule() {
   return {
     table: {
-      widths: ["*"],
+      widths: ["auto"],
       body: [[labelText("labelInvoice", "red", "font48", "right")], [""]]
     },
     layout: {
