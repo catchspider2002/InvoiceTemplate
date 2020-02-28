@@ -3,7 +3,7 @@
 // var canvasElement = document.getElementById("canvas");
 
 const lib = require("./functions");
-
+ 
 // Controls
 // Radio button - Paper Size
 // Checkbox -
@@ -187,13 +187,14 @@ let dd = {
             svg: '<svg width="' + paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
         },
         {
-            style: "tableExample",
-            table: {
-                headerRows: 1,
-                body: [[{ text: "Header 1", style: "tableHeader" }], [""]]
-            },
-            layout: "headerLineOnly"
-        },
+			columns: [
+				{
+					width: '*',
+					text: ''
+				},
+				lib.textWithRule()
+			]
+		},
         lib.textWithRule(),
         lib.labelText(labelInvoice, colorSecondary, "font48", "right"),
         lib.coloredRect(0, colorPrimary),

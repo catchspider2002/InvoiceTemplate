@@ -32,6 +32,7 @@ const textWithRule = () => {
     return {
         table: {
             widths: ["auto"],
+            // widths: [ '*', 'auto', 100, '*' ],
             body: [[labelText("labelInvoice", "red", "font48", "right")], [""]]
         },
         layout: {
