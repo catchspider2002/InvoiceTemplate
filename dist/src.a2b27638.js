@@ -159,6 +159,7 @@ var textWithRule = function textWithRule() {
   return {
     table: {
       widths: ["auto"],
+      // widths: [ '*', 'auto', 100, '*' ],
       body: [[labelText("labelInvoice", "red", "font48", "right")], [""]]
     },
     layout: {
@@ -190,12 +191,77 @@ var lightenDarkenColor = function lightenDarkenColor(col, amt) {
   return (usePound ? "#" : "") + (g | b << 8 | r << 16).toString(16);
 };
 
+var layout1 = function layout1(val) {
+  return {
+    pageSize: {
+      width: val.paperSize.width,
+      height: val.paperSize.height
+    },
+    pageMargins: [0, 0, 0, 40],
+    content: [{
+      svg: '<svg width="' + val.paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:' + val.colorPrimary + '" /></svg>'
+    }, "This paragraph fills full width, as there are no columns. Next paragraph however consists of three columns", {
+      style: "section",
+      table: {
+        widths: ["15%", "*", "35%"],
+        body: [[{
+          text: "first column",
+          fillColor: "#555555",
+          color: "#00FFFF"
+        }, {
+          text: "second column",
+          color: "#555555",
+          fillColor: "#dedede"
+        }, {
+          text: "third column",
+          fillColor: "#555555"
+        }]]
+      },
+      layout: "noBorders"
+    }],
+    styles: {
+      section: {
+        fontSize: 9,
+        color: "#FFFFFF",
+        fillColor: "#2361AE",
+        margin: [0, 15, 0, 5]
+      }
+    },
+    defaultStyle: {
+      alignment: "center"
+    }
+  };
+};
+
+var layout2 = function layout2(val) {
+  return {
+    pageSize: {
+      width: val.paperSize.width,
+      height: val.paperSize.height
+    },
+    pageMargins: [0, 0, 0, 40],
+    content: [{
+      columns: [{
+        text: "labelBillingFrom",
+        style: ["font14", "bold", "left", "marginL0T20R0B5"]
+      }, {
+        svg: '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
+      }, coloredRect(40, val.colorPrimary), {
+        text: "labelBillingTo",
+        style: ["font14", "bold", "left", "marginL0T20R0B5"]
+      }]
+    }]
+  };
+};
+
 module.exports = {
   spacer: spacer,
   coloredRect: coloredRect,
   lightenDarkenColor: lightenDarkenColor,
   labelText: labelText,
-  textWithRule: textWithRule
+  textWithRule: textWithRule,
+  layout1: layout1,
+  layout2: layout2
 };
 },{}],"src/index.js":[function(require,module,exports) {
 // Based on  https://codepen.io/diguifi/pen/YdBbyz
@@ -227,9 +293,13 @@ var colorSecondary = "#676778";
 var colorError = "#b71c1c";
 var colorBackground = "#ffffff";
 var colorLightPrimary = lib.lightenDarkenColor(colorPrimary, 60);
-console.log(colorLightPrimary);
 var colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
-console.log(colorDarkPrimary); // Invoice Header - Invoice
+var variables = {
+  paperSize: paperSize,
+  colorPrimary: colorPrimary,
+  colorLightPrimary: colorLightPrimary,
+  colorDarkPrimary: colorDarkPrimary
+}; // Invoice Header - Invoice
 // Company Logo
 // Invoice Details
 // - Invoice Number
@@ -393,15 +463,10 @@ var dd = {
   content: [{
     svg: '<svg width="' + paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
   }, {
-    style: "tableExample",
-    table: {
-      headerRows: 1,
-      body: [[{
-        text: "Header 1",
-        style: "tableHeader"
-      }], [""]]
-    },
-    layout: "headerLineOnly"
+    columns: [{
+      width: "*",
+      text: ""
+    }, lib.textWithRule()]
   }, lib.textWithRule(), lib.labelText(labelInvoice, colorSecondary, "font48", "right"), lib.coloredRect(0, colorPrimary), {
     table: {
       widths: ["*", "*", "*", "*", "*", "*"],
@@ -983,27 +1048,40 @@ var dd3 = {
     pageBreak: "after"
   }]
 };
-var docDef = dd; // let docDef = docDefinition;
+var docDef = lib.layout2(variables); // let docDef = docDefinition;
 
 function id(text) {
   return document.getElementById(text);
 }
 
 if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
-if (id("renderButton")) id("renderButton").addEventListener("click", render, false);
+if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
+if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
 
-function render() {
-  pdfMake.createPdf(docDef).getDataUrl(function (dataURL) {
+function renderlayout1() {
+  console.log("renderlayout1");
+  render(lib.layout1(variables));
+}
+
+function renderlayout2() {
+  console.log("renderlayout2");
+  render(lib.layout2(variables));
+}
+
+function render(def) {
+  console.log("render");
+  pdfMake.createPdf(def).getDataUrl(function (dataURL) {
     renderPDF(dataURL);
   });
 }
 
 function download() {
+  console.log("download");
   var pdf = createPdf(docDef);
   pdf.download("PPRA.pdf");
 }
 
-render();
+render(docDef);
 
 function renderPDF(url, options) {
   options = options || {
@@ -1014,8 +1092,10 @@ function renderPDF(url, options) {
     var viewport = page.getViewport(options.scale);
     var wrapper = document.createElement("div");
     wrapper.className = "canvas-wrapper";
+    console.log("canvas");
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     var renderContext = {
       canvasContext: ctx,
       viewport: viewport
@@ -1064,7 +1144,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58241" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64659" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
