@@ -128,9 +128,8 @@ let labelSellerAddress = "Address";
 let sellerAddressLine1 = "9999 Street Name";
 let sellerAddressLine2 = "Some Area";
 let sellerAddressLine3 = "Some Place";
-let sellerAddressCity = "New York City";
-let sellerAddressState = "NY 00010";
-let sellerAddressCountry = "USA";
+let sellerAddressLine4 = "New York City";
+let sellerAddressLine5 = "NY 00010 USA";
 
 let labelBillingTo = "Billing To";
 let clientName = "Client Name";
@@ -139,16 +138,21 @@ let labelClientAddress = "Address";
 let clientAddressLine1 = "1111 Street Name";
 let clientAddressLine2 = "Some Area";
 let clientAddressLine3 = "Some Place";
-let clientAddressCity = "New York City";
-let clientAddressState = "NY 00011";
-let clientAddressCountry = "USA";
+let clientAddressLine4 = "New York City";
+let clientAddressLine5 = "NY 00011 USA";
 
 let variables = {
   paperSize: paperSize,
   colorPrimary: colorPrimary,
   colorLightPrimary: colorLightPrimary,
   colorDarkPrimary: colorDarkPrimary,
-  labelInvoice: labelInvoice
+  labelInvoice: labelInvoice,
+  labelInvoiceNum: labelInvoiceNum,
+  labelInvoiceDate: labelInvoiceDate,
+  labelDueDate: labelDueDate,
+  invoiceNum: invoiceNum,
+  invoiceDate: invoiceDate,
+  dueDate: dueDate
 };
 
 let dd = {
@@ -417,12 +421,9 @@ let dd = {
             "\n" +
             sellerAddressLine3 +
             "\n" +
-            sellerAddressCity +
+            sellerAddressLine4 +
             " " +
-            sellerAddressState +
-            "\n" +
-            sellerAddressCountry,
-          style: "invoiceBillingAddress"
+            sellerAddressLine5
         },
         {
           text:
@@ -432,12 +433,9 @@ let dd = {
             "\n" +
             clientAddressLine3 +
             "\n" +
-            clientAddressCity +
+            clientAddressLine4 +
             " " +
-            clientAddressState +
-            "\n" +
-            clientAddressCountry,
-          style: "invoiceBillingAddress"
+            clientAddressLine5
         }
       ]
     },
@@ -943,24 +941,6 @@ let docDefinition2 = {
 };
 
 var dd3 = {
-  pageSize: {
-    width: 595.28,
-    height: 841.89
-  },
-  background: function() {
-    return {
-      canvas: [
-        {
-          type: "rect",
-          x: 0,
-          y: 0,
-          w: 595.28,
-          h: 841.89,
-          color: "#00BFFF"
-        }
-      ]
-    };
-  },
   content: [
     { text: "Simple text 1", pageBreak: "after" },
     { text: "Simple text 2", pageBreak: "after" },
@@ -969,7 +949,7 @@ var dd3 = {
 };
 
 let docDef = lib.layout1(variables);
-// let docDef = docDefinition;
+//  docDef = dd;
 
 function id(text) {
   return document.getElementById(text);

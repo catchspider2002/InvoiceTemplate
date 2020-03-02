@@ -150,6 +150,12 @@ let layout1 = val => {
           '" /></svg>'
       },
       labelText(val.labelInvoice, val.colorPrimary, "font48", "left"),
+      labelText(val.labelInvoiceNum, val.colorPrimary, "font22", "left"),
+      labelText(val.invoiceNum, "", "font22", "left"),
+      labelText(val.labelInvoiceDate, val.colorPrimary, "font22", "left"),
+      labelText(val.invoiceDate, "", "font22", "left"),
+      labelText(val.labelDueDate, val.colorPrimary, "font22", "left"),
+      labelText(val.dueDate, "", "font22", "left"),
       "This paragraph fills full width, as there are no columns. Next paragraph however consists of three columns",
       {
         style: "section",
