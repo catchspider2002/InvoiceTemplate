@@ -4,6 +4,15 @@
 
 const lib = require("./functions");
 
+// Icons to use
+// Invoice
+// website
+// phone
+// Email
+// Facebook
+// twitter
+// instagram
+
 // Controls
 // Radio button - Paper Size
 // Checkbox -
@@ -100,7 +109,7 @@ let currency1;
 let currency2;
 let currencyPrecision;
 
-moment.locale("tr");
+// moment.locale("tr");
 // console.log(moment(1316116057189).fromNow()); // il y a une heure
 // moment.locale('en');
 // console.log(moment(1316116057189).fromNow()); // an hour ago
@@ -118,8 +127,8 @@ let labelInvoiceNum = "Invoice #";
 let labelInvoiceDate = "Invoice Date";
 let labelDueDate = "Due Date";
 let invoiceNum = "000021";
-let invoiceDate = moment("20111031").format("MMM Do YY");
-let dueDate = "Jan 06, 2020";
+let invoiceDate = moment("20200131").format(dateFormat);
+let dueDate = moment("20200205").format(dateFormat);
 
 let labelBillingFrom = "Billing From";
 let sellerName = "Your Name";
@@ -140,6 +149,30 @@ let clientAddressLine2 = "Some Area";
 let clientAddressLine3 = "Some Place";
 let clientAddressLine4 = "New York City";
 let clientAddressLine5 = "NY 00011 USA";
+
+let labelAmountDue = "Amount Due";
+let amountDue = "$2000";
+let labelTerms = "Payment Terms";
+let terms = "5 Days";
+let labelPurchaseOrder = "Purchase Order";
+let purchaseOrder = "454523";
+let labelPaymentMethod = "Payment Method";
+let paymentMethod = "Paypal, Visa, MasterCard";
+
+let labelPhone = "Phone";
+let phone = "+91 9292929292";
+let labelEmail = "E-mail";
+let email = "email@website.com";
+let labelWebsite = "Website";
+let website = "www.website.com";
+let labelFacebook = "Facebook";
+let facebook = "fb-page";
+let labelTwitter = "Twitter";
+let twitter = "twitter-page";
+let labelInstagram = "Instagram";
+let instagram = "insta-page";
+
+let notes = "Thank you for your business";
 
 let variables = {
     paperSize: paperSize,
@@ -170,7 +203,28 @@ let variables = {
     clientAddressLine2: clientAddressLine2,
     clientAddressLine3: clientAddressLine3,
     clientAddressLine4: clientAddressLine4,
-    clientAddressLine5: clientAddressLine5
+    clientAddressLine5: clientAddressLine5,
+    labelAmountDue: labelAmountDue,
+    amountDue: amountDue,
+    labelTerms: labelTerms,
+    terms: terms,
+    labelPurchaseOrder: labelPurchaseOrder,
+    purchaseOrder: purchaseOrder,
+    labelPaymentMethod: labelPaymentMethod,
+    paymentMethod: paymentMethod,
+    notes: notes,
+    labelPhone: labelPhone,
+    phone: phone,
+    labelEmail: labelEmail,
+    email: email,
+    labelWebsite: labelWebsite,
+    website: website,
+    labelFacebook: labelFacebook,
+    facebook: facebook,
+    labelTwitter: labelTwitter,
+    twitter: twitter,
+    labelInstagram: labelInstagram,
+    instagram: instagram
 };
 
 let dd = {
