@@ -270,12 +270,33 @@ let layout1 = val => {
                 return { dash: { length: 1, space: 4 } };
             },
             paddingLeft: function(i, node) {
-                return i === 0 ? 0 : 10;
+                return i === 0 ? 5 : 10;
             },
             paddingRight: function(i, node) {
-                return i === node.table.widths.length - 1 ? 0 : 10;
+                return i === node.table.widths.length - 1 ? 5 : 10;
             },
             paddingTop: setTopMarginOfCellForVerticalCentering
+        },
+        itemLayout2a: {
+            hLineWidth: function(i, node) {
+                return i === 0 ? 0 : 0.5;
+            },
+            vLineWidth: function(i, node) {
+                return 0;
+            },
+            hLineColor: val.colorPrimary,
+            hLineStyle: function(i, node) {
+                return { dash: { length: 1, space: 4 } };
+            },
+            paddingTop: function(i, node) {
+                return 8;
+            },
+            paddingLeft: function(i, node) {
+                return i === 0 ? 5 : 10;
+            },
+            paddingRight: function(i, node) {
+                return i === node.table.widths.length - 1 ? 5 : 10;
+            }
         }
     };
 
@@ -427,15 +448,9 @@ let layout1 = val => {
             // TOTAL
             {
                 columns: [
-                    {
-                        width: "*",
-                        text: ""
-                    },
-
+                    { width: "*", text: "" },
                     {
                         table: {
-                            // headers are automatically repeated if the table spans over multiple pages
-                            // you can declare how many rows should be treated as headers
                             headerRows: 0,
                             widths: ["*", "*"],
                             heights: 20,
@@ -447,7 +462,7 @@ let layout1 = val => {
                             ]
                         }, // table
                         style: "hMargin50",
-                        layout: "itemLayout1a"
+                        layout: "itemLayout2a"
                     }
                 ]
             },
