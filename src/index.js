@@ -1047,7 +1047,7 @@ function download() {
     var pdf = createPdf(docDef);
     pdf.download("PPRA.pdf");
 }
-
+ 
 render(docDef);
 
 function renderPDF(url, options) {
