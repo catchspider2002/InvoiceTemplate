@@ -26,8 +26,10 @@ let letterPaper = { width: 612, height: 792 };
 let paperSize = a4Paper;
 
 // Colors
-let colorPrimary = "#ff3e00";
+let colorPrimary = "#2a7fff";
 let colorSecondary = "#676778";
+let colorLightGray = "#e2e8f0";
+let colorDarkGray = "#4a5568";
 let colorError = "#b71c1c";
 let colorBackground = "#ffffff";
 
@@ -179,6 +181,8 @@ let variables = {
     colorPrimary: colorPrimary,
     colorLightPrimary: colorLightPrimary,
     colorDarkPrimary: colorDarkPrimary,
+    colorLightGray: colorLightGray,
+    colorDarkGray: colorDarkGray,
     labelInvoice: labelInvoice,
     labelInvoiceNum: labelInvoiceNum,
     labelInvoiceDate: labelInvoiceDate,
