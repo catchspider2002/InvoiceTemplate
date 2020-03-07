@@ -1,15 +1,3 @@
-let a4Paper = { width: 595.28, height: 841.89 };
-let letterPaper = { width: 612, height: 792 };
-let paperSize = a4Paper;
-
-// let leftMargin = (100 * 50) / a4Paper.width;
-// let fullLength = 100 - leftMargin * 2; // 83.2
-// let firstHalf = fullLength / 2; // 41.6
-// let firstQtr = firstHalf / 2 + leftMargin; // 20.8
-// let secondQtr = firstHalf / 2 + leftMargin; // 20.8
-// let thirdQtr = (fullLength * 3) / 4 + leftMargin; // 20.8
-// let fourthQtr = (fullLength * 3) / 4 + leftMargin; // 20.8
-
 // Invoice - 17.72px
 // 8.86px
 // 4.64px
@@ -75,10 +63,7 @@ function styles() {
 
 const spacer = height => {
   return {
-    svg:
-      '<svg width="10" height="' +
-      height +
-      '"><rect style="fill:transparent" /></svg>'
+    svg: '<svg width="10" height="' + height + '"><rect style="fill:transparent" /></svg>'
   };
 };
 
@@ -248,9 +233,7 @@ let layout1 = val => {
     },
     itemLayout2: {
       fillColor: function(i, node, columnIndex) {
-        return (i % 2 === 0) & (i !== node.table.headerRows - 1)
-          ? val.colorLightGray
-          : null;
+        return (i % 2 === 0) & (i !== node.table.headerRows - 1) ? val.colorLightGray : null;
       },
       hLineWidth: function(i, node) {
         return i === 0 ? 0 : i === 1 ? 2 : 0.5;
@@ -316,12 +299,7 @@ let layout1 = val => {
     },
     content: [
       {
-        svg:
-          '<svg width="' +
-          val.paperSize.width +
-          '" height="10"><rect width="100%" height="10" style="fill:' +
-          val.colorPrimary +
-          '" /></svg>'
+        svg: '<svg width="' + val.paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:' + val.colorPrimary + '" /></svg>'
       },
       spacer(50),
       {
@@ -337,94 +315,33 @@ let layout1 = val => {
               {},
               {
                 stack: [
-                  labelText(val.labelInvoice, val.colorPrimary, [
-                    "h1",
-                    "left",
-                    "bold",
-                    "bMarginXL"
-                  ]),
-                  labelText(val.labelInvoiceNum, val.colorPrimary, [
-                    "h3",
-                    "left",
-                    "bMarginSM"
-                  ]),
+                  labelText(val.labelInvoice, val.colorPrimary, ["h1", "left", "bold", "bMarginXL"]),
+                  labelText(val.labelInvoiceNum, val.colorPrimary, ["h3", "left", "bMarginSM"]),
                   labelText(val.invoiceNum, "", ["h2", "left", "bMarginXL"]),
-                  labelText(val.labelInvoiceDate, val.colorPrimary, [
-                    "h3",
-                    "left",
-                    "bMarginSM"
-                  ]),
+                  labelText(val.labelInvoiceDate, val.colorPrimary, ["h3", "left", "bMarginSM"]),
                   labelText(val.invoiceDate, "", ["h2", "left", "bMarginXL"]),
-                  labelText(val.labelDueDate, val.colorPrimary, [
-                    "h3",
-                    "left",
-                    "bMarginSM"
-                  ]),
+                  labelText(val.labelDueDate, val.colorPrimary, ["h3", "left", "bMarginSM"]),
                   labelText(val.dueDate, "", ["h2", "left", "bMarginXL"])
                 ]
               },
               {},
               {
                 stack: [
-                  labelText(val.labelBillingFrom, val.colorPrimary, [
-                    "h3",
-                    "left",
-                    "bMarginSM"
-                  ]),
+                  labelText(val.labelBillingFrom, val.colorPrimary, ["h3", "left", "bMarginSM"]),
                   labelText(val.sellerName, "", ["h4", "left", "bMarginXS"]),
                   labelText(val.sellerCompany, "", ["h4", "left", "bMarginXS"]),
-                  labelText(val.sellerAddressLine1, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
-                  labelText(val.sellerAddressLine2, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
-                  labelText(val.sellerAddressLine3, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
-                  labelText(val.sellerAddressLine4, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
-                  labelText(val.sellerAddressLine5, "", [
-                    "h4",
-                    "left",
-                    "bMarginXL"
-                  ]),
-                  labelText(val.labelBillingTo, val.colorPrimary, [
-                    "h3",
-                    "left",
-                    "bMarginSM"
-                  ]),
+                  labelText(val.sellerAddressLine1, "", ["h4", "left", "bMarginXS"]),
+                  labelText(val.sellerAddressLine2, "", ["h4", "left", "bMarginXS"]),
+                  labelText(val.sellerAddressLine3, "", ["h4", "left", "bMarginXS"]),
+                  labelText(val.sellerAddressLine4, "", ["h4", "left", "bMarginXS"]),
+                  labelText(val.sellerAddressLine5, "", ["h4", "left", "bMarginXL"]),
+                  labelText(val.labelBillingTo, val.colorPrimary, ["h3", "left", "bMarginSM"]),
                   labelText(val.clientName, "", ["h4", "left", "bMarginXS"]),
                   labelText(val.clientCompany, "", ["h4", "left", "bMarginXS"]),
-                  labelText(val.clientAddressLine1, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
-                  labelText(val.clientAddressLine2, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
-                  labelText(val.clientAddressLine3, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
-                  labelText(val.clientAddressLine4, "", [
-                    "h4",
-                    "left",
-                    "bMarginXS"
-                  ]),
+                  labelText(val.clientAddressLine1, "", ["h4", "left", "bMarginXS"]),
+                  labelText(val.clientAddressLine2, "", ["h4", "left", "bMarginXS"]),
+                  labelText(val.clientAddressLine3, "", ["h4", "left", "bMarginXS"]),
+                  labelText(val.clientAddressLine4, "", ["h4", "left", "bMarginXS"]),
                   labelText(val.clientAddressLine5, "", ["h4", "left"])
                 ]
               }
@@ -475,10 +392,7 @@ let layout1 = val => {
             ],
             // Item 2
             [
-              [
-                labelText("Item2", "", ["h3"]),
-                labelText("Item Description", "", ["h3"])
-              ],
+              [labelText("Item2", "", ["h3"]), labelText("Item Description", "", ["h3"])],
               labelText(1, "", ["h3", "center"]),
               labelText("$999.99", "", ["h3", "right"]),
               labelText("0%", "", ["h3", "right"]),
@@ -503,18 +417,9 @@ let layout1 = val => {
               heights: 20,
               body: [
                 // Total
-                [
-                  labelText("Subtotal", val.colorPrimary, ["h3", "bold"]),
-                  labelText("$2000.00", "", ["h3", "right"])
-                ],
-                [
-                  labelText("Tax 21%", val.colorPrimary, ["h3", "bold"]),
-                  labelText("$523.13", "", ["h3", "right"])
-                ],
-                [
-                  labelText("TOTAL", val.colorPrimary, ["h3", "bold"]),
-                  labelText("$999.99", "", ["h3", "right"])
-                ]
+                [labelText("Subtotal", val.colorPrimary, ["h3", "bold"]), labelText("$2000.00", "", ["h3", "right"])],
+                [labelText("Tax 21%", val.colorPrimary, ["h3", "bold"]), labelText("$523.13", "", ["h3", "right"])],
+                [labelText("TOTAL", val.colorPrimary, ["h3", "bold"]), labelText("$999.99", "", ["h3", "right"])]
               ]
             }, // table
             style: "hMargin50",
@@ -534,17 +439,9 @@ let layout1 = val => {
             // Total
             [{}, {}, {}, {}],
             [
-              labelText(val.labelDueDate, val.colorPrimary, [
-                "h4",
-                "right",
-                "tMarginMD"
-              ]),
+              labelText(val.labelDueDate, val.colorPrimary, ["h4", "right", "tMarginMD"]),
               labelText(val.dueDate, val.colorPrimary, ["h2", "bold"]),
-              labelText(val.labelAmountDue, val.colorPrimary, [
-                "h4",
-                "right",
-                "tMarginMD"
-              ]),
+              labelText(val.labelAmountDue, val.colorPrimary, ["h4", "right", "tMarginMD"]),
               labelText(val.amountDue, val.colorPrimary, ["h2", "bold"])
             ],
             [{}, {}, {}, {}]
@@ -600,38 +497,18 @@ let layout1 = val => {
                     [
                       {
                         stack: [
-                          labelText(val.labelPaymentMethod, val.colorPrimary, [
-                            "h3",
-                            "left",
-                            "bMarginSM"
-                          ]),
-                          labelText(val.paymentMethod, "", [
-                            "h2",
-                            "left",
-                            "bMarginXL"
-                          ]),
+                          labelText(val.labelPaymentMethod, val.colorPrimary, ["h3", "left", "bMarginSM"]),
+                          labelText(val.paymentMethod, "", ["h2", "left", "bMarginXL"]),
                           spacer(40),
                           { text: val.notes }
                         ]
                       },
                       {
                         stack: [
-                          labelText(val.labelTerms, val.colorPrimary, [
-                            "h3",
-                            "left",
-                            "bMarginSM"
-                          ]),
+                          labelText(val.labelTerms, val.colorPrimary, ["h3", "left", "bMarginSM"]),
                           labelText(val.terms, "", ["h2", "left", "bMarginXL"]),
-                          labelText(val.labelPurchaseOrder, val.colorPrimary, [
-                            "h3",
-                            "left",
-                            "bMarginSM"
-                          ]),
-                          labelText(val.purchaseOrder, "", [
-                            "h2",
-                            "left",
-                            "bMarginXL"
-                          ])
+                          labelText(val.labelPurchaseOrder, val.colorPrimary, ["h3", "left", "bMarginSM"]),
+                          labelText(val.purchaseOrder, "", ["h2", "left", "bMarginXL"])
                         ]
                       }
                     ]
@@ -687,8 +564,7 @@ let layout2 = val => {
             style: ["bold", "left"]
           },
           {
-            svg:
-              '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
+            svg: '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
           },
           coloredRect(40, val.colorPrimary),
           {
