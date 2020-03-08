@@ -297,12 +297,12 @@ let dd = {
           width: "*",
           text: ""
         },
-        lib.textWithRule()
+        // lib.textWithRule()
       ]
     },
-    lib.textWithRule(),
-    lib.labelText(labelInvoice, colorSecondary, "font48", "right"),
-    lib.coloredRect(0, colorPrimary),
+    // lib.textWithRule(),
+    // lib.labelText(labelInvoice, colorSecondary, "font48", "right"),
+    // lib.coloredRect(0, colorPrimary),
     {
       table: {
         widths: ["*", "*", "*", "*", "*", "*"],
@@ -337,7 +337,7 @@ let dd = {
       },
       layout: "noBorders"
     },
-    lib.spacer(40),
+    // lib.spacer(40),
     {
       svg:
         '<svg width="' +
@@ -472,7 +472,7 @@ let dd = {
           svg:
             '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
         },
-        lib.coloredRect(40, colorPrimary),
+        // lib.coloredRect(40, colorPrimary),
         {
           text: labelBillingTo,
           style: ["font14", "bold", "left", "marginL0T20R0B5"]
@@ -696,7 +696,7 @@ let dd = {
         },
         {
           stack: [
-            lib.spacer(70),
+            // lib.spacer(70),
             {
               text: "_________________________________"
             },
@@ -713,7 +713,7 @@ let dd = {
         }
       ]
     },
-    lib.spacer(50),
+    // lib.spacer(50),
     {
       text: "NOTES",
       style: ["font10", "bold"]

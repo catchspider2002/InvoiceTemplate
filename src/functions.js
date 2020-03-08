@@ -1,3 +1,7 @@
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 // Invoice - 17.72px
 // 8.86px
 // 4.64px
@@ -174,6 +178,10 @@ const number0 = (i, node) => {
   return 0;
 };
 
+const number8 = (i, node) => {
+  return 8;
+};
+
 const dashLine = (i, node) => {
   return { dash: { length: 4, space: 4 } };
 };
@@ -226,18 +234,14 @@ let layout1 = val => {
       hLineWidth: bottomBorderThin,
       vLineWidth: number0,
       hLineColor: val.colorPrimary,
-      paddingTop: function(i, node) {
-        return 8;
-      },
+      paddingTop: number8,
       paddingRight: paddingRightEdge
     },
     itemLayout2: {
       fillColor: function(i, node, columnIndex) {
         return (i % 2 === 0) & (i !== node.table.headerRows - 1) ? val.colorLightGray : null;
       },
-      hLineWidth: function(i, node) {
-        return i === 0 ? 0 : i === 1 ? 2 : 0.5;
-      },
+      hLineWidth: bottomBorderThickThin,
       vLineWidth: number0,
       hLineColor: val.colorPrimary,
       hLineStyle: function(i, node) {
@@ -254,18 +258,10 @@ let layout1 = val => {
       hLineWidth: bottomBorderThin,
       vLineWidth: number0,
       hLineColor: val.colorPrimary,
-      hLineStyle: function(i, node) {
-        return { dash: { length: 1, space: 4 } };
-      },
-      paddingTop: function(i, node) {
-        return 8;
-      },
-      paddingLeft: function(i, node) {
-        return i === 0 ? 5 : 10;
-      },
-      paddingRight: function(i, node) {
-        return i === node.table.widths.length - 1 ? 5 : 10;
-      }
+      hLineStyle: dottedLine,
+      paddingTop: number8,
+      paddingLeft: paddingLeft,
+      paddingRight: paddingRight
     }
   };
 
@@ -450,38 +446,7 @@ let layout1 = val => {
         style: ["hMargin50"],
         layout: "dashOutline"
       },
-      //   {
-      //     svg:
-      //       '<svg><rect fill="lightgreen" x="' +
-      //       leftMargin +
-      //       '%" y="0" width="' +
-      //       fullLength +
-      //       '%" height="50"></rect><text x="' +
-      //       firstQtr +
-      //       '%" y="25" font-size="' +
-      //       h2 +
-      //       '" text-anchor="end" alignment-baseline="central">DUE DATE</text><text x="' +
-      //       secondQtr +
-      //       '%" y="25" font-size="' +
-      //       h1 +
-      //       '" text-anchor="start" alignment-baseline="central">DUE DATE</text><text x="' +
-      //       thirdQtr +
-      //       '%" y="25" font-size="' +
-      //       h3 +
-      //       '" text-anchor="end" alignment-baseline="central">AMOUNT DUE</text><text x="' +
-      //       fourthQtr +
-      //       '%" y="25" font-size="' +
-      //       h2 +
-      //       '" text-anchor="start" alignment-baseline="central">$2000</text></svg>'
-      //   },
-      //   {
-      //     svg:
-      //         '<svg height="40" ><rect width="100%" height="40" style="fill:green" /><path d="M 100 100 L 300 100 L 200 300 z" fill="LightBlue" stroke="Blue" stroke-width="3" /></svg>'
-      // },
       spacer(20),
-      // {
-      //     svg: '<svg height="50" width="595.27557"><polygon points="0,0 296,50 595.27557,0" style="fill:rgb(0,0,0)" /></svg>'
-      // },
       {
         layout: "noBorders",
         table: {
@@ -521,31 +486,8 @@ let layout1 = val => {
           ]
         }
       }
-      //   {
-      //     svg:
-      //       '<svg width="' +
-      //       val.paperSize.width +
-      //       '" height="50"><rect width="100%" height="50" style="fill:white" /><polygon points="0,0 298,50 595.27557,0" style="fill:white" />' +
-      //       '<polygon points="0,0 298,50 0,50" style="fill:#CCCCCC" />' +
-      //       '<polygon points="595.27557,0 298,50 595.27557,50" style="fill:#CCCCCC" /></svg>',
-      //     fillColor: "red"
-      //   },
-      //   coloredRect(50, "#CCCCCC"),
-      //   coloredRect(50, "#CCCCCC"),
-      //   coloredRect(350, "#CCCCCC")
-      // {
-      //     svg:
-      //         '<svg width="595.27557" height="50" viewBox="0 0 210 17.638889"><path style="fill:' +
-      //         "#CCCCCC" +
-      //         ';" d="M 0,-1.1111111e-6 V 17.638889 H 210.00226 V -1.1111111e-6 H 112.58549 L 105.00087,6.0079589 97.41624,-1.1111111e-6 Z" inkscape:connector-curvature="0" /></svg>'
-      // },
-      // coloredRect(350, "#CCCCCC")
-      // verticalDivider(),
     ],
     styles: styles()
-    // defaultStyle: {
-    //   alignment: "center"
-    // }
   };
 };
 
@@ -578,12 +520,5 @@ let layout2 = val => {
   };
 };
 
-module.exports = {
-  spacer,
-  coloredRect,
-  lightenDarkenColor,
-  labelText,
-  textWithRule,
-  layout1,
-  layout2
-};
+module.exports = { lightenDarkenColor, layout1, layout2 };
+// export default { lightenDarkenColor, layout1, layout2 };
