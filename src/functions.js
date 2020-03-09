@@ -162,6 +162,8 @@ const hOuterBorder = (i, node) => (i === 0 || i === node.table.body.length ? 1 :
 
 const vOuterBorder = (i, node) => (i === 0 || i === node.table.widths.length ? 1 : 0);
 
+const hHeaderBorder = (i, node) => (i === node.table.headerRows - 1 || i === node.table.headerRows ? 2 : 0);
+
 const bottomBorderThickThin = i => (i === 0 ? 0 : i === 1 ? 2 : 0.5);
 
 const bottomBorderThin = i => (i === 0 ? 0 : 0.5);
@@ -227,7 +229,7 @@ let layout1 = val => {
       //     ? val.colorLightGray
       //     : null;
       fillColor: zebraBackground,
-      hLineWidth: bottomBorderThickThin,
+      hLineWidth: hHeaderBorder, // bottomBorderThickThin,
       vLineWidth: number0,
       hLineColor: val.colorPrimary,
       hLineStyle: function(i, node) {
@@ -499,7 +501,7 @@ let layout2 = val => {
           },
           coloredRect(40, val.colorPrimary),
           {
-            text: "labelBillingTo", 
+            text: "labelBillingTo",
             style: ["bold"]
           }
         ]

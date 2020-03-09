@@ -339,6 +339,10 @@ var vOuterBorder = function vOuterBorder(i, node) {
   return i === 0 || i === node.table.widths.length ? 1 : 0;
 };
 
+var hHeaderBorder = function hHeaderBorder(i, node) {
+  return i === node.table.headerRows - 1 || i === node.table.headerRows ? 2 : 0;
+};
+
 var bottomBorderThickThin = function bottomBorderThickThin(i) {
   return i === 0 ? 0 : i === 1 ? 2 : 0.5;
 };
@@ -434,7 +438,8 @@ var layout1 = function layout1(val) {
       //     ? val.colorLightGray
       //     : null;
       fillColor: zebraBackground,
-      hLineWidth: bottomBorderThickThin,
+      hLineWidth: hHeaderBorder,
+      // bottomBorderThickThin,
       vLineWidth: number0,
       hLineColor: val.colorPrimary,
       hLineStyle: function hLineStyle(i, node) {
@@ -1577,7 +1582,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55905" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52256" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
