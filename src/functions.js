@@ -2,12 +2,6 @@ import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import pdfFonts from "./vfs_fonts";
 
-// pdfMake.addVirtualFileSystem(pdfFonts.vfs)
-// console.log("pdfFonts: "+pdfFonts)
-// console.log("pdfFonts.vfs: "+pdfFonts.vfs)
-// if(pdfFonts.vfs){
-//   console.log("Loaded")
-// pdfMake.vfs = pdfFonts.vfs || pdfFonts.pdfMake.vfs;
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
 

@@ -9,12 +9,6 @@ import moment from "moment";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
-// pdfMake.addVirtualFileSystem(pdfFonts.vfs)
-// console.log("pdfFonts: "+pdfFonts)
-// console.log("pdfFonts.vfs: "+pdfFonts.vfs)
-// if(pdfFonts.vfs){
-//   console.log("Loaded")
-// pdfMake.vfs = pdfFonts.vfs || pdfFonts.pdfMake.vfs;
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
