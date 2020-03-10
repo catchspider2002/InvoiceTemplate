@@ -2,6 +2,50 @@
 // Also on https://codesandbox.io/s/oj81y
 // var canvasElement = document.getElementById("canvas");
 
+import pdfMake from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
+import pdfFonts from "./vfs_fonts";
+import moment from "moment";
+import PDFJS from "pdfjs-dist/build/pdf";
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+
+// pdfMake.addVirtualFileSystem(pdfFonts.vfs)
+// console.log("pdfFonts: "+pdfFonts)
+// console.log("pdfFonts.vfs: "+pdfFonts.vfs)
+// if(pdfFonts.vfs){
+//   console.log("Loaded")
+// pdfMake.vfs = pdfFonts.vfs || pdfFonts.pdfMake.vfs;
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.vfs = pdfFonts.vfs;
+PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+
+pdfMake.fonts = {
+  PTSans: {
+    normal: "PTSans-Regular.ttf",
+    bold: "PTSans-Bold.ttf",
+    italics: "PTSans-Regular.ttf",
+    bolditalics: "PTSans-Regular.ttf"
+  },
+  SourceSans: {
+    normal: "SourceSansPro-Regular.ttf",
+    bold: "SourceSansPro-Bold.ttf",
+    italics: "SourceSansPro-Regular.ttf",
+    bolditalics: "SourceSansPro-Regular.ttf"
+  },
+  VarelaRound: {
+    normal: "VarelaRound-Regular.ttf",
+    bold: "VarelaRound-Regular.ttf",
+    italics: "VarelaRound-Regular.ttf",
+    bolditalics: "VarelaRound-Regular.ttf"
+  },
+  Roboto: {
+    normal: "Roboto-Regular.ttf",
+    bold: "Roboto-Medium.ttf",
+    italics: "Roboto-Regular.ttf",
+    bolditalics: "Roboto-Regular.ttf"
+  }
+};
+
 const lib = require("./functions");
 
 // Icons to use
