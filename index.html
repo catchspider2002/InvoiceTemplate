@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/pdfmake.js"></script> -->
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js"></script> -->
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script> -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.0.385/build/pdf.min.js"></script> -->
-        <link rel="stylesheet" href="./src/styles.css" />
-    </head>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <body>
-        <div class="container">
-            <div class="left item">
-                <button id="downloadButton">Download</button>
-                <button id="layout1">Layout 1</button>
-                <button id="layout2">Layout 2</button>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/pdfmake.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.0.385/build/pdf.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="./src/styles.css" /> -->
+    <link rel="stylesheet" href="./src/output.css" />
+    <link rel="stylesheet" href="./src/balloon.min.css">
+</head>
+
+<body class="bg-gray-800 text-gray-300">
+    <div class="p-4 m-0 list-none flex bg-gray-700 justify-around flex-row flex-wrap">
+        <div class="p-5 mt-5 w-1/2 font-bold text-center"">
+        <button id=" downloadButton">Download</button>
+            <button id="layout1">Layout 1</button>
+            <button id="layout2">Layout 2</button>
+            <div contenteditable="true">This text can be edited by the user.</div>
+            <span contenteditable="true">Invoice Number</span>
+            <span contenteditable="true">This text can be edited by the user.</span>
+            <br />
+            <label contenteditable="true" class="block text-sm font-bold mb-2" for="invNum">
+                Invoice Number
+            </label>
+            <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="invNum" type="text" placeholder="Invoice Number" />
+            <form class="mx-auto md:w-1/2">
+
+                <label contenteditable="true" class="block mb-2 text-xs font-bold" htmlFor="invoice-date"
+                    aria-label="Click to edit" data-balloon-pos="up">
+                    Invoice Date
+                </label>
+
+                <input class="w-full mb-6 form-input" id="invoice-date" placeholder="Murray" type="text" />
+
+                <label contenteditable="true" class="block mb-2 text-xs font-bold" htmlFor="billTo"
+                    aria-label="Click to edit" data-balloon-pos="up">
+                    Bill To
+                </label>
+
+                <textarea class="w-full mb-6 form-textarea" id="billTo" placeholder="Say something..." rows="8" />
+
+                <button
+            class="px-4 py-2 text-sm font-bold text-white bg-gray-500 border-b-4 border-gray-800 rounded hover:border-gray-700 hover:bg-gray-600"
+          >
+            Submit
+          </button>
+        </form>
+
+          <div class="w-full rounded overflow-hidden shadow-lg bg-black">
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-4 text-left">Invoice Details</div>
+              
+        <div class="flex flex-wrap items-center">
+            <div class="w-full  lg:w-2/5 flex ">
+                <label id="labelInvoiceNum" contenteditable="true" class="block text-sm font-bold border-dotted border-b-4 border-red-600" htmlFor="invoiceNum" aria-label="Click to edit" data-balloon-pos="up">
+                Invoice Number
+              </label></div>
+                <input class="w-full  lg:w-3/5 form-input self-center" id="invoiceNum" placeholder="100" type="text" /></div>
             </div>
+          </div>
+      </div>
 
-            <div class="right item">
-                <div id="canvas" />
+      <div class="w-1/2 p-5 mt-5">
+        <div id="canvas">
+            <div class="canvas-wrapper">
+                <canvas id="myCanvas"></canvas>
             </div>
-        </div>
-
-        <div class="vertical-line"></div>
-    </body>
-    <script src="./src/index.js"></script>
+        </div> 
+      </div>
+    </div>
+  </body>
+  <script src="./src/index.js"></script>
 </html>

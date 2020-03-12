@@ -8,12 +8,13 @@
     "build": "parcel build index.html --public-url ./"
   },
   "dependencies": {
-    "prettier": "1.19.1",
     "moment": "^2.24.0",
+    "pdfjs-dist": "^2.2.228",
     "pdfmake": "^0.1.65",
-    "pdfjs-dist": "^2.2.228"
+    "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
+    "@tailwindcss/custom-forms": "0.2.1",
     "@babel/core": "7.8.7",
     "parcel-bundler": "^1.12.4"
   },

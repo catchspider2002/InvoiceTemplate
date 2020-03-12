@@ -1064,6 +1064,30 @@ if (id("downloadButton")) id("downloadButton").addEventListener("click", downloa
 if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
 if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
 
+if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
+if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
+
+var divMO = new window.MutationObserver(function(mutationRecords) {
+  labelInvoiceNum = mutationRecords[0].target.data;
+  console.log("changeLabelInvNum: " + labelInvoiceNum);
+  variables.labelInvoiceNum = labelInvoiceNum;
+  renderlayout1();
+});
+divMO.observe(id("labelInvoiceNum"), { childList: true, subtree: true, characterData: true });
+
+function changeInvNum() {
+  invoiceNum = id("invoiceNum").value;
+  variables.invoiceNum = invoiceNum;
+  renderlayout1();
+}
+
+function changeLabelInvNum() {
+  labelInvoiceNum = id("labelInvoiceNum").value.replace((/  |\r\n|\n|\r/gm),"");
+  console.log("changeLabelInvNum: " + labelInvoiceNum);
+  variables.labelInvoiceNum = labelInvoiceNum;
+  renderlayout1();
+}
+
 function renderlayout1() {
   console.log("renderlayout1");
   render(lib.layout1(variables));
@@ -1093,21 +1117,14 @@ function renderPDF(url, options) {
 
   function renderPage(page) {
     var viewport = page.getViewport(options.scale);
-    var wrapper = document.createElement("div");
-    wrapper.className = "canvas-wrapper";
-    console.log("canvas");
-    var canvas = document.createElement("canvas");
+    var canvas = id("myCanvas");
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
     var ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     var renderContext = {
       canvasContext: ctx,
       viewport: viewport
     };
-
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-    wrapper.appendChild(canvas);
-    if (id("canvas")) id("canvas").appendChild(wrapper);
 
     page.render(renderContext);
   }
