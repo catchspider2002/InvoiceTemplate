@@ -1054,6 +1054,8 @@ var dd3 = {
 };
 
 let docDef = lib.layout1(variables);
+
+id("labelInvoiceNumEdit").style.display = "none";
 //  docDef = docDefinition2;
 
 function id(text) {
@@ -1065,7 +1067,8 @@ if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false)
 if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
 
 if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
-if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
+// if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
+if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
 
 var divMO = new window.MutationObserver(function(mutationRecords) {
   labelInvoiceNum = mutationRecords[0].target.data;
@@ -1082,10 +1085,13 @@ function changeInvNum() {
 }
 
 function changeLabelInvNum() {
-  labelInvoiceNum = id("labelInvoiceNum").value.replace((/  |\r\n|\n|\r/gm),"");
+  // labelInvoiceNum = id("labelInvoiceNum").value.replace((/  |\r\n|\n|\r/gm),"");
   console.log("changeLabelInvNum: " + labelInvoiceNum);
-  variables.labelInvoiceNum = labelInvoiceNum;
-  renderlayout1();
+  id("labelInvoiceNum").style.display = "none";
+  id("labelInvoiceNumEdit").value= invoiceNum;
+  id("labelInvoiceNumEdit").style.display = "block";
+  // variables.labelInvoiceNum = labelInvoiceNum;
+  // renderlayout1();
 }
 
 function renderlayout1() {
