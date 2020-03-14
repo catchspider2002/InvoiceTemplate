@@ -8,6 +8,8 @@
     "build": "parcel build index.html --public-url ./"
   },
   "dependencies": {
+    "loadjs": "^4.2.0",
+    "locales": "0.0.2",
     "moment": "^2.24.0",
     "pdfjs-dist": "^2.2.228",
     "pdfmake": "^0.1.65",

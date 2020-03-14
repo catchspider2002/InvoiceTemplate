@@ -6,12 +6,30 @@ import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import pdfFonts from "./vfs_fonts";
 import moment from "moment";
+import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+var derivedLang = "es";
+import lang from "./locales/locale.en.js";
+if (lang) assignValues();
+
+// loadjs(["./locales/locale.es.js"], {
+//   success: assignValues
+// });
+
+// loadjs("locales/locale.es.js", assignValues);
+
+// loadjs("./locales/locale.es.js", assignValues);
+
+function assignValues() {
+  console.log("assign values: " + lang.zlabelInvoiceNum);
+  id("labelInvoiceNum").textContent = lang.zlabelInvoiceNum;
+  console.log("after: " + lang.zlabelInvoiceNum);
+}
 
 pdfMake.fonts = {
   PTSans: {
@@ -1055,7 +1073,7 @@ var dd3 = {
 
 let docDef = lib.layout1(variables);
 
-id("labelInvoiceNumEdit").style.display = "none";
+// id("labelInvoiceNumEdit").style.display = "none";
 //  docDef = docDefinition2;
 
 function id(text) {
@@ -1068,15 +1086,16 @@ if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false)
 
 if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
-if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
+// if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
+// if (id("labelInvoiceNumEdit")) id("labelInvoiceNumEdit").addEventListener("change", removeInvNumEdit, false);
 
-var divMO = new window.MutationObserver(function(mutationRecords) {
-  labelInvoiceNum = mutationRecords[0].target.data;
-  console.log("changeLabelInvNum: " + labelInvoiceNum);
-  variables.labelInvoiceNum = labelInvoiceNum;
-  renderlayout1();
-});
-divMO.observe(id("labelInvoiceNum"), { childList: true, subtree: true, characterData: true });
+// var divMO = new window.MutationObserver(function(mutationRecords) {
+//   labelInvoiceNum = mutationRecords[0].target.data;
+//   console.log("changeLabelInvNum: " + labelInvoiceNum);
+//   variables.labelInvoiceNum = labelInvoiceNum;
+//   renderlayout1();
+// });
+// divMO.observe(id("labelInvoiceNum"), { childList: true, subtree: true, characterData: true });
 
 function changeInvNum() {
   invoiceNum = id("invoiceNum").value;
@@ -1084,37 +1103,44 @@ function changeInvNum() {
   renderlayout1();
 }
 
-function changeLabelInvNum() {
-  // labelInvoiceNum = id("labelInvoiceNum").value.replace((/  |\r\n|\n|\r/gm),"");
-  console.log("changeLabelInvNum: " + labelInvoiceNum);
-  id("labelInvoiceNum").style.display = "none";
-  id("labelInvoiceNumEdit").value= invoiceNum;
-  id("labelInvoiceNumEdit").style.display = "block";
-  // variables.labelInvoiceNum = labelInvoiceNum;
-  // renderlayout1();
-}
+// function changeLabelInvNum() {
+//   // labelInvoiceNum = id("labelInvoiceNum").value.replace((/  |\r\n|\n|\r/gm),"");
+//   console.log("changeLabelInvNum: " + labelInvoiceNum);
+//   id("labelInvoiceNum").style.display = "none";
+//   id("labelInvoiceNumEdit").value = labelInvoiceNum;
+//   id("labelInvoiceNumEdit").style.display = "block";
+//   // variables.labelInvoiceNum = labelInvoiceNum;
+//   // renderlayout1();
+// }
 
-function renderlayout1() {
-  console.log("renderlayout1");
+// function removeInvNumEdit() {
+//   console.log("removeInvNumEdit: " + id("labelInvoiceNumEdit").value);
+//   id("labelInvoiceNum").style.display = "block";
+//   // id("labelInvoiceNumEdit").value = labelInvoiceNum;
+//   id("labelInvoiceNumEdit").style.display = "none";
+//   variables.labelInvoiceNum = id("labelInvoiceNumEdit").value;
+//   id("labelInvoiceNumEdit").textContent = id("labelInvoiceNumEdit").value;
+// }
+
+const renderlayout1 = () => {
   render(lib.layout1(variables));
-}
+};
 
-function renderlayout2() {
-  console.log("renderlayout2");
+const renderlayout2 = () => {
   render(lib.layout2(variables));
-}
+};
 
-function render(def) {
+const render = def => {
   console.log("render");
   pdfMake.createPdf(def).getDataUrl(function(dataURL) {
     renderPDF(dataURL);
   });
-}
-function download() {
+};
+const download = () => {
   console.log("download");
   var pdf = createPdf(docDef);
   pdf.download("PPRA.pdf");
-}
+};
 
 render(docDef);
 
