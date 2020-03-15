@@ -9,7 +9,7 @@ import moment from "moment";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import lang from "./locales/locale.es.js";
+import lang from "./locales/locale.en.js";
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
