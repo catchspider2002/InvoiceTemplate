@@ -6,15 +6,15 @@ import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 import pdfFonts from "./vfs_fonts";
 import moment from "moment";
-import loadjs from "loadjs";
+// import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import lang from "./locales/locale.es.js";
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-var derivedLang = "es";
-import lang from "./locales/locale.en.js";
+// var derivedLang = "es";
 if (lang) assignValues();
 
 // loadjs(["./locales/locale.es.js"], {
@@ -32,29 +32,29 @@ function assignValues() {
 }
 
 pdfMake.fonts = {
-  PTSans: {
-    normal: "PTSans-Regular.ttf",
-    bold: "PTSans-Bold.ttf",
-    italics: "PTSans-Regular.ttf",
-    bolditalics: "PTSans-Regular.ttf"
-  },
-  SourceSans: {
-    normal: "SourceSansPro-Regular.ttf",
-    bold: "SourceSansPro-Bold.ttf",
-    italics: "SourceSansPro-Regular.ttf",
-    bolditalics: "SourceSansPro-Regular.ttf"
-  },
+  // PTSans: {
+  //   normal: "PTSans-Regular.ttf",
+  //   bold: "PTSans-Bold.ttf",
+  //   italics: "PTSans-Regular.ttf",
+  //   bolditalics: "PTSans-Regular.ttf"
+  // },
+  // SourceSans: {
+  //   normal: "SourceSansPro-Regular.ttf",
+  //   bold: "SourceSansPro-Bold.ttf",
+  //   italics: "SourceSansPro-Regular.ttf",
+  //   bolditalics: "SourceSansPro-Regular.ttf"
+  // },
+  // Roboto: {
+  //   normal: "Roboto-Regular.ttf",
+  //   bold: "Roboto-Medium.ttf",
+  //   italics: "Roboto-Regular.ttf",
+  //   bolditalics: "Roboto-Regular.ttf"
+  // },
   VarelaRound: {
     normal: "VarelaRound-Regular.ttf",
     bold: "VarelaRound-Regular.ttf",
     italics: "VarelaRound-Regular.ttf",
     bolditalics: "VarelaRound-Regular.ttf"
-  },
-  Roboto: {
-    normal: "Roboto-Regular.ttf",
-    bold: "Roboto-Medium.ttf",
-    italics: "Roboto-Regular.ttf",
-    bolditalics: "Roboto-Regular.ttf"
   }
 };
 
@@ -806,224 +806,6 @@ let dd = {
   }
 };
 
-// var docDefinition = {
-// content: [
-// {
-// alignment: "center",
-// text: "PPRA",
-// style: "header",
-// fontSize: 23,
-// bold: true,
-// margin: [0, 10]
-// },
-// {
-// margin: [0, 0, 0, 10],
-// layout: {
-// fillColor: function(rowIndex, node, columnIndex) {
-// return rowIndex % 2 === 0 ? "#ebebeb" : "#f5f5f5";
-// }
-// },
-// table: {
-// widths: ["100%"],
-// heights: [20, 10],
-// body: [
-// [
-// {
-// text: "SETOR: ADMINISTRATIVO",
-// fontSize: 9,
-// bold: true
-// }
-// ],
-// [
-// {
-// text: "FUNÇÃO: DIRETOR DE ENSINO",
-// fontSize: 9,
-// bold: true
-// }
-// ]
-// ]
-// }
-// },
-// {
-// style: "tableExample",
-// layout: {
-// fillColor: function(rowIndex, node, columnIndex) {
-// return rowIndex === 0 ? "#c2dec2" : null;
-// }
-// },
-// table: {
-// widths: ["30%", "10%", "25%", "35%"],
-// heights: [10, 10, 10, 10, 30, 10, 25],
-// headerRows: 1,
-// body: [
-// [
-// {
-// text: "AGENTE: Não Identificados",
-// colSpan: 3,
-// bold: true,
-// fontSize: 9
-// },
-// {},
-// {},
-// {
-// text: "GRUPO: Grupo 1 - Riscos Físicos",
-// fontSize: 9,
-// bold: true
-// }
-// ],
-// [
-// {
-// text: "Limite de Tolerância:",
-// fontSize: 9,
-// bold: true
-// },
-// {
-// text: "Meio de Propagação:",
-// colSpan: 3,
-// fontSize: 9,
-// bold: true
-// },
-// {},
-// {}
-// ],
-// [
-// {
-// text: [
-// "Frequência: ",
-// {
-// text: "Habitual",
-// bold: false
-// }
-// ],
-// fontSize: 9,
-// bold: true
-// },
-// {
-// text: [
-// "Classificação do Efeito: ",
-// {
-// text: "Leve",
-// bold: false
-// }
-// ],
-// colSpan: 3,
-// fontSize: 9,
-// bold: true
-// },
-// {},
-// {}
-// ],
-// [
-// {
-// text: "Tempo de Exposição:",
-// colSpan: 2,
-// fontSize: 9,
-// bold: true
-// },
-// {},
-// {
-// text: "Medição:",
-// colSpan: 2,
-// fontSize: 9,
-// bold: true
-// },
-// {}
-// ],
-// [
-// {
-// text: "Fonte Geradora:",
-// border: [true, true, false, false],
-// colSpan: 2,
-// fontSize: 9,
-// bold: true
-// },
-// {},
-// {
-// text: "Téc. Utilizada:",
-// border: [false, true, true, false],
-// colSpan: 2,
-// fontSize: 9,
-// bold: true
-// },
-// {}
-// ],
-// [
-// {
-// text: "Conclusão:",
-// border: [true, false, true, true],
-// colSpan: 4,
-// fontSize: 9,
-// bold: true
-// },
-// {},
-// {},
-// {}
-// ],
-// [
-// {
-// text: "EPIs/EPCs:",
-// border: [true, true, false, true],
-// colSpan: 3,
-// fontSize: 9,
-// bold: true
-// },
-// {},
-// {},
-// {
-// text: "CAs:",
-// border: [false, true, true, true],
-// fontSize: 9,
-// bold: true
-// }
-// ]
-// ]
-// }
-// }
-// ]
-// };
-
-var dd2 = {
-  content: [
-    "This paragraph fills full width, as there are no columns. Next paragraph however consists of three columns",
-    {
-      style: "section",
-      table: {
-        widths: ["15%", "*", "35%"],
-        body: [
-          [
-            {
-              text: "first column",
-              fillColor: "#555555",
-              color: "#00FFFF"
-            },
-            {
-              text: "second column",
-              color: "#555555",
-              fillColor: "#dedede"
-            },
-            {
-              text: "third column",
-              fillColor: "#555555"
-            }
-          ]
-        ]
-      },
-      layout: "noBorders"
-    }
-  ],
-  styles: {
-    section: {
-      fontSize: 9,
-      color: "#FFFFFF",
-      fillColor: "#2361AE",
-      margin: [0, 15, 0, 5]
-    }
-  },
-  defaultStyle: {
-    alignment: "center"
-  }
-};
-
 let docDefinition2 = {
   content: [
     "This paragraph fills full width, as there are no columns. Next paragraph however consists of three columns",
@@ -1063,12 +845,10 @@ let docDefinition2 = {
   ]
 };
 
-var dd3 = {
-  content: [
-    { text: "Simple text 1", pageBreak: "after" },
-    { text: "Simple text 2", pageBreak: "after" },
-    { text: "Simple text 3", pageBreak: "after" }
-  ]
+const download = () => {
+  console.log("download");
+  var pdf = pdfMake.createPdf(docDef);
+  pdf.download("PPRA.pdf");
 };
 
 let docDef = lib.layout1(variables);
@@ -1135,11 +915,6 @@ const render = def => {
   pdfMake.createPdf(def).getDataUrl(function(dataURL) {
     renderPDF(dataURL);
   });
-};
-const download = () => {
-  console.log("download");
-  var pdf = createPdf(docDef);
-  pdf.download("PPRA.pdf");
 };
 
 render(docDef);
