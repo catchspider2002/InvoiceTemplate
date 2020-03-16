@@ -14226,6 +14226,31 @@ video {
   transition-duration: 1000ms;
 }
 
+.gg-math-plus,
+.gg-math-plus::after {
+  display: block;
+  box-sizing: border-box;
+  background: currentColor;
+  border-radius: 10px;
+}
+
+.gg-math-plus {
+  margin-top: -2px;
+  position: relative;
+  transform: scale(var(1, 1));
+  width: 16px;
+  height: 2px;
+}
+
+.gg-math-plus::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 16px;
+  top: -7px;
+  left: 7px;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

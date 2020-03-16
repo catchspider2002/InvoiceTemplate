@@ -16,9 +16,15 @@
   <body class="bg-gray-800 text-gray-300">
     <div class="p-4 m-0 list-none flex bg-gray-700 justify-around flex-row flex-wrap">
       <div class="p-5 mt-5 w-1/2 min-w-0 max-w-lg font-bold text-center">
-        <button id="downloadButton" class="px-4 py-2 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-600">Download</button>
-        <button id="layout1" class="px-4 py-2 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-600">Layout 1</button>
-        <button id="layout2" class="px-4 py-2 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-600">Layout 2</button>
+        <button id="downloadButton" class="px-4 py-2 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-600">
+          Download
+        </button>
+        <button id="layout1" class="px-4 py-2 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-600">
+          Layout 1
+        </button>
+        <button id="layout2" class="px-4 py-2 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-600">
+          Layout 2
+        </button>
         <br />
         <br />
 
@@ -31,19 +37,26 @@
             <input id="companyName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
             <label id="labelCompanyAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="companyAddress">Company Address</label>
             <textarea id="companyAddress" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
+            <div id="labelWebsiteWrapper" class="mt-6 mb-2 flex items-end w-full">
+              <label id="labelWebsite" class="block text-base font-semibold" htmlFor="website">Website</label>
+              <span class="block text-sm font-normal text-gray-600 px-2 leading-none pb-1">Optional</span
+              ><span id="buttonRemoveWebsite" class="block flex-grow font-normal text-right text-red-500">Remove</span>
+            </div>
+            <input id="website" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+
             <label class="block text-base font-semibold mt-6 mb-2" htmlFor="companyName">Optional Fields - Click to Add</label>
-            <div class="flex">
-              <div class="mr-3">
-                <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white" href="#"
-                  ><span class="plus icon"></span>
-                  <!-- Active Pill -->
-                </a>
-              </div>
-              <div class="mr-3">
-                <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3" href="#">
-                  <i class="gg-math-plus"></i
-                ></a>
-              </div>
+            <!-- <div class="flex justify-between flex-wrap"> -->
+            <div class="flex flex-wrap text-sm text-white -mr-2">
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"><span>+ Company Logo</span></button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+                <!-- <i class="gg-math-plus"></i> -->
+                <span>+ Phone</span>
+              </button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">+ E-mail</button>
+              <button id="buttonWebsite" class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">+ Website</button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">+ Facebook</button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">+ Twitter</button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">+ Instagram</button>
             </div>
           </div>
         </div>
@@ -61,6 +74,63 @@
             <input id="invoiceDate" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
             <label id="labelDueDate" class="block text-base font-semibold mt-6 mb-2" htmlFor="dueDate">Due Date</label>
             <input id="dueDate" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelPaymentTerms" class="block text-base font-semibold mt-6 mb-2" htmlFor="paymentTerms">Payment Terms</label>
+            <input id="paymentTerms" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelPurchaseOrder" class="block text-base font-semibold mt-6 mb-2" htmlFor="purchaseOrder">Purchase Order</label>
+            <input id="purchaseOrder" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label class="block text-base font-semibold mt-6 mb-2" htmlFor="companyName">Optional Fields - Click to Add</label>
+            <div class="flex flex-wrap text-sm text-white -mr-2">
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+                <span>+ Payment Terms</span>
+              </button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+                <span>+ Purchase Order</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Details -->
+        <div class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
+          <div class="font-semibold text-xl text-left">Customer Details</div>
+          <div class="flex flex-wrap items-center">
+            <label id="labelBillToName" class="block text-base font-semibold mt-6 mb-2" htmlFor="billToName">Bill To Name</label>
+            <input id="billToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelBillToAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="billToAddress">Bill To</label>
+            <textarea id="billToAddress" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
+            <label id="labelShipToName" class="block text-base font-semibold mt-6 mb-2" htmlFor="shipToName">Ship To Name</label>
+            <input id="shipToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelShipToAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="shipToAddress">Ship To</label>
+            <textarea id="shipToAddress" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
+            <label class="block text-base font-semibold mt-6 mb-2" htmlFor="companyName">Optional Fields - Click to Add</label>
+            <div class="flex flex-wrap text-sm text-white -mr-2">
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"><span>+ Ship To Name</span></button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"><span>+ Ship To Address</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item Details -->
+        <div class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
+          <div class="font-semibold text-xl text-left">Item Details</div>
+          <div class="flex flex-wrap items-center">
+            <label id="labelBillToName" class="block text-base font-semibold mt-6 mb-2" htmlFor="billToName">Item Name</label>
+            <input id="billToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelBillToAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="billToAddress">Item Descripttion</label>
+            <input id="billToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelShipToName" class="block text-base font-semibold mt-6 mb-2" htmlFor="shipToName">Quantity</label>
+            <input id="shipToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelShipToAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="shipToAddress">Unit Price</label>
+            <input id="billToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelShipToAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="shipToAddress">Tax</label>
+            <input id="billToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label id="labelShipToAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="shipToAddress">Extemded Price</label>
+            <input id="billToName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+            <label class="block text-base font-semibold mt-6 mb-2" htmlFor="companyName">Optional Fields - Click to Add</label>
+            <div class="flex flex-wrap text-sm text-white -mr-2">
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"><span>+ Ship To Name</span></button>
+              <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"><span>+ Ship To Address</span></button>
+            </div>
           </div>
         </div>
       </div>

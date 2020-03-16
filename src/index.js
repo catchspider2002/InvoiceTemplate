@@ -25,10 +25,27 @@ if (lang) assignValues();
 
 // loadjs("./locales/locale.es.js", assignValues);
 
+function id(text) {
+  return document.getElementById(text);
+}
+
+const showWebsite = () => {
+  id("labelWebsiteWrapper").style.display = "flex";
+  id("website").style.display = "block";
+  id("buttonWebsite").style.display = "none";
+};
+
+function removeWebsite() {
+  id("labelWebsiteWrapper").style.display = "none";
+  id("website").style.display = "none";
+  id("buttonWebsite").style.display = "block";
+}
+
 function assignValues() {
   console.log("assign values: " + lang.zlabelInvoiceNum);
   id("labelInvoiceNum").textContent = lang.zlabelInvoiceNum;
   console.log("after: " + lang.zlabelInvoiceNum);
+  removeWebsite();
 }
 
 pdfMake.fonts = {
@@ -856,15 +873,13 @@ let docDef = lib.layout1(variables);
 // id("labelInvoiceNumEdit").style.display = "none";
 //  docDef = docDefinition2;
 
-function id(text) {
-  return document.getElementById(text);
-}
-
 if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
 if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
 if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
 
 if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
+if (id("buttonWebsite")) id("buttonWebsite").addEventListener("click", showWebsite, false);
+if (id("buttonRemoveWebsite")) id("buttonRemoveWebsite").addEventListener("click", removeWebsite, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
 // if (id("labelInvoiceNumEdit")) id("labelInvoiceNumEdit").addEventListener("change", removeInvNumEdit, false);
