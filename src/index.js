@@ -12,6 +12,43 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import lang from "./locales/locale.en.js";
 import { html, render } from "lit-html";
 
+const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+const id = text => document.getElementById(text);
+
+const showFields = field => {
+  id("label" + initCap(field) + "Wrapper").style.display = "flex";
+  id(field).style.display = "block";
+  id(field + "Button").style.display = "none";
+};
+
+const removeWebsite = () => {
+  id("labelWebsiteWrapper").style.display = "none";
+  id("website").style.display = "none";
+  id("websiteButton").style.display = "block";
+};
+
+const assignValues = () => {
+  console.log("assign values: " + lang.zlabelInvoiceNum);
+  id("labelInvoiceNum").textContent = lang["zlabelInvoiceNum"];
+  console.log("after: " + lang.zlabelInvoiceNum);
+  removeWebsite();
+};
+
+const addButton = (text, fnName) =>
+  html`
+    <button id="${text}Button" @click=${() => showFields(text)} class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+      <span>+ ${lang[text]}</span>
+    </button>
+  `;
+
+const addButtonTemplate = html`
+  ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
+  ${addButton("instagram")}
+`;
+
+render(addButtonTemplate, document.getElementById("optionalCompanyDetails"));
+
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -25,29 +62,6 @@ if (lang) assignValues();
 // loadjs("locales/locale.es.js", assignValues);
 
 // loadjs("./locales/locale.es.js", assignValues);
-
-function id(text) {
-  return document.getElementById(text);
-}
-
-const showWebsite = () => {
-  id("labelWebsiteWrapper").style.display = "flex";
-  id("website").style.display = "block";
-  id("buttonWebsite").style.display = "none";
-};
-
-function removeWebsite() {
-  id("labelWebsiteWrapper").style.display = "none";
-  id("website").style.display = "none";
-  id("buttonWebsite").style.display = "block";
-}
-
-function assignValues() {
-  console.log("assign values: " + lang.zlabelInvoiceNum);
-  id("labelInvoiceNum").textContent = lang.zlabelInvoiceNum;
-  console.log("after: " + lang.zlabelInvoiceNum);
-  removeWebsite();
-}
 
 pdfMake.fonts = {
   // PTSans: {
@@ -360,10 +374,7 @@ let dd = {
   },
   content: [
     {
-      svg:
-        '<svg width="' +
-        paperSize.width +
-        '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
+      svg: '<svg width="' + paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
     },
     {
       columns: [
@@ -413,12 +424,7 @@ let dd = {
     },
     // lib.spacer(40),
     {
-      svg:
-        '<svg width="' +
-        paperSize.width +
-        '" height="10"><rect width="' +
-        paperSize.width +
-        '" height="10" style="fill:rgb(0,0,255)" /></svg>'
+      svg: '<svg width="' + paperSize.width + '" height="10"><rect width="' + paperSize.width + '" height="10" style="fill:rgb(0,0,255)" /></svg>'
     },
     {
       table: {
@@ -447,8 +453,7 @@ let dd = {
     // Header
     {
       // If no width/height/fit is used, then dimensions from the svg element is used.
-      svg:
-        '<svg height="30" width="200"><text x="0" y="15" fill="red">I love SVG!</text></svg>'
+      svg: '<svg height="30" width="200"><text x="0" y="15" fill="red">I love SVG!</text></svg>'
     },
     // {
     //   image: 'sampleOSI_Standard_Logo_600X780.png',
@@ -543,8 +548,7 @@ let dd = {
           style: ["font14", "bold", "left", "marginL0T20R0B5"]
         },
         {
-          svg:
-            '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
+          svg: '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
         },
         // lib.coloredRect(40, colorPrimary),
         {
@@ -583,28 +587,10 @@ let dd = {
     {
       columns: [
         {
-          text:
-            sellerAddressLine1 +
-            "\n" +
-            sellerAddressLine2 +
-            "\n" +
-            sellerAddressLine3 +
-            "\n" +
-            sellerAddressLine4 +
-            " " +
-            sellerAddressLine5
+          text: sellerAddressLine1 + "\n" + sellerAddressLine2 + "\n" + sellerAddressLine3 + "\n" + sellerAddressLine4 + " " + sellerAddressLine5
         },
         {
-          text:
-            clientAddressLine1 +
-            "\n" +
-            clientAddressLine2 +
-            "\n" +
-            clientAddressLine3 +
-            "\n" +
-            clientAddressLine4 +
-            " " +
-            clientAddressLine5
+          text: clientAddressLine1 + "\n" + clientAddressLine2 + "\n" + clientAddressLine3 + "\n" + clientAddressLine4 + " " + clientAddressLine5
         }
       ]
     },
@@ -897,24 +883,26 @@ const download = () => {
   pdf.download("PPRA.pdf");
 };
 
+const renderlayout1 = () => {
+  renderNew(lib.layout1(variables));
+};
+
+const renderlayout2 = () => {
+  renderNew(lib.layout2(variables));
+};
+
 let docDef = lib.layout1(variables);
 
 // id("labelInvoiceNumEdit").style.display = "none";
 //  docDef = docDefinition2;
 
-if (id("downloadButton"))
-  id("downloadButton").addEventListener("click", download, false);
-if (id("layout1"))
-  id("layout1").addEventListener("click", renderlayout1, false);
-if (id("layout2"))
-  id("layout2").addEventListener("click", renderlayout2, false);
+if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
+if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
+if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
 
-if (id("invoiceNum"))
-  id("invoiceNum").addEventListener("change", changeInvNum, false);
-if (id("buttonWebsite"))
-  id("buttonWebsite").addEventListener("click", showWebsite, false);
-if (id("buttonRemoveWebsite"))
-  id("buttonRemoveWebsite").addEventListener("click", removeWebsite, false);
+if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
+// if (id("buttonWebsite")) id("buttonWebsite").addEventListener("click", showWebsite, false);
+if (id("buttonRemoveWebsite")) id("buttonRemoveWebsite").addEventListener("click", removeWebsite, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
 // if (id("labelInvoiceNumEdit")) id("labelInvoiceNumEdit").addEventListener("change", removeInvNumEdit, false);
@@ -952,14 +940,6 @@ function changeInvNum() {
 //   id("labelInvoiceNumEdit").textContent = id("labelInvoiceNumEdit").value;
 // }
 
-function renderlayout1() {
-  renderNew(lib.layout1(variables));
-}
-
-function renderlayout2() {
-  renderNew(lib.layout2(variables));
-}
-
 const renderNew = def => {
   console.log("renderNew");
   pdfMake.createPdf(def).getDataUrl(function(dataURL) {
@@ -986,18 +966,10 @@ function renderPDF(url, options) {
     page.render(renderContext);
   }
 
-  function renderPages(pdfDoc) {
-    for (var num = 1; num <= pdfDoc.numPages; num++)
-      pdfDoc.getPage(num).then(renderPage);
-  }
+  const renderPages = pdfDoc => {
+    for (var num = 1; num <= pdfDoc.numPages; num++) pdfDoc.getPage(num).then(renderPage);
+  };
 
   PDFJS.disableWorker = true;
   PDFJS.getDocument(url).then(renderPages);
-
-  const myTemplate = name =>
-    html`
-      <p>Hello ${name}</p>
-    `;
-  const templateResult = myTemplate("Naveen");
-  render(templateResult, document.getElementById("mainContent"));
 }
