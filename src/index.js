@@ -10,6 +10,7 @@ import moment from "moment";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import lang from "./locales/locale.en.js";
+import { html, render } from "lit-html";
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
@@ -359,7 +360,10 @@ let dd = {
   },
   content: [
     {
-      svg: '<svg width="' + paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
+      svg:
+        '<svg width="' +
+        paperSize.width +
+        '" height="10"><rect width="100%" height="10" style="fill:green" /></svg>'
     },
     {
       columns: [
@@ -409,7 +413,12 @@ let dd = {
     },
     // lib.spacer(40),
     {
-      svg: '<svg width="' + paperSize.width + '" height="10"><rect width="' + paperSize.width + '" height="10" style="fill:rgb(0,0,255)" /></svg>'
+      svg:
+        '<svg width="' +
+        paperSize.width +
+        '" height="10"><rect width="' +
+        paperSize.width +
+        '" height="10" style="fill:rgb(0,0,255)" /></svg>'
     },
     {
       table: {
@@ -438,7 +447,8 @@ let dd = {
     // Header
     {
       // If no width/height/fit is used, then dimensions from the svg element is used.
-      svg: '<svg height="30" width="200"><text x="0" y="15" fill="red">I love SVG!</text></svg>'
+      svg:
+        '<svg height="30" width="200"><text x="0" y="15" fill="red">I love SVG!</text></svg>'
     },
     // {
     //   image: 'sampleOSI_Standard_Logo_600X780.png',
@@ -533,7 +543,8 @@ let dd = {
           style: ["font14", "bold", "left", "marginL0T20R0B5"]
         },
         {
-          svg: '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
+          svg:
+            '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>'
         },
         // lib.coloredRect(40, colorPrimary),
         {
@@ -572,10 +583,28 @@ let dd = {
     {
       columns: [
         {
-          text: sellerAddressLine1 + "\n" + sellerAddressLine2 + "\n" + sellerAddressLine3 + "\n" + sellerAddressLine4 + " " + sellerAddressLine5
+          text:
+            sellerAddressLine1 +
+            "\n" +
+            sellerAddressLine2 +
+            "\n" +
+            sellerAddressLine3 +
+            "\n" +
+            sellerAddressLine4 +
+            " " +
+            sellerAddressLine5
         },
         {
-          text: clientAddressLine1 + "\n" + clientAddressLine2 + "\n" + clientAddressLine3 + "\n" + clientAddressLine4 + " " + clientAddressLine5
+          text:
+            clientAddressLine1 +
+            "\n" +
+            clientAddressLine2 +
+            "\n" +
+            clientAddressLine3 +
+            "\n" +
+            clientAddressLine4 +
+            " " +
+            clientAddressLine5
         }
       ]
     },
@@ -873,13 +902,19 @@ let docDef = lib.layout1(variables);
 // id("labelInvoiceNumEdit").style.display = "none";
 //  docDef = docDefinition2;
 
-if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
-if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
-if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
+if (id("downloadButton"))
+  id("downloadButton").addEventListener("click", download, false);
+if (id("layout1"))
+  id("layout1").addEventListener("click", renderlayout1, false);
+if (id("layout2"))
+  id("layout2").addEventListener("click", renderlayout2, false);
 
-if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
-if (id("buttonWebsite")) id("buttonWebsite").addEventListener("click", showWebsite, false);
-if (id("buttonRemoveWebsite")) id("buttonRemoveWebsite").addEventListener("click", removeWebsite, false);
+if (id("invoiceNum"))
+  id("invoiceNum").addEventListener("change", changeInvNum, false);
+if (id("buttonWebsite"))
+  id("buttonWebsite").addEventListener("click", showWebsite, false);
+if (id("buttonRemoveWebsite"))
+  id("buttonRemoveWebsite").addEventListener("click", removeWebsite, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
 // if (id("labelInvoiceNumEdit")) id("labelInvoiceNumEdit").addEventListener("change", removeInvNumEdit, false);
@@ -917,22 +952,22 @@ function changeInvNum() {
 //   id("labelInvoiceNumEdit").textContent = id("labelInvoiceNumEdit").value;
 // }
 
-const renderlayout1 = () => {
-  render(lib.layout1(variables));
-};
+function renderlayout1() {
+  renderNew(lib.layout1(variables));
+}
 
-const renderlayout2 = () => {
-  render(lib.layout2(variables));
-};
+function renderlayout2() {
+  renderNew(lib.layout2(variables));
+}
 
-const render = def => {
-  console.log("render");
+const renderNew = def => {
+  console.log("renderNew");
   pdfMake.createPdf(def).getDataUrl(function(dataURL) {
     renderPDF(dataURL);
   });
 };
 
-render(docDef);
+renderNew(docDef);
 
 function renderPDF(url, options) {
   options = options || { scale: 0.95 };
@@ -952,9 +987,17 @@ function renderPDF(url, options) {
   }
 
   function renderPages(pdfDoc) {
-    for (var num = 1; num <= pdfDoc.numPages; num++) pdfDoc.getPage(num).then(renderPage);
+    for (var num = 1; num <= pdfDoc.numPages; num++)
+      pdfDoc.getPage(num).then(renderPage);
   }
 
   PDFJS.disableWorker = true;
   PDFJS.getDocument(url).then(renderPages);
+
+  const myTemplate = name =>
+    html`
+      <p>Hello ${name}</p>
+    `;
+  const templateResult = myTemplate("Naveen");
+  render(templateResult, document.getElementById("mainContent"));
 }
