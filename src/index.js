@@ -42,12 +42,24 @@ const addButton = (text, fnName) =>
     </button>
   `;
 
-const addButtonTemplate = html`
+const companyDetailsTemplate = html`
   ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
   ${addButton("instagram")}
 `;
 
-render(addButtonTemplate, document.getElementById("optionalCompanyDetails"));
+render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
+
+const invoiceDetailsTemplate = html`
+  ${addButton("paymentTerms")} ${addButton("purchaseOrder")}
+`;
+
+render(invoiceDetailsTemplate, document.getElementById("optionalInvoiceDetails"));
+
+const customerDetailsTemplate = html`
+  ${addButton("shipToName")} ${addButton("shipToAddress")} ${addButton("billToMail")} ${addButton("billToPhone")}
+`;
+
+render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;

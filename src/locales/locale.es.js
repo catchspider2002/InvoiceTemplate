@@ -7,5 +7,11 @@
   email: "E-mail",
   facebook: "Facebook",
   twitter: "Twitter",
-  instagram: "Instagram"
+  instagram: "Instagram",
+  paymentTerms: "Payment Terms",
+  purchaseOrder: "Purchase Order",
+  shipToName: "Ship To Name",
+  shipToAddress: "Ship To Address",
+  billToMail: "Bill To E-mail",
+  billToPhone: "Bill To Phone"
 };
