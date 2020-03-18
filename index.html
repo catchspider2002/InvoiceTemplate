@@ -16,37 +16,23 @@
   <body class="bg-gray-800 text-gray-300">
     <div class="p-4 m-0 list-none flex bg-gray-700 justify-around flex-row flex-wrap">
       <div class="p-5 mt-5 w-1/2 min-w-0 max-w-lg font-bold text-center">
-        <button id="downloadButton" class="px-4 py-2 text-sm font-bold text-white bg-gray-900 rounded hover:bg-gray-600">
-          Download
-        </button>
-        <button id="layout1" class="px-4 py-2 text-sm font-bold text-white bg-gray-900 rounded hover:bg-gray-600">
+        <button id="layout1" class="px-4 py-2 text-sm mb-4 mx-2 font-bold text-white bg-gray-900 rounded hover:bg-gray-600">
           Layout 1
         </button>
-        <button id="layout2" class="px-4 py-2 text-sm font-bold text-white bg-gray-900 rounded hover:bg-gray-600">
+        <button id="layout2" class="px-4 py-2 text-sm mb-4 mx-2 font-bold text-white bg-gray-900 rounded hover:bg-gray-600">
           Layout 2
         </button>
-        <br />
-        <br />
+        <button id="downloadButton" class="px-4 py-2 text-sm mb-4 mx-2 font-bold text-white bg-gray-900 rounded hover:bg-gray-600">
+          Download
+        </button>
 
         <!-- Actual UI -->
         <!-- Company Details -->
         <div class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
           <div class="font-semibold text-xl text-left">Company Details</div>
-          <div class="flex flex-wrap items-center">
-            <label id="labelCompanyName" class="block text-base font-semibold mt-6 mb-2" htmlFor="companyName">Company Name</label>
-            <input id="companyName" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
-            <label id="labelCompanyAddress" class="block text-base font-semibold mt-6 mb-2" htmlFor="companyAddress">Company Address</label>
-            <textarea id="companyAddress" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
-            <div id="labelWebsiteWrapper" class="mt-6 mb-2 flex items-end w-full">
-              <label id="labelWebsite" class="block text-base font-semibold" htmlFor="website">Website</label>
-              <span class="block text-sm font-normal text-gray-600 px-2 leading-none pb-1">Optional</span
-              ><span id="buttonRemoveWebsite" class="block flex-grow font-normal text-right text-red-500">Remove</span>
-            </div>
-            <input id="website" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
-
-            <label class="block text-base font-semibold mt-6 mb-2 w-full text-left" htmlFor="companyName">Optional Fields - Click to Add</label>
-            <div id="optionalCompanyDetails" class="flex flex-wrap text-sm text-white -mr-2"></div>
-          </div>
+          <div id="companyFields" class="flex flex-wrap items-center"></div>
+          <label class="block text-base font-semibold mt-6 mb-2 w-full text-left" htmlFor="companyName">Optional Fields - Click to Add</label>
+          <div id="optionalCompanyDetails" class="flex flex-wrap text-sm text-white -mr-2"></div>
         </div>
 
         <!-- Invoice Details -->

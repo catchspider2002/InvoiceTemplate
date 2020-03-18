@@ -9,7 +9,7 @@ import moment from "moment";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import lang from "./locales/locale.en.js";
+import lang from "./locales/locale.es.js";
 import { html, render } from "lit-html";
 
 const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
@@ -17,30 +17,69 @@ const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
 const id = text => document.getElementById(text);
 
 const showFields = field => {
-  id("label" + initCap(field) + "Wrapper").style.display = "flex";
+  id(field + "LabelWrapper").style.display = "flex";
   id(field).style.display = "block";
   id(field + "Button").style.display = "none";
 };
 
-const removeWebsite = () => {
-  id("labelWebsiteWrapper").style.display = "none";
-  id("website").style.display = "none";
-  id("websiteButton").style.display = "block";
+const removeFields = field => {
+  id(field + "LabelWrapper").style.display = "none";
+  id(field).style.display = "none";
+  id(field + "Button").style.display = "block";
 };
 
 const assignValues = () => {
   console.log("assign values: " + lang.zlabelInvoiceNum);
   id("labelInvoiceNum").textContent = lang["zlabelInvoiceNum"];
   console.log("after: " + lang.zlabelInvoiceNum);
-  removeWebsite();
+  removeFields("companyLogo");
+  removeFields("phone");
+  removeFields("email");
+  removeFields("website");
+  removeFields("facebook");
+  removeFields("twitter");
+  removeFields("instagram");
 };
 
-const addButton = (text, fnName) =>
+const addButton = text =>
   html`
     <button id="${text}Button" @click=${() => showFields(text)} class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
       <span>+ ${lang[text]}</span>
     </button>
   `;
+
+const labelRequired = text =>
+  html`
+    <label id="${text}Label" class="block text-base font-semibold mt-6 mb-2" htmlFor="${text}">${lang[text]}</label>
+  `;
+
+const labelOptional = text =>
+  html`
+    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex items-end w-full">
+      ${labelRequired(text)}
+      <span class="block text-sm font-normal text-gray-600 px-2 leading-none pb-1">Optional</span>
+      <span id="${text}RemoveButton" class="block flex-grow font-normal text-right text-red-500" @click=${() => removeFields(text)}>Remove</span>
+    </div>
+  `;
+
+const inputText = text =>
+  html`
+    <input id="${text}" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+  `;
+
+const textArea = text =>
+  html`
+    <textarea id="${text}" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
+  `;
+
+const companyFieldsTemplate = html`
+  ${labelRequired("companyName")} ${inputText("companyName")} ${labelRequired("companyAddress")} ${textArea("companyAddress")}
+  ${labelOptional("companyLogo")} ${inputText("companyLogo")} ${labelOptional("phone")} ${inputText("phone")} ${labelOptional("email")}
+  ${inputText("email")} ${labelOptional("website")} ${inputText("website")} ${labelOptional("facebook")} ${inputText("facebook")}
+  ${labelOptional("twitter")} ${inputText("twitter")} ${labelOptional("instagram")} ${inputText("instagram")}
+`;
+
+render(companyFieldsTemplate, document.getElementById("companyFields"));
 
 const companyDetailsTemplate = html`
   ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
@@ -914,7 +953,8 @@ if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false)
 
 if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
 // if (id("buttonWebsite")) id("buttonWebsite").addEventListener("click", showWebsite, false);
-if (id("buttonRemoveWebsite")) id("buttonRemoveWebsite").addEventListener("click", removeWebsite, false);
+// if (id("buttonRemoveWebsite"))
+// id("buttonRemoveWebsite").addEventListener("click", removeWebsite, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
 // if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
 // if (id("labelInvoiceNumEdit")) id("labelInvoiceNumEdit").addEventListener("change", removeInvNumEdit, false);
