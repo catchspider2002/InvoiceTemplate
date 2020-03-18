@@ -13,7 +13,7 @@
   invoice: "ÌNVÓÌÇÉ ℓ",
   invoiceNum: "ÌñƲôïçè Nú₥ ℓô",
   invoiceDate: "ÌñƲôïçè Ðáƭè ℓôř",
-  dueDate: "ÌñƲôïçè Ðáƭè ℓôř",
+  dueDate: "Ðúè Ðáƭè ℓ",
   paymentTerms: "Þá¥₥èñƭ Tèř₥ƨ ℓôř",
   purchaseOrder: "Þúřçλáƨè Óřδèř ℓôř",
   customerDetails: "Çúƨƭô₥èř Ðèƭáïℓƨ ℓôřè",
@@ -33,5 +33,5 @@
   amountDue: "Â₥ôúñƭ Ðúè ℓô",
   newLine: "Nèω £ïñè ℓ",
   optionalFields: "Óƥƭïôñáℓ Fïèℓδƨ ℓôřè",
-  clickToAdd: "Çℓïçƙ ƭô Âδδ ℓôř"  
+  clickToAdd: "Çℓïçƙ ƭô Âδδ ℓôř"
 };

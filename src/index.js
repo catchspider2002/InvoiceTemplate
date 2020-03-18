@@ -29,9 +29,6 @@ const removeFields = field => {
 };
 
 const assignValues = () => {
-  console.log("assign values: " + lang.zlabelInvoiceNum);
-  id("labelInvoiceNum").textContent = lang["zlabelInvoiceNum"];
-  console.log("after: " + lang.zlabelInvoiceNum);
   removeFields("companyLogo");
   removeFields("phone");
   removeFields("email");
@@ -39,6 +36,14 @@ const assignValues = () => {
   removeFields("facebook");
   removeFields("twitter");
   removeFields("instagram");
+
+  removeFields("paymentTerms");
+  removeFields("purchaseOrder");
+
+  removeFields("shipToName");
+  removeFields("shipToAddress");
+  removeFields("billToMail");
+  removeFields("billToPhone");
 };
 
 const addButton = text =>
@@ -80,6 +85,21 @@ const companyFieldsTemplate = html`
 `;
 
 render(companyFieldsTemplate, document.getElementById("companyFields"));
+
+const invoiceFieldsTemplate = html`
+  ${labelRequired("invoiceNum")} ${inputText("invoiceNum")} ${labelRequired("invoiceDate")} ${textArea("invoiceDate")} ${labelRequired("dueDate")}
+  ${textArea("dueDate")} ${labelOptional("paymentTerms")} ${inputText("paymentTerms")} ${labelOptional("purchaseOrder")} ${inputText("purchaseOrder")}
+`;
+
+render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
+
+const customerFieldsTemplate = html`
+  ${labelRequired("billToName")} ${inputText("billToName")} ${labelRequired("billToAddress")} ${textArea("billToAddress")}
+  ${labelOptional("shipToName")} ${inputText("shipToName")} ${labelOptional("shipToAddress")} ${textArea("shipToAddress")}
+  ${labelOptional("billToMail")} ${inputText("billToMail")} ${labelOptional("billToPhone")} ${inputText("billToPhone")}
+`;
+
+render(customerFieldsTemplate, document.getElementById("customerFields"));
 
 const companyDetailsTemplate = html`
   ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}

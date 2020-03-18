@@ -13,7 +13,7 @@
   invoice: "INVOICE",
   invoiceNum: "Invoice Num",
   invoiceDate: "Invoice Date",
-  dueDate: "Invoice Date",
+  dueDate: "Due Date",
   paymentTerms: "Payment Terms",
   purchaseOrder: "Purchase Order",
   customerDetails: "Customer Details",
@@ -33,5 +33,5 @@
   amountDue: "Amount Due",
   newLine: "New Line",
   optionalFields: "Optional Fields",
-  clickToAdd: "Click to Add"  
+  clickToAdd: "Click to Add"
 };
