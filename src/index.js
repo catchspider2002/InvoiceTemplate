@@ -9,7 +9,7 @@ import moment from "moment";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import lang from "./locales/locale.es.js";
+import lang from "./locales/locale.en.js";
 import { html, render } from "lit-html";
 
 const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
@@ -77,6 +77,18 @@ const textArea = text =>
     <textarea id="${text}" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
   `;
 
+const card = text =>
+  html`
+    <div class="font-semibold text-xl text-left">${lang[text + "Details"]}</div>
+    <div id="${text}Fields" class="flex flex-wrap items-center"></div>
+    <label class="block text-base font-semibold mt-6 mb-2 w-full text-left">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
+    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
+  `;
+
+render(card("company"), document.getElementById("companyCard"));
+render(card("invoice"), document.getElementById("invoiceCard"));
+render(card("customer"), document.getElementById("customerCard"));
+
 const companyFieldsTemplate = html`
   ${labelRequired("companyName")} ${inputText("companyName")} ${labelRequired("companyAddress")} ${textArea("companyAddress")}
   ${labelOptional("companyLogo")} ${inputText("companyLogo")} ${labelOptional("phone")} ${inputText("phone")} ${labelOptional("email")}
@@ -87,8 +99,8 @@ const companyFieldsTemplate = html`
 render(companyFieldsTemplate, document.getElementById("companyFields"));
 
 const invoiceFieldsTemplate = html`
-  ${labelRequired("invoiceNum")} ${inputText("invoiceNum")} ${labelRequired("invoiceDate")} ${textArea("invoiceDate")} ${labelRequired("dueDate")}
-  ${textArea("dueDate")} ${labelOptional("paymentTerms")} ${inputText("paymentTerms")} ${labelOptional("purchaseOrder")} ${inputText("purchaseOrder")}
+  ${labelRequired("invoiceNum")} ${inputText("invoiceNum")} ${labelRequired("invoiceDate")} ${inputText("invoiceDate")} ${labelRequired("dueDate")}
+  ${inputText("dueDate")} ${labelOptional("paymentTerms")} ${inputText("paymentTerms")} ${labelOptional("purchaseOrder")} ${inputText("purchaseOrder")}
 `;
 
 render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
@@ -100,6 +112,14 @@ const customerFieldsTemplate = html`
 `;
 
 render(customerFieldsTemplate, document.getElementById("customerFields"));
+
+const itemFieldsTemplate = html`
+  ${labelRequired("itemName")} ${inputText("itemName")} ${labelRequired("itemDescription")} ${inputText("itemDescription")}
+  ${labelRequired("quantity")} ${inputText("quantity")} ${labelRequired("unitPrice")} ${inputText("unitPrice")} ${labelRequired("tax")}
+  ${inputText("tax")} ${labelRequired("extendedPrice")} ${inputText("extendedPrice")}
+`;
+
+render(itemFieldsTemplate, document.getElementById("itemFields"));
 
 const companyDetailsTemplate = html`
   ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
