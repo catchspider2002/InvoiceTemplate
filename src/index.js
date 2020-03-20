@@ -1,6 +1,5 @@
 // Based on  https://codepen.io/diguifi/pen/YdBbyz
 // Also on https://codesandbox.io/s/oj81y
-// var canvasElement = document.getElementById("canvas");
 
 import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -9,7 +8,7 @@ import moment from "moment";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import lang from "./locales/locale.en.js";
+import lang from "./locales/locale.es.js";
 import { html, render } from "lit-html";
 
 const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
@@ -29,6 +28,9 @@ const removeFields = field => {
 };
 
 const assignValues = () => {
+  hideInput("companyName");
+  hideInput("companyAddress");
+
   removeFields("companyLogo");
   removeFields("phone");
   removeFields("email");
@@ -44,41 +46,30 @@ const assignValues = () => {
   removeFields("shipToAddress");
   removeFields("billToMail");
   removeFields("billToPhone");
-  labelUpdate();
+  labelUpdate("companyName");
+  labelUpdate("companyAddress");
 };
 
-const hideInput = () => {
-  id("testInput").style.display = "none";
-  id("testLabel").style.display = "block";
+const hideInput = text => {
+  id(text + "Input").style.display = "none";
+  id(text + "Label").style.display = "block";
 };
 
-const showInput = () => {
-  id("testInput").style.display = "block";
-  id("testLabel").style.display = "none";
+const showInput = text => {
+  id(text + "Input").style.display = "block";
+  id(text + "Label").style.display = "none";
 };
 
-const labelUpdate = () => {
-  if (canUpdate) id("testLabel").textContent = id("testInput").value;
+const labelUpdate = text => {
+  if (canUpdate === 1) id(text + "Label").textContent = id(text + "Input").value;
   else {
-    canUpdate = true;
-    id("testInput").value = id("testLabel").textContent;
+    canUpdate = 1;
+    id(text + "Input").value = id(text + "Label").textContent;
   }
-  hideInput();
+  hideInput(text);
 };
 
-let canUpdate = true;
-
-// if (id("testInput")) id("testInput").addEventListener("input", labelUpdate, false);
-if (id("testInput")) id("testInput").addEventListener("change", labelUpdate, false);
-if (id("testLabel")) id("testLabel").addEventListener("click", showInput, false);
-
-if (id("testInput"))
-  id("testInput").addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      canUpdate = false;
-      hideInput();
-    }
-  });
+let canUpdate = 1;
 
 const addButton = text =>
   html`
@@ -89,21 +80,50 @@ const addButton = text =>
 
 const labelRequired = text =>
   html`
-    <label id="${text}Label" class="block text-base font-semibold mt-6 mb-2" htmlFor="${text}">${lang[text]}</label>
+    <div class="mt-6 mb-2 flex w-full justify-end">
+      <label id="${text}Label" class="block text-base font-semibold flex-grow text-left truncate mt-1" htmlFor="${text}">${lang[text]}</label>
+      <input
+        id="${text}Input"
+        class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
+      border-blue-300 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+        placeholder="100"
+        type="text"
+        value="${lang[text]}"
+        @change=${() => labelUpdate(text)}
+        @keydown=${e => {
+          if (e.key === "Escape") {
+            console.log("Esc");
+            canUpdate = 2;
+            hideInput(text);
+          }
+        }}
+      />
+      <button class="ml-2 w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center" @click=${() => showInput(text)}>
+        <i class="gg-pen"></i>
+      </button>
+    </div>
   `;
 
 const labelOptional = text =>
   html`
-    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex items-end w-full">
-      <label id="${text}Label" class="block text-base font-semibold" htmlFor="${text}">${lang[text]}</label>
-      <span class="block text-sm font-normal text-gray-600 px-2 leading-none pb-1">Optional</span>
-      <span id="${text}RemoveButton" class="block flex-grow font-normal text-right text-red-500" @click=${() => removeFields(text)}>Remove</span>
+    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
+      <label id="${text}Label" class="block text-base font-semibold flex-grow text-left truncate mt-1" htmlFor="${text}">${lang[text]}</label>
+      <button class="ml-2 w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center">
+        <i class="gg-pen"></i>
+      </button>
+      <button
+        id="${text}RemoveButton"
+        class="ml-2 w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center"
+        @click=${() => removeFields(text)}
+      >
+        <i class="gg-trash"></i>
+      </button>
     </div>
   `;
 
 const inputText = text =>
   html`
-    <input id="${text}" class="w-full form-input self-center text-gray-600" placeholder="100" type="text" />
+    <input id="${text}" class="w-full form-input self-center text-gray-800" placeholder="100" type="text" />
   `;
 
 const textArea = text =>
@@ -175,6 +195,25 @@ const customerDetailsTemplate = html`
 
 render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
 
+// if (id("companyNameInput"))
+//   id("companyNameInput").addEventListener(
+//     "change",
+//     function() {
+//       labelUpdate("companyName");
+//       console.log("Company Name updated");
+//     },
+//     false
+//   );
+
+// if (id("companyNameInput"))
+//   id("companyNameInput").addEventListener("keydown", e => {
+//     if (e.key === "Escape") {
+//       console.log("Esc");
+//       canUpdate = 2;
+//       hideInput("companyName");
+//     }
+//   });
+
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -220,6 +259,8 @@ const lib = require("./functions");
 
 // Icons to use
 // Invoice
+// Date / Calendar
+//
 // website
 // phone
 // Email
@@ -339,7 +380,7 @@ let footerCenter = "NEW FOOTER CENTER";
 let footerRight = "NEW FOOTER RIGHT";
 
 let labelInvoice = "INVOICE";
-let labelInvoiceNum = "Invoice #";
+// let labelInvoiceNum = "Invoice #";
 let labelInvoiceDate = "Invoice Date";
 let labelDueDate = "Due Date";
 let invoiceNum = "000021";
@@ -378,24 +419,24 @@ let clientShipAddressLine5 = "NY 00011 USA";
 
 let labelAmountDue = "Amount Due";
 let amountDue = "$2000";
-let labelTerms = "Payment Terms";
+let labelTerms = lang["paymentTerms"];
 let terms = "5 Days";
-let labelPurchaseOrder = "Purchase Order";
+let labelPurchaseOrder = lang["purchaseOrder"];
 let purchaseOrder = "454523";
-let labelPaymentMethod = "Payment Method";
+let labelPaymentMethod = lang["paymentMethod"];
 let paymentMethod = "Paypal, Visa, MasterCard";
 
-let labelPhone = "Phone";
+let labelPhone = lang["phone"];
 let phone = "+91 9292929292";
-let labelEmail = "E-mail";
+let labelEmail = lang["email"];
 let email = "email@website.com";
-let labelWebsite = "Website";
+let labelWebsite = lang["website"];
 let website = "www.website.com";
-let labelFacebook = "Facebook";
+let labelFacebook = lang["facebook"];
 let facebook = "fb-page";
-let labelTwitter = "Twitter";
+let labelTwitter = lang["twitter"];
 let twitter = "twitter-page";
-let labelInstagram = "Instagram";
+let labelInstagram = lang["instagram"];
 let instagram = "insta-page";
 
 let notes = "Thank you for your business";
@@ -408,9 +449,9 @@ let variables = {
   colorLightGray: colorLightGray,
   colorDarkGray: colorDarkGray,
   labelInvoice: labelInvoice,
-  labelInvoiceNum: labelInvoiceNum,
-  labelInvoiceDate: labelInvoiceDate,
-  labelDueDate: labelDueDate,
+  labelInvoiceNum: lang["invoiceNum"],
+  labelInvoiceDate: lang["invoiceDate"],
+  labelDueDate: lang["dueDate"],
   invoiceNum: invoiceNum,
   invoiceDate: invoiceDate,
   dueDate: dueDate,
@@ -496,25 +537,6 @@ function changeInvNum() {
   variables.invoiceNum = invoiceNum;
   renderlayout1();
 }
-
-// function changeLabelInvNum() {
-//   // labelInvoiceNum = id("labelInvoiceNum").value.replace((/  |\r\n|\n|\r/gm),"");
-//   console.log("changeLabelInvNum: " + labelInvoiceNum);
-//   id("labelInvoiceNum").style.display = "none";
-//   id("labelInvoiceNumEdit").value = labelInvoiceNum;
-//   id("labelInvoiceNumEdit").style.display = "block";
-//   // variables.labelInvoiceNum = labelInvoiceNum;
-//   // renderlayout1();
-// }
-
-// function removeInvNumEdit() {
-//   console.log("removeInvNumEdit: " + id("labelInvoiceNumEdit").value);
-//   id("labelInvoiceNum").style.display = "block";
-//   // id("labelInvoiceNumEdit").value = labelInvoiceNum;
-//   id("labelInvoiceNumEdit").style.display = "none";
-//   variables.labelInvoiceNum = id("labelInvoiceNumEdit").value;
-//   id("labelInvoiceNumEdit").textContent = id("labelInvoiceNumEdit").value;
-// }
 
 const renderNew = def => {
   console.log("renderNew");
