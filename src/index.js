@@ -10,361 +10,7 @@ import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import lang from "./locales/locale.en.js";
 import { html, render } from "lit-html";
-
-const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
-
-const id = text => document.getElementById(text);
-
-const showFields = field => {
-  id(field + "LabelWrapper").style.display = "flex";
-  id(field).style.display = "block";
-  id(field + "Button").style.display = "none";
-};
-
-const removeFields = field => {
-  id(field + "LabelWrapper").style.display = "none";
-  id(field).style.display = "none";
-  id(field + "Button").style.display = "block";
-};
-
-let mandatoryFields = [
-  "companyName",
-  "companyAddress",
-  "billToName",
-  "billToAddress"
-];
-
-let mandatoryEditableFields = ["invoiceNum", "invoiceDate", "dueDate"];
-
-let optionalFields = ["companyLogo"];
-
-let optionalEditableFields = [
-  "phone",
-  "email",
-  "website",
-  "facebook",
-  "twitter",
-  "instagram",
-  "paymentTerms",
-  "purchaseOrder",
-  "shipToName",
-  "shipToAddress",
-  "billToMail",
-  "billToPhone"
-];
-
-let direction = "ltr";
-let alignment = "text-left";
-let marginLeft2 = "ml-2";
-let marginLeft4 = "ml-4";
-if (direction === "rtl") {
-  alignment = "text-right";
-  marginLeft2 = "mr-2";
-  marginLeft4 = "mr-4";
-}
-
-const assignValues = () => {
-  mandatoryEditableFields.forEach(item => {
-    hideInput(item);
-    labelUpdate(item);
-  });
-
-  optionalEditableFields.forEach(item => {
-    removeFields(item);
-  });
-
-  optionalFields.forEach(item => {
-    removeFields(item);
-  });
-};
-
-const hideInput = text => {
-  id(text + "Input").style.display = "none";
-  id(text + "Label").style.display = "block";
-};
-
-const showInput = text => {
-  id(text + "Input").style.display = "block";
-  id(text + "Label").style.display = "none";
-};
-
-const labelUpdate = text => {
-  if (canUpdate) {
-    id(text + "Label").textContent = id(text + "Input").value;
-    // variables["label"+ initCap(text)] = id(text + "Label").textContent;
-    // renderlayout1();
-  } else {
-    canUpdate = true;
-    id(text + "Input").value = id(text + "Label").textContent;
-  }
-  hideInput(text);
-};
-
-let canUpdate = true;
-
-const addButton = text =>
-  html`
-    <button
-      id="${text}Button"
-      @click=${() => showFields(text)}
-      class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
-      title="Add ${lang[text]}"
-    >
-      <span>+ ${lang[text]}</span>
-    </button>
-  `;
-
-const labelRequired = text => {
-  return html`
-    <div class="mt-6 mb-2 flex w-full justify-end">
-      <label
-        id="${text}Label"
-        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
-        htmlFor="${text}"
-        >${lang[text]}</label
-      >
-    </div>
-  `;
-};
-
-const labelRequiredEditable = text => {
-  return html`
-    <div class="mt-6 mb-2 flex w-full justify-end">
-      <label
-        id="${text}Label"
-        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
-        htmlFor="${text}"
-        >${lang[text]}</label
-      >
-      <input
-        id="${text}Input"
-        class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
-      border-blue-300 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
-        placeholder="100"
-        type="text"
-        value="${lang[text]}"
-        @change=${() => labelUpdate(text)}
-        @keydown=${e => {
-          if (e.key === "Escape") {
-            console.log("Esc");
-            canUpdate = false;
-            hideInput(text);
-          }
-        }}
-      />
-      <button
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
-        @click=${() => showInput(text)}
-        title="Edit label"
-      >
-        <i class="gg-pen"></i>
-      </button>
-    </div>
-  `;
-};
-
-const labelOptional = text =>
-  html`
-    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
-      <label
-        id="${text}Label"
-        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
-        htmlFor="${text}"
-        >${lang[text]}</label
-      >
-      <button
-        id="${text}RemoveButton"
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
-        @click=${() => removeFields(text)}
-      >
-        <i class="gg-trash"></i>
-      </button>
-    </div>
-  `;
-
-const labelOptionalEditable = text =>
-  html`
-    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
-      <label
-        id="${text}Label"
-        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
-        htmlFor="${text}"
-        >${lang[text]}</label
-      >
-      <button
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
-        title="Edit label"
-      >
-        <i class="gg-pen"></i>
-      </button>
-      <button
-        id="${text}RemoveButton"
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
-        title="Remove field"
-        @click=${() => removeFields(text)}
-      >
-        <i class="gg-trash"></i>
-      </button>
-    </div>
-  `;
-
-const inputText = text =>
-  html`
-    <input
-      id="${text}"
-      class="w-full form-input self-center text-gray-800"
-      placeholder="100"
-      type="text"
-    />
-  `;
-
-const textArea = text =>
-  html`
-    <textarea
-      id="${text}"
-      class="w-full form-input self-center text-gray-600"
-      placeholder="100"
-      rows="5"
-    ></textarea>
-  `;
-
-const card = text =>
-  html`
-    <div class="font-semibold text-xl ${alignment}">
-      ${lang[text + "Details"]}
-    </div>
-    <div id="${text}Fields" class="flex flex-wrap items-center"></div>
-    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}"
-      >${lang["optionalFields"]} - ${lang["clickToAdd"]}</label
-    >
-    <div
-      id="optional${initCap(text)}Details"
-      class="flex flex-wrap text-sm text-white -mr-2"
-    ></div>
-  `;
-
-render(card("company"), document.getElementById("companyCard"));
-render(card("invoice"), document.getElementById("invoiceCard"));
-render(card("customer"), document.getElementById("customerCard"));
-
-const companyFieldsTemplate = html`
-  ${labelRequired("companyName")} ${inputText("companyName")}
-  ${labelRequired("companyAddress")} ${textArea("companyAddress")}
-  ${labelOptional("companyLogo")} ${inputText("companyLogo")}
-  ${labelOptionalEditable("phone")} ${inputText("phone")}
-  ${labelOptionalEditable("email")} ${inputText("email")}
-  ${labelOptionalEditable("website")} ${inputText("website")}
-  ${labelOptionalEditable("facebook")} ${inputText("facebook")}
-  ${labelOptionalEditable("twitter")} ${inputText("twitter")}
-  ${labelOptionalEditable("instagram")} ${inputText("instagram")}
-`;
-
-render(companyFieldsTemplate, document.getElementById("companyFields"));
-
-const invoiceFieldsTemplate = html`
-  ${labelRequiredEditable("invoiceNum")} ${inputText("invoiceNum")}
-  ${labelRequiredEditable("invoiceDate")} ${inputText("invoiceDate")}
-  ${labelRequiredEditable("dueDate")} ${inputText("dueDate")}
-  ${labelOptionalEditable("paymentTerms")} ${inputText("paymentTerms")}
-  ${labelOptionalEditable("purchaseOrder")} ${inputText("purchaseOrder")}
-`;
-
-render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
-
-const customerFieldsTemplate = html`
-  ${labelRequired("billToName")} ${inputText("billToName")}
-  ${labelRequired("billToAddress")} ${textArea("billToAddress")}
-  ${labelOptionalEditable("shipToName")} ${inputText("shipToName")}
-  ${labelOptionalEditable("shipToAddress")} ${textArea("shipToAddress")}
-  ${labelOptionalEditable("billToMail")} ${inputText("billToMail")}
-  ${labelOptionalEditable("billToPhone")} ${inputText("billToPhone")}
-`;
-
-render(customerFieldsTemplate, document.getElementById("customerFields"));
-
-const itemFieldsTemplate = html`
-  ${labelRequiredEditable("itemName")} ${inputText("itemName")}
-  ${labelRequiredEditable("itemDescription")} ${inputText("itemDescription")}
-  ${labelRequiredEditable("quantity")} ${inputText("quantity")}
-  ${labelRequiredEditable("unitPrice")} ${inputText("unitPrice")}
-  ${labelRequiredEditable("tax")} ${inputText("tax")}
-  ${labelRequiredEditable("extendedPrice")} ${inputText("extendedPrice")}
-`;
-
-render(itemFieldsTemplate, document.getElementById("itemFields"));
-
-const companyDetailsTemplate = html`
-  ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")}
-  ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
-  ${addButton("instagram")}
-`;
-
-render(
-  companyDetailsTemplate,
-  document.getElementById("optionalCompanyDetails")
-);
-
-const invoiceDetailsTemplate = html`
-  ${addButton("paymentTerms")} ${addButton("purchaseOrder")}
-`;
-
-render(
-  invoiceDetailsTemplate,
-  document.getElementById("optionalInvoiceDetails")
-);
-
-const customerDetailsTemplate = html`
-  ${addButton("shipToName")} ${addButton("shipToAddress")}
-  ${addButton("billToMail")} ${addButton("billToPhone")}
-`;
-
-render(
-  customerDetailsTemplate,
-  document.getElementById("optionalCustomerDetails")
-);
-
-// pdfMake.vfs = pdfFonts.pdfMake.vfs;
-pdfMake.vfs = pdfFonts.vfs;
-PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-// var derivedLang = "es";
-if (lang) assignValues();
-
-// loadjs(["./locales/locale.es.js"], {
-//   success: assignValues
-// });
-
-// loadjs("locales/locale.es.js", assignValues);
-
-// loadjs("./locales/locale.es.js", assignValues);
-
-pdfMake.fonts = {
-  // PTSans: {
-  //   normal: "PTSans-Regular.ttf",
-  //   bold: "PTSans-Bold.ttf",
-  //   italics: "PTSans-Regular.ttf",
-  //   bolditalics: "PTSans-Regular.ttf"
-  // },
-  // SourceSans: {
-  //   normal: "SourceSansPro-Regular.ttf",
-  //   bold: "SourceSansPro-Bold.ttf",
-  //   italics: "SourceSansPro-Regular.ttf",
-  //   bolditalics: "SourceSansPro-Regular.ttf"
-  // },
-  // Roboto: {
-  //   normal: "Roboto-Regular.ttf",
-  //   bold: "Roboto-Medium.ttf",
-  //   italics: "Roboto-Regular.ttf",
-  //   bolditalics: "Roboto-Regular.ttf"
-  // },
-  VarelaRound: {
-    normal: "VarelaRound-Regular.ttf",
-    bold: "VarelaRound-Regular.ttf",
-    italics: "VarelaRound-Regular.ttf",
-    bolditalics: "VarelaRound-Regular.ttf"
-  }
-};
-
-const lib = require("./functions");
+import lib from "./functions";
 
 // Icons to use
 // Invoice
@@ -489,9 +135,6 @@ let footerCenter = "NEW FOOTER CENTER";
 let footerRight = "NEW FOOTER RIGHT";
 
 let labelInvoice = "INVOICE";
-// let labelInvoiceNum = "Invoice #";
-let labelInvoiceDate = "Invoice Date";
-let labelDueDate = "Due Date";
 let invoiceNum = "000021";
 let invoiceDate = moment("20200131").format(dateFormat);
 let dueDate = moment("20200205").format(dateFormat);
@@ -528,18 +171,15 @@ let clientShipAddressLine5 = "NY 00011 USA";
 
 let labelAmountDue = "Amount Due";
 let amountDue = "$2000";
-let labelTerms = lang["paymentTerms"];
+// let labelTerms = lang["paymentTerms"];
 let terms = "5 Days";
 let labelPurchaseOrder = lang["purchaseOrder"];
 let purchaseOrder = "454523";
 let labelPaymentMethod = lang["paymentMethod"];
 let paymentMethod = "Paypal, Visa, MasterCard";
 
-let labelPhone = lang["phone"];
 let phone = "+91 9292929292";
-let labelEmail = lang["email"];
 let email = "email@website.com";
-let labelWebsite = lang["website"];
 let website = "www.website.com";
 let labelFacebook = lang["facebook"];
 let facebook = "fb-page";
@@ -593,25 +233,335 @@ let variables = {
   clientShipAddressLine5: clientShipAddressLine5,
   labelAmountDue: labelAmountDue,
   amountDue: amountDue,
-  labelTerms: labelTerms,
+  labelTerms: lang["paymentTerms"],
   terms: terms,
   labelPurchaseOrder: labelPurchaseOrder,
   purchaseOrder: purchaseOrder,
   labelPaymentMethod: labelPaymentMethod,
   paymentMethod: paymentMethod,
   notes: notes,
-  labelPhone: labelPhone,
+  labelPhone: lang["phone"],
   phone: phone,
-  labelEmail: labelEmail,
+  labelEmail: lang["email"],
   email: email,
-  labelWebsite: labelWebsite,
+  labelWebsite: lang["website"],
   website: website,
-  labelFacebook: labelFacebook,
+  labelFacebook: lang["facebook"],
   facebook: facebook,
-  labelTwitter: labelTwitter,
+  labelTwitter: lang["twitter"],
   twitter: twitter,
-  labelInstagram: labelInstagram,
+  labelInstagram: lang["instagram"],
   instagram: instagram
+};
+
+const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+const id = text => document.getElementById(text);
+
+const showFields = field => {
+  id(field + "LabelWrapper").style.display = "flex";
+  id(field).style.display = "block";
+  id(field + "Button").style.display = "none";
+};
+
+const removeFields = field => {
+  id(field + "LabelWrapper").style.display = "none";
+  id(field).style.display = "none";
+  id(field + "Button").style.display = "block";
+};
+
+let mandatoryFields = ["companyName", "companyAddress", "billToName", "billToAddress"];
+
+let mandatoryEditableFields = ["invoiceNum", "invoiceDate", "dueDate"];
+
+let optionalFields = ["companyLogo"];
+
+let optionalEditableFields = [
+  "phone",
+  "email",
+  "website",
+  "facebook",
+  "twitter",
+  "instagram",
+  "paymentTerms",
+  "purchaseOrder",
+  "shipToName",
+  "shipToAddress",
+  "billToMail",
+  "billToPhone"
+];
+
+let direction = "ltr";
+let alignment = "text-left";
+let marginLeft2 = "ml-2";
+let marginLeft4 = "ml-4";
+if (direction === "rtl") {
+  alignment = "text-right";
+  marginLeft2 = "mr-2";
+  marginLeft4 = "mr-4";
+}
+
+const assignValues = () => {
+  mandatoryEditableFields.forEach(item => {
+    hideInput(item);
+    // labelUpdate(item);
+    id(item + "Label").textContent = id(item + "Input").value;
+  });
+
+  optionalEditableFields.forEach(item => {
+    removeFields(item);
+    hideInput(item);
+  });
+
+  optionalFields.forEach(item => {
+    removeFields(item);
+  });
+};
+
+const hideInput = text => {
+  id(text + "Input").style.display = "none";
+  id(text + "Label").style.display = "block";
+};
+
+const showInput = text => {
+  console.log(text);
+  id(text + "Input").style.display = "block";
+  id(text + "Label").style.display = "none";
+};
+
+const labelUpdate = text => {
+  if (canUpdate) {
+    id(text + "Label").textContent = id(text + "Input").value;
+    variables["label" + initCap(text)] = id(text + "Label").textContent;
+    renderlayout1();
+  } else {
+    canUpdate = true;
+    id(text + "Input").value = id(text + "Label").textContent;
+  }
+  hideInput(text);
+};
+
+let canUpdate = true;
+
+const addButton = text =>
+  html`
+    <button
+      id="${text}Button"
+      @click=${() => showFields(text)}
+      class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
+      title="Add ${lang[text]}"
+    >
+      <span>+ ${lang[text]}</span>
+    </button>
+  `;
+
+const labelRequired = text => {
+  return html`
+    <div class="mt-6 mb-2 flex w-full justify-end">
+      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
+    </div>
+  `;
+};
+
+const labelRequiredEditable = text => {
+  return html`
+    <div class="mt-6 mb-2 flex w-full justify-end">
+      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
+      <input
+        id="${text}Input"
+        class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
+      border-blue-300 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+        placeholder="100"
+        type="text"
+        value="${lang[text]}"
+        @change=${() => labelUpdate(text)}
+        @keydown=${e => {
+          if (e.key === "Escape") {
+            console.log("Esc");
+            canUpdate = false;
+            hideInput(text);
+          }
+        }}
+      />
+      <button
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
+        @click=${() => showInput(text)}
+        title="Edit label"
+      >
+        <i class="gg-pen"></i>
+      </button>
+    </div>
+  `;
+};
+
+const labelOptional = text =>
+  html`
+    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
+      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
+      <button
+        id="${text}RemoveButton"
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
+        @click=${() => removeFields(text)}
+      >
+        <i class="gg-trash"></i>
+      </button>
+    </div>
+  `;
+
+const labelOptionalEditable = text =>
+  html`
+    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
+      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
+      <input
+        id="${text}Input"
+        class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
+      border-blue-300 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+        placeholder="100"
+        type="text"
+        value="${lang[text]}"
+        @change=${() => labelUpdate(text)}
+        @keydown=${e => {
+          if (e.key === "Escape") {
+            console.log("Esc");
+            canUpdate = false;
+            hideInput(text);
+          }
+        }}
+      />
+      <button
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
+        @click=${() => showInput(text)}
+        title="Edit label"
+      >
+        <i class="gg-pen"></i>
+      </button>
+      <button
+        id="${text}RemoveButton"
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
+        title="Remove field"
+        @click=${() => removeFields(text)}
+      >
+        <i class="gg-trash"></i>
+      </button>
+    </div>
+  `;
+
+const inputText = text =>
+  html`
+    <input id="${text}" class="w-full form-input self-center text-gray-800" placeholder="100" type="text" />
+  `;
+
+const textArea = text =>
+  html`
+    <textarea id="${text}" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
+  `;
+
+const card = text =>
+  html`
+    <div class="font-semibold text-xl ${alignment}">
+      ${lang[text + "Details"]}
+    </div>
+    <div id="${text}Fields" class="flex flex-wrap items-center"></div>
+    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
+    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
+  `;
+
+render(card("company"), document.getElementById("companyCard"));
+render(card("invoice"), document.getElementById("invoiceCard"));
+render(card("customer"), document.getElementById("customerCard"));
+
+const companyFieldsTemplate = html`
+  ${labelRequired("companyName")} ${inputText("companyName")} ${labelRequired("companyAddress")} ${textArea("companyAddress")}
+  ${labelOptional("companyLogo")} ${inputText("companyLogo")} ${labelOptionalEditable("phone")} ${inputText("phone")}
+  ${labelOptionalEditable("email")} ${inputText("email")} ${labelOptionalEditable("website")} ${inputText("website")}
+  ${labelOptionalEditable("facebook")} ${inputText("facebook")} ${labelOptionalEditable("twitter")} ${inputText("twitter")}
+  ${labelOptionalEditable("instagram")} ${inputText("instagram")}
+`;
+
+render(companyFieldsTemplate, document.getElementById("companyFields"));
+
+const invoiceFieldsTemplate = html`
+  ${labelRequiredEditable("invoiceNum")} ${inputText("invoiceNum")} ${labelRequiredEditable("invoiceDate")} ${inputText("invoiceDate")}
+  ${labelRequiredEditable("dueDate")} ${inputText("dueDate")} ${labelOptionalEditable("paymentTerms")} ${inputText("paymentTerms")}
+  ${labelOptionalEditable("purchaseOrder")} ${inputText("purchaseOrder")}
+`;
+
+render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
+
+const customerFieldsTemplate = html`
+  ${labelRequired("billToName")} ${inputText("billToName")} ${labelRequired("billToAddress")} ${textArea("billToAddress")}
+  ${labelOptionalEditable("shipToName")} ${inputText("shipToName")} ${labelOptionalEditable("shipToAddress")} ${textArea("shipToAddress")}
+  ${labelOptionalEditable("billToMail")} ${inputText("billToMail")} ${labelOptionalEditable("billToPhone")} ${inputText("billToPhone")}
+`;
+
+render(customerFieldsTemplate, document.getElementById("customerFields"));
+
+const itemFieldsTemplate = html`
+  ${labelRequiredEditable("itemName")} ${inputText("itemName")} ${labelRequiredEditable("itemDescription")} ${inputText("itemDescription")}
+  ${labelRequiredEditable("quantity")} ${inputText("quantity")} ${labelRequiredEditable("unitPrice")} ${inputText("unitPrice")}
+  ${labelRequiredEditable("tax")} ${inputText("tax")} ${labelRequiredEditable("extendedPrice")} ${inputText("extendedPrice")}
+`;
+
+render(itemFieldsTemplate, document.getElementById("itemFields"));
+
+const companyDetailsTemplate = html`
+  ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
+  ${addButton("instagram")}
+`;
+
+render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
+
+const invoiceDetailsTemplate = html`
+  ${addButton("paymentTerms")} ${addButton("purchaseOrder")}
+`;
+
+render(invoiceDetailsTemplate, document.getElementById("optionalInvoiceDetails"));
+
+const customerDetailsTemplate = html`
+  ${addButton("shipToName")} ${addButton("shipToAddress")} ${addButton("billToMail")} ${addButton("billToPhone")}
+`;
+
+render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
+
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.vfs = pdfFonts.vfs;
+PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// var derivedLang = "es";
+if (lang) assignValues();
+
+// loadjs(["./locales/locale.es.js"], {
+//   success: assignValues
+// });
+
+// loadjs("locales/locale.es.js", assignValues);
+
+// loadjs("./locales/locale.es.js", assignValues);
+
+pdfMake.fonts = {
+  // PTSans: {
+  //   normal: "PTSans-Regular.ttf",
+  //   bold: "PTSans-Bold.ttf",
+  //   italics: "PTSans-Regular.ttf",
+  //   bolditalics: "PTSans-Regular.ttf"
+  // },
+  // SourceSans: {
+  //   normal: "SourceSansPro-Regular.ttf",
+  //   bold: "SourceSansPro-Bold.ttf",
+  //   italics: "SourceSansPro-Regular.ttf",
+  //   bolditalics: "SourceSansPro-Regular.ttf"
+  // },
+  // Roboto: {
+  //   normal: "Roboto-Regular.ttf",
+  //   bold: "Roboto-Medium.ttf",
+  //   italics: "Roboto-Regular.ttf",
+  //   bolditalics: "Roboto-Regular.ttf"
+  // },
+  VarelaRound: {
+    normal: "VarelaRound-Regular.ttf",
+    bold: "VarelaRound-Regular.ttf",
+    italics: "VarelaRound-Regular.ttf",
+    bolditalics: "VarelaRound-Regular.ttf"
+  }
 };
 
 const download = () => {
@@ -620,27 +570,24 @@ const download = () => {
   pdf.download("PPRA.pdf");
 };
 
-const renderlayout1 = () => {
+function renderlayout1() {
+  console.log("renderLayout1");
   renderNew(lib.layout1(variables));
-};
+}
 
-const renderlayout2 = () => {
+function renderlayout2() {
   renderNew(lib.layout2(variables));
-};
+}
 
 let docDef = lib.layout1(variables);
 
 //  docDef = docDefinition2;
 
-if (id("downloadButton"))
-  id("downloadButton").addEventListener("click", download, false);
-if (id("layout1"))
-  id("layout1").addEventListener("click", renderlayout1, false);
-if (id("layout2"))
-  id("layout2").addEventListener("click", renderlayout2, false);
+if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
+if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
+if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
 
-if (id("invoiceNum"))
-  id("invoiceNum").addEventListener("change", changeInvNum, false);
+if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
 
 function changeInvNum() {
   invoiceNum = id("invoiceNum").value;
@@ -648,12 +595,12 @@ function changeInvNum() {
   renderlayout1();
 }
 
-const renderNew = def => {
+function renderNew(def) {
   console.log("renderNew");
   pdfMake.createPdf(def).getDataUrl(function(dataURL) {
     renderPDF(dataURL);
   });
-};
+}
 
 renderNew(docDef);
 
@@ -675,8 +622,7 @@ function renderPDF(url, options) {
   }
 
   const renderPages = pdfDoc => {
-    for (var num = 1; num <= pdfDoc.numPages; num++)
-      pdfDoc.getPage(num).then(renderPage);
+    for (var num = 1; num <= pdfDoc.numPages; num++) pdfDoc.getPage(num).then(renderPage);
   };
 
   PDFJS.disableWorker = true;

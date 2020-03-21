@@ -11,7 +11,7 @@
   instagram: "Instagram",
   invoiceDetails: "Invoice Details",
   invoice: "INVOICE",
-  invoiceNum: "Invoice Num",
+  invoiceNum: "Invoice Number",
   invoiceDate: "Invoice Date",
   dueDate: "Due Date",
   paymentTerms: "Payment Terms",

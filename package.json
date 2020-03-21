@@ -8,18 +8,18 @@
     "build": "parcel build index.html --public-url ./"
   },
   "dependencies": {
-    "lit-html": "^1.2.1",
+    "lit-html": "^1.2.0",
     "loadjs": "^4.2.0",
     "locales": "0.0.2",
     "moment": "^2.24.0",
-    "pdfjs-dist": "^2.4.456",
+    "pdfjs-dist": "^2.2.228",
     "pdfmake": "^0.1.65",
     "prettier": "^1.19.1",
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
     "@tailwindcss/custom-forms": "0.2.1",
-    "@babel/core": "7.9.0",
+    "@babel/core": "7.8.7",
     "parcel-bundler": "^1.12.4"
   },
   "keywords": [
