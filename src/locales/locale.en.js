@@ -33,5 +33,8 @@
   amountDue: "Amount Due",
   newLine: "New Line",
   optionalFields: "Optional Fields",
-  clickToAdd: "Click to Add"
+  clickToAdd: "Click to Add",
+  optional: "Optional",
+  removeField: "Remove Field",
+  editLabel: "Edit Label"
 };

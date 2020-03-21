@@ -8,7 +8,7 @@ import moment from "moment";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import lang from "./locales/locale.es.js";
+import lang from "./locales/locale.en.js";
 import { html, render } from "lit-html";
 
 const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
@@ -27,27 +27,55 @@ const removeFields = field => {
   id(field + "Button").style.display = "block";
 };
 
+let mandatoryFields = [
+  "companyName",
+  "companyAddress",
+  "billToName",
+  "billToAddress"
+];
+
+let mandatoryEditableFields = ["invoiceNum", "invoiceDate", "dueDate"];
+
+let optionalFields = ["companyLogo"];
+
+let optionalEditableFields = [
+  "phone",
+  "email",
+  "website",
+  "facebook",
+  "twitter",
+  "instagram",
+  "paymentTerms",
+  "purchaseOrder",
+  "shipToName",
+  "shipToAddress",
+  "billToMail",
+  "billToPhone"
+];
+
+let direction = "ltr";
+let alignment = "text-left";
+let marginLeft2 = "ml-2";
+let marginLeft4 = "ml-4";
+if (direction === "rtl") {
+  alignment = "text-right";
+  marginLeft2 = "mr-2";
+  marginLeft4 = "mr-4";
+}
+
 const assignValues = () => {
-  hideInput("companyName");
-  hideInput("companyAddress");
+  mandatoryEditableFields.forEach(item => {
+    hideInput(item);
+    labelUpdate(item);
+  });
 
-  removeFields("companyLogo");
-  removeFields("phone");
-  removeFields("email");
-  removeFields("website");
-  removeFields("facebook");
-  removeFields("twitter");
-  removeFields("instagram");
+  optionalEditableFields.forEach(item => {
+    removeFields(item);
+  });
 
-  removeFields("paymentTerms");
-  removeFields("purchaseOrder");
-
-  removeFields("shipToName");
-  removeFields("shipToAddress");
-  removeFields("billToMail");
-  removeFields("billToPhone");
-  labelUpdate("companyName");
-  labelUpdate("companyAddress");
+  optionalFields.forEach(item => {
+    removeFields(item);
+  });
 };
 
 const hideInput = text => {
@@ -61,27 +89,53 @@ const showInput = text => {
 };
 
 const labelUpdate = text => {
-  if (canUpdate === 1) id(text + "Label").textContent = id(text + "Input").value;
-  else {
-    canUpdate = 1;
+  if (canUpdate) {
+    id(text + "Label").textContent = id(text + "Input").value;
+    // variables["label"+ initCap(text)] = id(text + "Label").textContent;
+    // renderlayout1();
+  } else {
+    canUpdate = true;
     id(text + "Input").value = id(text + "Label").textContent;
   }
   hideInput(text);
 };
 
-let canUpdate = 1;
+let canUpdate = true;
 
 const addButton = text =>
   html`
-    <button id="${text}Button" @click=${() => showFields(text)} class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+    <button
+      id="${text}Button"
+      @click=${() => showFields(text)}
+      class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
+      title="Add ${lang[text]}"
+    >
       <span>+ ${lang[text]}</span>
     </button>
   `;
 
-const labelRequired = text =>
-  html`
+const labelRequired = text => {
+  return html`
     <div class="mt-6 mb-2 flex w-full justify-end">
-      <label id="${text}Label" class="block text-base font-semibold flex-grow text-left truncate mt-1" htmlFor="${text}">${lang[text]}</label>
+      <label
+        id="${text}Label"
+        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
+        htmlFor="${text}"
+        >${lang[text]}</label
+      >
+    </div>
+  `;
+};
+
+const labelRequiredEditable = text => {
+  return html`
+    <div class="mt-6 mb-2 flex w-full justify-end">
+      <label
+        id="${text}Label"
+        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
+        htmlFor="${text}"
+        >${lang[text]}</label
+      >
       <input
         id="${text}Input"
         class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
@@ -93,27 +147,60 @@ const labelRequired = text =>
         @keydown=${e => {
           if (e.key === "Escape") {
             console.log("Esc");
-            canUpdate = 2;
+            canUpdate = false;
             hideInput(text);
           }
         }}
       />
-      <button class="ml-2 w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center" @click=${() => showInput(text)}>
+      <button
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
+        @click=${() => showInput(text)}
+        title="Edit label"
+      >
         <i class="gg-pen"></i>
       </button>
     </div>
   `;
+};
 
 const labelOptional = text =>
   html`
     <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
-      <label id="${text}Label" class="block text-base font-semibold flex-grow text-left truncate mt-1" htmlFor="${text}">${lang[text]}</label>
-      <button class="ml-2 w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center">
+      <label
+        id="${text}Label"
+        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
+        htmlFor="${text}"
+        >${lang[text]}</label
+      >
+      <button
+        id="${text}RemoveButton"
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
+        @click=${() => removeFields(text)}
+      >
+        <i class="gg-trash"></i>
+      </button>
+    </div>
+  `;
+
+const labelOptionalEditable = text =>
+  html`
+    <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
+      <label
+        id="${text}Label"
+        class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}"
+        htmlFor="${text}"
+        >${lang[text]}</label
+      >
+      <button
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
+        title="Edit label"
+      >
         <i class="gg-pen"></i>
       </button>
       <button
         id="${text}RemoveButton"
-        class="ml-2 w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center"
+        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
+        title="Remove field"
         @click=${() => removeFields(text)}
       >
         <i class="gg-trash"></i>
@@ -123,20 +210,37 @@ const labelOptional = text =>
 
 const inputText = text =>
   html`
-    <input id="${text}" class="w-full form-input self-center text-gray-800" placeholder="100" type="text" />
+    <input
+      id="${text}"
+      class="w-full form-input self-center text-gray-800"
+      placeholder="100"
+      type="text"
+    />
   `;
 
 const textArea = text =>
   html`
-    <textarea id="${text}" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea>
+    <textarea
+      id="${text}"
+      class="w-full form-input self-center text-gray-600"
+      placeholder="100"
+      rows="5"
+    ></textarea>
   `;
 
 const card = text =>
   html`
-    <div class="font-semibold text-xl text-left">${lang[text + "Details"]}</div>
+    <div class="font-semibold text-xl ${alignment}">
+      ${lang[text + "Details"]}
+    </div>
     <div id="${text}Fields" class="flex flex-wrap items-center"></div>
-    <label class="block text-base font-semibold mt-6 mb-2 w-full text-left">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
-    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
+    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}"
+      >${lang["optionalFields"]} - ${lang["clickToAdd"]}</label
+    >
+    <div
+      id="optional${initCap(text)}Details"
+      class="flex flex-wrap text-sm text-white -mr-2"
+    ></div>
   `;
 
 render(card("company"), document.getElementById("companyCard"));
@@ -144,75 +248,80 @@ render(card("invoice"), document.getElementById("invoiceCard"));
 render(card("customer"), document.getElementById("customerCard"));
 
 const companyFieldsTemplate = html`
-  ${labelRequired("companyName")} ${inputText("companyName")} ${labelRequired("companyAddress")} ${textArea("companyAddress")}
-  ${labelOptional("companyLogo")} ${inputText("companyLogo")} ${labelOptional("phone")} ${inputText("phone")} ${labelOptional("email")}
-  ${inputText("email")} ${labelOptional("website")} ${inputText("website")} ${labelOptional("facebook")} ${inputText("facebook")}
-  ${labelOptional("twitter")} ${inputText("twitter")} ${labelOptional("instagram")} ${inputText("instagram")}
+  ${labelRequired("companyName")} ${inputText("companyName")}
+  ${labelRequired("companyAddress")} ${textArea("companyAddress")}
+  ${labelOptional("companyLogo")} ${inputText("companyLogo")}
+  ${labelOptionalEditable("phone")} ${inputText("phone")}
+  ${labelOptionalEditable("email")} ${inputText("email")}
+  ${labelOptionalEditable("website")} ${inputText("website")}
+  ${labelOptionalEditable("facebook")} ${inputText("facebook")}
+  ${labelOptionalEditable("twitter")} ${inputText("twitter")}
+  ${labelOptionalEditable("instagram")} ${inputText("instagram")}
 `;
 
 render(companyFieldsTemplate, document.getElementById("companyFields"));
 
 const invoiceFieldsTemplate = html`
-  ${labelRequired("invoiceNum")} ${inputText("invoiceNum")} ${labelRequired("invoiceDate")} ${inputText("invoiceDate")} ${labelRequired("dueDate")}
-  ${inputText("dueDate")} ${labelOptional("paymentTerms")} ${inputText("paymentTerms")} ${labelOptional("purchaseOrder")}
-  ${inputText("purchaseOrder")}
+  ${labelRequiredEditable("invoiceNum")} ${inputText("invoiceNum")}
+  ${labelRequiredEditable("invoiceDate")} ${inputText("invoiceDate")}
+  ${labelRequiredEditable("dueDate")} ${inputText("dueDate")}
+  ${labelOptionalEditable("paymentTerms")} ${inputText("paymentTerms")}
+  ${labelOptionalEditable("purchaseOrder")} ${inputText("purchaseOrder")}
 `;
 
 render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
 
 const customerFieldsTemplate = html`
-  ${labelRequired("billToName")} ${inputText("billToName")} ${labelRequired("billToAddress")} ${textArea("billToAddress")}
-  ${labelOptional("shipToName")} ${inputText("shipToName")} ${labelOptional("shipToAddress")} ${textArea("shipToAddress")}
-  ${labelOptional("billToMail")} ${inputText("billToMail")} ${labelOptional("billToPhone")} ${inputText("billToPhone")}
+  ${labelRequired("billToName")} ${inputText("billToName")}
+  ${labelRequired("billToAddress")} ${textArea("billToAddress")}
+  ${labelOptionalEditable("shipToName")} ${inputText("shipToName")}
+  ${labelOptionalEditable("shipToAddress")} ${textArea("shipToAddress")}
+  ${labelOptionalEditable("billToMail")} ${inputText("billToMail")}
+  ${labelOptionalEditable("billToPhone")} ${inputText("billToPhone")}
 `;
 
 render(customerFieldsTemplate, document.getElementById("customerFields"));
 
 const itemFieldsTemplate = html`
-  ${labelRequired("itemName")} ${inputText("itemName")} ${labelRequired("itemDescription")} ${inputText("itemDescription")}
-  ${labelRequired("quantity")} ${inputText("quantity")} ${labelRequired("unitPrice")} ${inputText("unitPrice")} ${labelRequired("tax")}
-  ${inputText("tax")} ${labelRequired("extendedPrice")} ${inputText("extendedPrice")}
+  ${labelRequiredEditable("itemName")} ${inputText("itemName")}
+  ${labelRequiredEditable("itemDescription")} ${inputText("itemDescription")}
+  ${labelRequiredEditable("quantity")} ${inputText("quantity")}
+  ${labelRequiredEditable("unitPrice")} ${inputText("unitPrice")}
+  ${labelRequiredEditable("tax")} ${inputText("tax")}
+  ${labelRequiredEditable("extendedPrice")} ${inputText("extendedPrice")}
 `;
 
 render(itemFieldsTemplate, document.getElementById("itemFields"));
 
 const companyDetailsTemplate = html`
-  ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
+  ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")}
+  ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
   ${addButton("instagram")}
 `;
 
-render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
+render(
+  companyDetailsTemplate,
+  document.getElementById("optionalCompanyDetails")
+);
 
 const invoiceDetailsTemplate = html`
   ${addButton("paymentTerms")} ${addButton("purchaseOrder")}
 `;
 
-render(invoiceDetailsTemplate, document.getElementById("optionalInvoiceDetails"));
+render(
+  invoiceDetailsTemplate,
+  document.getElementById("optionalInvoiceDetails")
+);
 
 const customerDetailsTemplate = html`
-  ${addButton("shipToName")} ${addButton("shipToAddress")} ${addButton("billToMail")} ${addButton("billToPhone")}
+  ${addButton("shipToName")} ${addButton("shipToAddress")}
+  ${addButton("billToMail")} ${addButton("billToPhone")}
 `;
 
-render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
-
-// if (id("companyNameInput"))
-//   id("companyNameInput").addEventListener(
-//     "change",
-//     function() {
-//       labelUpdate("companyName");
-//       console.log("Company Name updated");
-//     },
-//     false
-//   );
-
-// if (id("companyNameInput"))
-//   id("companyNameInput").addEventListener("keydown", e => {
-//     if (e.key === "Escape") {
-//       console.log("Esc");
-//       canUpdate = 2;
-//       hideInput("companyName");
-//     }
-//   });
+render(
+  customerDetailsTemplate,
+  document.getElementById("optionalCustomerDetails")
+);
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
@@ -523,18 +632,19 @@ let docDef = lib.layout1(variables);
 
 //  docDef = docDefinition2;
 
-if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
-if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
-if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
+if (id("downloadButton"))
+  id("downloadButton").addEventListener("click", download, false);
+if (id("layout1"))
+  id("layout1").addEventListener("click", renderlayout1, false);
+if (id("layout2"))
+  id("layout2").addEventListener("click", renderlayout2, false);
 
-if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
-// if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("change", changeLabelInvNum, false);
-// if (id("labelInvoiceNum")) id("labelInvoiceNum").addEventListener("click", changeLabelInvNum, false);
-// if (id("labelInvoiceNumEdit")) id("labelInvoiceNumEdit").addEventListener("change", removeInvNumEdit, false);
+if (id("invoiceNum"))
+  id("invoiceNum").addEventListener("change", changeInvNum, false);
 
 function changeInvNum() {
   invoiceNum = id("invoiceNum").value;
-  variables.invoiceNum = invoiceNum;
+  variables["invoiceNum"] = invoiceNum;
   renderlayout1();
 }
 
@@ -565,7 +675,8 @@ function renderPDF(url, options) {
   }
 
   const renderPages = pdfDoc => {
-    for (var num = 1; num <= pdfDoc.numPages; num++) pdfDoc.getPage(num).then(renderPage);
+    for (var num = 1; num <= pdfDoc.numPages; num++)
+      pdfDoc.getPage(num).then(renderPage);
   };
 
   PDFJS.disableWorker = true;

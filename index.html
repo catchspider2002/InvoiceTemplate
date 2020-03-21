@@ -11,54 +11,77 @@
     <link rel="stylesheet" href="./src/output.css" />
   </head>
 
-  <body class="bg-gray-800 text-gray-300">
-    <div class="p-4 m-0 list-none flex bg-gray-700 justify-around flex-row flex-wrap">
+  <body dir="ltr" class="bg-gray-800 text-gray-300">
+    <div
+      class="p-4 m-0 list-none flex bg-gray-700 justify-around flex-row flex-wrap"
+    >
       <div class="p-5 mt-5 w-full md:w-1/2 font-bold text-center">
-        <button id="layout1" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
+        <button
+          id="layout1"
+          class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600"
+        >
           Layout 1
         </button>
-        <button id="layout2" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
+        <button
+          id="layout2"
+          class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600"
+        >
           Layout 2
         </button>
-        <button id="downloadButton" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
+        <button
+          id="downloadButton"
+          class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600"
+        >
           Download
         </button>
-
-        <!-- <span id="testLabel" class="block text-base font-semibold text-left p-0 text-gray-400 ">Company Name</span>
-        <input
-          id="testInput"
-          class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b border-blue-300 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
-          placeholder="100"
-          type="text"
-          value="Test"
-        /> -->
         <br />
 
         <!-- Actual UI -->
         <!-- Company Details -->
-        <div id="companyCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+        <div
+          id="companyCard"
+          class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"
+        ></div>
 
         <!-- Invoice Details -->
-        <div id="invoiceCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+        <div
+          id="invoiceCard"
+          class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"
+        ></div>
 
         <!-- Customer Details -->
-        <div id="customerCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+        <div
+          id="customerCard"
+          class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"
+        ></div>
 
         <!-- Item Details -->
-        <div class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
+        <div
+          class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"
+        >
           <div class="font-semibold text-xl text-left">Item Details</div>
           <div id="itemFields" class="flex flex-wrap items-center"></div>
-          <label class="block text-base font-semibold mt-6 mb-2 w-full text-left" htmlFor="companyName">Optional Fields - Click to Add</label>
+          <label
+            class="block text-base font-semibold mt-6 mb-2 w-full text-left"
+            htmlFor="companyName"
+            >Optional Fields - Click to Add</label
+          >
           <div class="flex flex-wrap w-full text-sm text-white -mr-2">
-            <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+            <button
+              class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
+            >
               <span>+ Tax 2</span>
             </button>
-            <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+            <button
+              class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
+            >
               <span>+ Tax 3</span>
             </button>
           </div>
           <div class="flex w-full">
-            <button class="px-3 py-2 mx-auto my-4 text-black font-semibold bg-gray-300 rounded hover:bg-gray-600">
+            <button
+              class="px-3 py-2 mx-auto my-4 text-black font-semibold bg-gray-300 rounded hover:bg-gray-600"
+            >
               <span>+ New Line</span>
             </button>
           </div>

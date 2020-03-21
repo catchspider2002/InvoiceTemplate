@@ -33,5 +33,8 @@
   amountDue: "Â₥ôúñƭ Ðúè ℓô",
   newLine: "Nèω £ïñè ℓ",
   optionalFields: "Óƥƭïôñáℓ Fïèℓδƨ ℓôřè",
-  clickToAdd: "Çℓïçƙ ƭô Âδδ ℓôř"
+  clickToAdd: "Çℓïçƙ ƭô Âδδ ℓôř",
+  optional: "Óƥƭïôñáℓ ℓ",
+  removeField: "Rè₥ôƲè Fïèℓδ ℓôř",
+  editLabel: "Éδïƭ £áβèℓ ℓô"
 };
