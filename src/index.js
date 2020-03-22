@@ -11,6 +11,10 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import lang from "./locales/locale.en.js";
 import { html, render } from "lit-html";
 import lib from "./functions";
+import flatpickr from "flatpickr";
+// import Turkish from "flatpickr/dist/l10n/tr.js";
+import language from 'flatpickr/dist/l10n/'
+
 
 // Icons to use
 // Invoice
@@ -49,11 +53,6 @@ let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 // Invoice Header - Invoice
 // Company Logo
 // Invoice Details
-// - Invoice Number
-// - Order Date
-// - Terms
-// - Due Date
-// - P.O Num
 // - Project Name
 // - Payment (Visa 8118)
 // - Shipping (Express Shipping)
@@ -86,11 +85,6 @@ let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 
 // Notes
 // Info to Customer
-// Company Details
-// - Company Name
-// - Company Address
-// - Company Phone
-// - Company Email
 // Dropdown
 let dateFormat = "MMMM Do YYYY"; // February 19th 2020
 dateFormat = "MMM Do YYYY"; // Feb 19th 2020
@@ -171,21 +165,15 @@ let clientShipAddressLine5 = "NY 00011 USA";
 
 let labelAmountDue = "Amount Due";
 let amountDue = "$2000";
-// let labelTerms = lang["paymentTerms"];
 let terms = "5 Days";
-let labelPurchaseOrder = lang["purchaseOrder"];
 let purchaseOrder = "454523";
-let labelPaymentMethod = lang["paymentMethod"];
 let paymentMethod = "Paypal, Visa, MasterCard";
 
 let phone = "+91 9292929292";
 let email = "email@website.com";
 let website = "www.website.com";
-let labelFacebook = lang["facebook"];
 let facebook = "fb-page";
-let labelTwitter = lang["twitter"];
 let twitter = "twitter-page";
-let labelInstagram = lang["instagram"];
 let instagram = "insta-page";
 
 let notes = "Thank you for your business";
@@ -235,9 +223,9 @@ let variables = {
   amountDue: amountDue,
   labelTerms: lang["paymentTerms"],
   terms: terms,
-  labelPurchaseOrder: labelPurchaseOrder,
+  labelPurchaseOrder: lang["purchaseOrder"],
   purchaseOrder: purchaseOrder,
-  labelPaymentMethod: labelPaymentMethod,
+  labelPaymentMethod: lang["paymentMethod"],
   paymentMethod: paymentMethod,
   notes: notes,
   labelPhone: lang["phone"],
@@ -316,6 +304,17 @@ const assignValues = () => {
   optionalFields.forEach(item => {
     removeFields(item);
   });
+
+  flatpickr.localize(flatpickr.l10ns.pl);
+  // flatpickr.localize(Russian);
+
+  flatpickr("#calendar-tomorrow", {
+    dateFormat: "Y/m/d"
+  });
+
+  flatpickr("#calendar-es", {
+    dateFormat: "Y/m/d"
+  });
 };
 
 const hideInput = text => {
@@ -355,10 +354,60 @@ const addButton = text =>
     </button>
   `;
 
+const removeButton = text =>
+  html`
+    <button
+      id="${text}RemoveButton"
+      class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
+      title="Remove field"
+      @click=${() => removeFields(text)}
+    >
+      <i class="gg-trash"></i>
+    </button>
+  `;
+
+const editButton = text =>
+  html`
+    <button
+      class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
+      @click=${() => showInput(text)}
+      title="Edit label"
+    >
+      <i class="gg-pen"></i>
+    </button>
+  `;
+
+const label = text => {
+  return html`
+    <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
+  `;
+};
+
+const labelInput = text => {
+  return html`
+    <input
+      id="${text}Input"
+      class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
+      border-yellow-600 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+      placeholder="100"
+      type="text"
+      value="${lang[text]}"
+      @change=${() => labelUpdate(text)}
+      @keydown=${e => {
+        if (e.key === "Escape") {
+          console.log("Esc");
+          canUpdate = false;
+          hideInput(text);
+        }
+      }}
+    />
+  `;
+};
+
 const labelRequired = text => {
   return html`
     <div class="mt-6 mb-2 flex w-full justify-end">
-      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
+      ${label(text)}
     </div>
   `;
 };
@@ -366,30 +415,7 @@ const labelRequired = text => {
 const labelRequiredEditable = text => {
   return html`
     <div class="mt-6 mb-2 flex w-full justify-end">
-      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
-      <input
-        id="${text}Input"
-        class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
-      border-blue-300 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
-        placeholder="100"
-        type="text"
-        value="${lang[text]}"
-        @change=${() => labelUpdate(text)}
-        @keydown=${e => {
-          if (e.key === "Escape") {
-            console.log("Esc");
-            canUpdate = false;
-            hideInput(text);
-          }
-        }}
-      />
-      <button
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
-        @click=${() => showInput(text)}
-        title="Edit label"
-      >
-        <i class="gg-pen"></i>
-      </button>
+      ${label(text)} ${labelInput(text)} ${editButton(text)}
     </div>
   `;
 };
@@ -397,52 +423,14 @@ const labelRequiredEditable = text => {
 const labelOptional = text =>
   html`
     <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
-      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
-      <button
-        id="${text}RemoveButton"
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
-        @click=${() => removeFields(text)}
-      >
-        <i class="gg-trash"></i>
-      </button>
+      ${label(text)} ${removeButton(text)}
     </div>
   `;
 
 const labelOptionalEditable = text =>
   html`
     <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
-      <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
-      <input
-        id="${text}Input"
-        class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
-      border-blue-300 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
-        placeholder="100"
-        type="text"
-        value="${lang[text]}"
-        @change=${() => labelUpdate(text)}
-        @keydown=${e => {
-          if (e.key === "Escape") {
-            console.log("Esc");
-            canUpdate = false;
-            hideInput(text);
-          }
-        }}
-      />
-      <button
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
-        @click=${() => showInput(text)}
-        title="Edit label"
-      >
-        <i class="gg-pen"></i>
-      </button>
-      <button
-        id="${text}RemoveButton"
-        class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
-        title="Remove field"
-        @click=${() => removeFields(text)}
-      >
-        <i class="gg-trash"></i>
-      </button>
+      ${label(text)} ${labelInput(text)} ${editButton(text)} ${removeButton(text)}
     </div>
   `;
 
@@ -566,13 +554,15 @@ pdfMake.fonts = {
 
 const download = () => {
   console.log("download");
+  setLayout();
   var pdf = pdfMake.createPdf(docDef);
   pdf.download("PPRA.pdf");
 };
 
 function renderlayout1() {
   console.log("renderLayout1");
-  renderNew(lib.layout1(variables));
+  setLayout();
+  renderNew(docDef);
 }
 
 function renderlayout2() {
@@ -581,7 +571,9 @@ function renderlayout2() {
 
 let docDef = lib.layout1(variables);
 
-//  docDef = docDefinition2;
+function setLayout() {
+  docDef = lib.layout1(variables);
+}
 
 if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
 if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);

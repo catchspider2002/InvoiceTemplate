@@ -8,6 +8,7 @@
     "build": "parcel build index.html --public-url ./"
   },
   "dependencies": {
+    "flatpickr": "^4.6.3",
     "lit-html": "^1.2.0",
     "loadjs": "^4.2.0",
     "locales": "0.0.2",

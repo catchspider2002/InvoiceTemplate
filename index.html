@@ -8,6 +8,9 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.62/vfs_fonts.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.0.385/build/pdf.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.1/flatpickr.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <link rel="stylesheet" href="./src/output.css" />
   </head>
 
@@ -23,6 +26,17 @@
         <button id="downloadButton" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
           Download
         </button>
+        <br />
+        <div class="group">
+          <input type="text" id="calendar-tomorrow" />
+          <label class="input-label">From tomorrow</label>
+        </div>
+        <br />
+        <div class="group">
+          <input type="text" id="calendar-es" />
+          <label class="input-label">Localization (Spanish)</label>
+        </div>
+
         <br />
 
         <!-- Actual UI -->
