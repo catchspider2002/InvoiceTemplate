@@ -13,8 +13,7 @@ import { html, render } from "lit-html";
 import lib from "./functions";
 import flatpickr from "flatpickr";
 // import Turkish from "flatpickr/dist/l10n/tr.js";
-import language from 'flatpickr/dist/l10n/'
-
+import language from "flatpickr/dist/l10n/";
 
 // Icons to use
 // Invoice
@@ -305,16 +304,15 @@ const assignValues = () => {
     removeFields(item);
   });
 
-  flatpickr.localize(flatpickr.l10ns.pl);
-  // flatpickr.localize(Russian);
+  flatpickr.localize(flatpickr.l10ns.fr);
 
-  flatpickr("#calendar-tomorrow", {
-    dateFormat: "Y/m/d",
+  flatpickr("#invoiceDate", {
+    dateFormat: "Y, F d",
     disableMobile: "true"
   });
 
-  flatpickr("#calendar-es", {
-    dateFormat: "Y/m/d",
+  flatpickr("#dueDate", {
+    dateFormat: "Y, F d",
     disableMobile: "true"
   });
 };
