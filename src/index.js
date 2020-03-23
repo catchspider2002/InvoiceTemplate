@@ -309,11 +309,13 @@ const assignValues = () => {
   // flatpickr.localize(Russian);
 
   flatpickr("#calendar-tomorrow", {
-    dateFormat: "Y/m/d"
+    dateFormat: "Y/m/d",
+    disableMobile: "true"
   });
 
   flatpickr("#calendar-es", {
-    dateFormat: "Y/m/d"
+    dateFormat: "Y/m/d",
+    disableMobile: "true"
   });
 };
 
