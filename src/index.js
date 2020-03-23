@@ -15,6 +15,17 @@ import flatpickr from "flatpickr";
 // import Turkish from "flatpickr/dist/l10n/tr.js";
 import language from "flatpickr/dist/l10n/";
 
+// Paper Size - A4 or Letter - radio
+// Font - Dropdown - Show list of languages the font supports
+// Label
+    // Color
+    // Capitalize
+    // Font Size
+//  Font
+    // Color
+    // Font Size
+
+
 // Icons to use
 // Invoice
 // Date / Calendar
@@ -64,14 +75,18 @@ let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 // - Ship To Address
 // - Ship To Phone
 // Item Table
+// Item Detail
+// - Serial Number
 // - Item Header
 // - Item Details
 // - Item Image
 // - Item Description
 // - Qty
 // - Price
+// - Tax (Percent or Anount)
+// - Discount (Percent or Anount)
 // - Total
-// - Item Footer
+// Item Summary
 // - Subtotal
 // - Discount (-)
 // - Refund (-)
@@ -82,9 +97,13 @@ let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 // - Tax 2 (+)
 // - Total
 
+// Footer
 // Notes
 // Info to Customer
+// Terms and Conditions
+// Page Number
 // Dropdown
+
 let dateFormat = "MMMM Do YYYY"; // February 19th 2020
 dateFormat = "MMM Do YYYY"; // Feb 19th 2020
 dateFormat = "DD-MM-YYYY"; // 19-02-2020
@@ -389,7 +408,6 @@ const labelInput = text => {
       id="${text}Input"
       class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
       border-yellow-600 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
-      placeholder="100"
       type="text"
       value="${lang[text]}"
       @change=${() => labelUpdate(text)}

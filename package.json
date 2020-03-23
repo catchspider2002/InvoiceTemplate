@@ -9,18 +9,19 @@
   },
   "dependencies": {
     "flatpickr": "^4.6.3",
-    "lit-html": "^1.2.0",
+    "lit-html": "^1.2.1",
     "loadjs": "^4.2.0",
     "locales": "0.0.2",
     "moment": "^2.24.0",
-    "pdfjs-dist": "^2.2.228",
+    "npm-check-updates": "^4.0.5",
+    "pdfjs-dist": "^2.3.200",
     "pdfmake": "^0.1.65",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.1",
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
     "@tailwindcss/custom-forms": "0.2.1",
-    "@babel/core": "7.8.7",
+    "@babel/core": "7.9.0",
     "parcel-bundler": "^1.12.4"
   },
   "keywords": [
