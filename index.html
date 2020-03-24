@@ -16,47 +16,67 @@
   <body dir="ltr" class="bg-gray-800 text-gray-300">
     <div class="p-4 m-0 list-none flex bg-gray-700 justify-around flex-row flex-wrap">
       <div class="p-5 mt-5 w-full md:w-1/2 font-bold text-center">
-        <button id="layout1" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
-          Layout 1
-        </button>
-        <button id="layout2" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
-          Layout 2
-        </button>
-        <button id="downloadButton" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
-          Download
-        </button>
-        <br />
-
-        <br />
-
-        <!-- Actual UI -->
-        <!-- Company Details -->
-        <div id="companyCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
-
-        <!-- Invoice Details -->
-        <div id="invoiceCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
-
-        <!-- Customer Details -->
-        <div id="customerCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
-
-        <!-- Item Details -->
-        <div class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
-          <div class="font-semibold text-xl text-left">Item Details</div>
-          <div id="itemFields" class="flex flex-wrap items-center"></div>
-          <label class="block text-base font-semibold mt-6 mb-2 w-full text-left" htmlFor="companyName">Optional Fields - Click to Add</label>
-          <div class="flex flex-wrap w-full text-sm text-white -mr-2">
-            <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
-              <span>+ Tax 2</span>
+        <div class="tabbed">
+          <ul class="bg-gray-900 top-0 fixed p-0">
+            <li class="inline-block">
+              <a class="inline-block no-underline px-4 py-2" href="#section1">Layout</a>
+            </li>
+            <li class="inline-block">
+              <a class="inline-block no-underline px-4 py-2" href="#section2">Content</a>
+            </li>
+            <li>
+              <a class="inline-block no-underline px-4 py-2" href="#section3">Template</a>
+            </li>
+          </ul>
+          <section id="section1">
+            <button id="layout1" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
+              Layout 1
             </button>
-            <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
-              <span>+ Tax 3</span>
+            <button id="layout2" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
+              Layout 2
             </button>
-          </div>
-          <div class="flex w-full">
-            <button class="px-3 py-2 mx-auto my-4 text-black font-semibold bg-gray-300 rounded hover:bg-gray-600">
-              <span>+ New Line</span>
+            <button id="downloadButton" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
+              Download
             </button>
-          </div>
+            <br />
+            <br />
+
+            <!-- Actual UI -->
+            <!-- Company Details -->
+            <div id="companyCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+
+            <!-- Invoice Details -->
+            <div id="invoiceCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+
+            <!-- Customer Details -->
+            <div id="customerCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+
+            <!-- Item Details -->
+            <div class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
+              <div class="font-semibold text-xl text-left">Item Details</div>
+              <div id="itemFields" class="flex flex-wrap items-center"></div>
+              <label class="block text-base font-semibold mt-6 mb-2 w-full text-left" htmlFor="companyName">Optional Fields - Click to Add</label>
+              <div class="flex flex-wrap w-full text-sm text-white -mr-2">
+                <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+                  <span>+ Tax 2</span>
+                </button>
+                <button class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600">
+                  <span>+ Tax 3</span>
+                </button>
+              </div>
+              <div class="flex w-full">
+                <button class="px-3 py-2 mx-auto my-4 text-black font-semibold bg-gray-300 rounded hover:bg-gray-600">
+                  <span>+ New Line</span>
+                </button>
+              </div>
+            </div>
+          </section>
+          <section id="section2">
+            <h2>Content</h2>
+          </section>
+          <section id="section3">
+            <h2>Template</h2>
+          </section>
         </div>
       </div>
 

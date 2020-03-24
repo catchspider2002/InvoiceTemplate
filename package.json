@@ -16,7 +16,7 @@
     "npm-check-updates": "^4.0.5",
     "pdfjs-dist": "^2.3.200",
     "pdfmake": "^0.1.65",
-    "prettier": "^2.0.1",
+    "prettier": "^2.0.2",
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
