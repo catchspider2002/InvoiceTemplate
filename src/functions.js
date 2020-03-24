@@ -541,7 +541,10 @@ let layout2 = val => {
         ]
       }
     ],
-    styles: styles()
+    styles: styles(),
+    defaultStyle: {
+      font: 'VarelaRound'
+    }
   };
 };
 

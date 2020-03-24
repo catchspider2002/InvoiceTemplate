@@ -597,7 +597,6 @@ function changeInvNum() {
 }
 
 function renderNew(def) {
-  console.log("renderNew");
   pdfMake.createPdf(def).getDataUrl(function (dataURL) {
     renderPDF(dataURL);
   });
@@ -609,7 +608,7 @@ function renderPDF(url, options) {
   options = options || { scale: 0.95 };
 
   function renderPage(page) {
-    var viewport = page.getViewport(options.scale);
+    var viewport = page.getViewport(options);
     var canvas = id("myCanvas");
     canvas.height = viewport.height;
     canvas.width = viewport.width;
@@ -627,7 +626,10 @@ function renderPDF(url, options) {
   };
 
   PDFJS.disableWorker = true;
-  PDFJS.getDocument(url).then(renderPages);
+  var loadingTask = PDFJS.getDocument(url);
+  loadingTask.promise.then(function (pdf) {
+    renderPages(pdf);
+  });
 }
 
 (function () {
