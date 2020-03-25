@@ -39,11 +39,30 @@
               Download
             </button>
             <br />
+            <label class="block">
+              <span class="text-gray-200">Select</span>
+              <select class="form-select block w-full mt-1">
+                <option>Option 1</option>
+                <option>Option 2</option>
+              </select>
+            </label>
+            <div class="block">
+              <span class="text-gray-200">Paper Size</span>
+              <div class="mt-2 flex">
+                <label class="inline-flex items-center mr-8">
+                  <input type="radio" class="form-radio" name="radio" value="1" checked />
+                  <span class="ml-2">A4</span>
+                </label>
+                <label class="inline-flex items-center">
+                  <input type="radio" class="form-radio" name="radio" value="2" />
+                  <span class="ml-2">Letter</span>
+                </label>
+              </div>
+            </div>
             <br />
-
             <!-- Actual UI -->
             <!-- Company Details -->
-            <div id="companyCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+            <!-- <div id="companyCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div> -->
 
             <!-- Invoice Details -->
             <div id="invoiceCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
@@ -72,7 +91,7 @@
             </div>
           </section>
           <section id="section2">
-            <h2>Content</h2>
+            <div id="companyCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
           </section>
           <section id="section3">
             <h2>Template</h2>
