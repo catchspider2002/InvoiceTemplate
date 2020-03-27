@@ -145,42 +145,41 @@ let footerLeft = "NEW FOOTER LEFT\nNEW FOOTER LEFT";
 let footerCenter = "NEW FOOTER CENTER";
 let footerRight = "NEW FOOTER RIGHT";
 
-let labelInvoice = "INVOICE";
 let invoiceNum = "000021";
 let invoiceDate = moment("20200131").format(dateFormat);
 let dueDate = moment("20200205").format(dateFormat);
 
-let labelBillingFrom = "Billing From";
+let billingFromLabel = "Billing From";
 let sellerName = "Your Name";
 let sellerCompany = "Your Company";
-let labelSellerAddress = "Address";
+let sellerAddressLabel = "Address";
 let sellerAddressLine1 = "9999 Street Name";
 let sellerAddressLine2 = "Some Area";
 let sellerAddressLine3 = "Some Place";
 let sellerAddressLine4 = "New York City";
 let sellerAddressLine5 = "NY 00010 USA";
 
-let labelBillingTo = "Bill To";
+let billingToLabel = "Bill To";
 let clientName = "Client Name";
 let clientCompany = "Client Company";
-let labelClientAddress = "Address";
+let clientAddressLabel = "Address";
 let clientAddressLine1 = "1111 Street Name";
 let clientAddressLine2 = "Some Area";
 let clientAddressLine3 = "Some Place";
 let clientAddressLine4 = "New York City";
 let clientAddressLine5 = "NY 00011 USA";
 
-let labelShipTo = "Bill To";
+let shipToLabel = "Bill To";
 let clientShipName = "Client Name";
 let clientShipCompany = "Client Company";
-let labelClientShipAddress = "Address";
+let clientShipAddressLabel = "Address";
 let clientShipAddressLine1 = "1111 Street Name";
 let clientShipAddressLine2 = "Some Area";
 let clientShipAddressLine3 = "Some Place";
 let clientShipAddressLine4 = "New York City";
 let clientShipAddressLine5 = "NY 00011 USA";
 
-let labelAmountDue = "Amount Due";
+let amountDueLabel = "Amount Due";
 let amountDue = "$2000";
 let terms = "5 Days";
 let purchaseOrder = "454523";
@@ -202,60 +201,60 @@ let variables = {
   colorDarkPrimary: colorDarkPrimary,
   colorLightGray: colorLightGray,
   colorDarkGray: colorDarkGray,
-  labelInvoice: labelInvoice,
-  labelInvoiceNum: lang["invoiceNum"],
-  labelInvoiceDate: lang["invoiceDate"],
-  labelDueDate: lang["dueDate"],
+  invoiceLabel: lang["invoice"],
+  invoiceNumLabel: lang["invoiceNum"],
+  invoiceDateLabel: lang["invoiceDate"],
+  dueDateLabel: lang["dueDate"],
   invoiceNum: invoiceNum,
   invoiceDate: invoiceDate,
   dueDate: dueDate,
-  labelBillingFrom: labelBillingFrom,
+  billingFromLabel: billingFromLabel,
   sellerName: sellerName,
   sellerCompany: sellerCompany,
-  labelSellerAddress: labelSellerAddress,
+  sellerAddressLabel: sellerAddressLabel,
   sellerAddressLine1: sellerAddressLine1,
   sellerAddressLine2: sellerAddressLine2,
   sellerAddressLine3: sellerAddressLine3,
   sellerAddressLine4: sellerAddressLine4,
   sellerAddressLine5: sellerAddressLine5,
-  labelBillingTo: labelBillingTo,
+  billingToLabel: billingToLabel,
   clientName: clientName,
   clientCompany: clientCompany,
-  labelClientAddress: labelClientAddress,
+  clientAddressLabel: clientAddressLabel,
   clientAddressLine1: clientAddressLine1,
   clientAddressLine2: clientAddressLine2,
   clientAddressLine3: clientAddressLine3,
   clientAddressLine4: clientAddressLine4,
   clientAddressLine5: clientAddressLine5,
-  labelShipTo: labelShipTo,
+  shipToLabel: shipToLabel,
   clientShipName: clientShipName,
   clientShipCompany: clientShipCompany,
-  labelClientShipAddress: labelClientShipAddress,
+  clientShipAddressLabel: clientShipAddressLabel,
   clientShipAddressLine1: clientShipAddressLine1,
   clientShipAddressLine2: clientShipAddressLine2,
   clientShipAddressLine3: clientShipAddressLine3,
   clientShipAddressLine4: clientShipAddressLine4,
   clientShipAddressLine5: clientShipAddressLine5,
-  labelAmountDue: labelAmountDue,
+  amountDueLabel: amountDueLabel,
   amountDue: amountDue,
-  labelTerms: lang["paymentTerms"],
+  termsLabel: lang["paymentTerms"],
   terms: terms,
-  labelPurchaseOrder: lang["purchaseOrder"],
+  purchaseOrderLabel: lang["purchaseOrder"],
   purchaseOrder: purchaseOrder,
-  labelPaymentMethod: lang["paymentMethod"],
+  paymentMethodLabel: lang["paymentMethod"],
   paymentMethod: paymentMethod,
   notes: notes,
-  labelPhone: lang["phone"],
+  phoneLabel: lang["phone"],
   phone: phone,
-  labelEmail: lang["email"],
+  emailLabel: lang["email"],
   email: email,
-  labelWebsite: lang["website"],
+  websiteLabel: lang["website"],
   website: website,
-  labelFacebook: lang["facebook"],
+  facebookLabel: lang["facebook"],
   facebook: facebook,
-  labelTwitter: lang["twitter"],
+  twitterLabel: lang["twitter"],
   twitter: twitter,
-  labelInstagram: lang["instagram"],
+  instagramLabel: lang["instagram"],
   instagram: instagram
 };
 
@@ -307,20 +306,20 @@ if (direction === "rtl") {
 }
 
 const assignValues = () => {
-  mandatoryEditableFields.forEach(item => {
-    hideInput(item);
-    // labelUpdate(item);
-    id(item + "Label").textContent = id(item + "Input").value;
-  });
+  // mandatoryEditableFields.forEach(item => {
+  //   hideInput(item);
+  //   // labelUpdate(item);
+  //   id(item + "Label").textContent = id(item + "Input").value;
+  // });
 
-  optionalEditableFields.forEach(item => {
-    removeFields(item);
-    hideInput(item);
-  });
+  // optionalEditableFields.forEach(item => {
+  //   removeFields(item);
+  //   hideInput(item);
+  // });
 
-  optionalFields.forEach(item => {
-    removeFields(item);
-  });
+  // optionalFields.forEach(item => {
+  //   removeFields(item);
+  // });
 
   flatpickr.localize(flatpickr.l10ns.fr);
 
@@ -432,8 +431,8 @@ const labelRequired = text => {
 const labelRequiredEditable = text => {
   return html`
     <div class="mt-6 mb-2 flex w-full justify-end">
-      ${label(text)} ${labelInput(text)} ${editButton(text)}
-    </div>
+      $ ${labelInput(text)} ${editButton(text)}
+    </div{label(text)}>
   `;
 };
 
@@ -465,9 +464,75 @@ const card = text =>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
 
-render(card("company"), document.getElementById("companyCard"));
-render(card("invoice"), document.getElementById("invoiceCard"));
-render(card("customer"), document.getElementById("customerCard"));
+const inputLabel = (text, textSize = "text-base") => html`
+  <input
+    id="${text}Label"
+    class="form-input ${textSize} rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
+  border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+    type="text"
+    value=${lang[text]}
+    @change=${() => changeLabel(name)}
+  />
+`;
+
+const inputOutput = (name, text, textSize = "text-base") => html`
+  <input
+    id="${name}"
+    class="form-input ${textSize} rounded-none font-semibold self-center text-green-500 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+    type="text"
+    value=${text}
+    @change=${() => changeValues(name)}
+  />
+`;
+
+const header = text => html`
+  <div class="flex flex-wrap overflow-hidden bg-green-800 -mx-6 -my-4 px-6 py-4 mb-4">
+    ${text}
+  </div>
+`;
+
+const companyLayout = text =>
+  html`
+    ${header("Company Details")}
+    <div class="flex flex-wrap overflow-hidden flex-col text-left">
+    ${inputLabel("billingFrom")} ${inputOutput("invoiceDate", "100")} ${inputOutput("dueDate", "100")}
+    </div>
+    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
+    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
+  `;
+
+const invoiceLayout = text =>
+  html`
+    ${header("Invoice Details")} ${inputLabel("invoice", "text-5xl")}
+    <div class="flex flex-wrap overflow-hidden">
+      <div class="w-1/4 overflow-hidden">
+        ${inputLabel("invoiceNum")}
+      </div>
+      <div class="w-3/4 overflow-hidden">
+        ${inputOutput("invoiceNum", "100")}
+      </div>
+      <div class="w-1/4 overflow-hidden">
+        ${inputLabel("invoiceDate")}
+      </div>
+      <div class="w-3/4 overflow-hidden">
+        ${inputOutput("invoiceDate", "100")}
+      </div>
+      <div class="w-1/4 overflow-hidden">
+        ${inputLabel("dueDate")}
+      </div>
+      <div class="w-3/4 overflow-hidden">
+        ${inputOutput("dueDate", "100")}
+      </div>
+    </div>
+    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
+    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
+  `;
+
+render(companyLayout("company"), document.getElementById("newCompanyCard"));
+render(invoiceLayout("invoice"), document.getElementById("newInvoiceCard"));
+// render(card("company"), document.getElementById("companyCard"));
+// render(card("invoice"), document.getElementById("invoiceCard"));
+// render(card("customer"), document.getElementById("customerCard"));
 
 const companyFieldsTemplate = html`
   ${labelRequired("companyName")} ${inputText("companyName")} ${labelRequired("companyAddress")} ${textArea("companyAddress")}
@@ -477,7 +542,7 @@ const companyFieldsTemplate = html`
   ${labelOptionalEditable("instagram")} ${inputText("instagram")}
 `;
 
-render(companyFieldsTemplate, document.getElementById("companyFields"));
+// render(companyFieldsTemplate, document.getElementById("companyFields"));
 
 const invoiceFieldsTemplate = html`
   ${labelRequiredEditable("invoiceNum")} ${inputText("invoiceNum")} ${labelRequiredEditable("invoiceDate")} ${inputText("invoiceDate")}
@@ -485,7 +550,7 @@ const invoiceFieldsTemplate = html`
   ${labelOptionalEditable("purchaseOrder")} ${inputText("purchaseOrder")}
 `;
 
-render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
+// render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
 
 const customerFieldsTemplate = html`
   ${labelRequired("billToName")} ${inputText("billToName")} ${labelRequired("billToAddress")} ${textArea("billToAddress")}
@@ -493,7 +558,7 @@ const customerFieldsTemplate = html`
   ${labelOptionalEditable("billToMail")} ${inputText("billToMail")} ${labelOptionalEditable("billToPhone")} ${inputText("billToPhone")}
 `;
 
-render(customerFieldsTemplate, document.getElementById("customerFields"));
+// render(customerFieldsTemplate, document.getElementById("customerFields"));
 
 const itemFieldsTemplate = html`
   ${labelRequiredEditable("itemName")} ${inputText("itemName")} ${labelRequiredEditable("itemDescription")} ${inputText("itemDescription")}
@@ -501,14 +566,14 @@ const itemFieldsTemplate = html`
   ${labelRequiredEditable("tax")} ${inputText("tax")} ${labelRequiredEditable("extendedPrice")} ${inputText("extendedPrice")}
 `;
 
-render(itemFieldsTemplate, document.getElementById("itemFields"));
+// render(itemFieldsTemplate, document.getElementById("itemFields"));
 
 const companyDetailsTemplate = html`
   ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
   ${addButton("instagram")}
 `;
 
-render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
+// render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
 
 const invoiceDetailsTemplate = html` ${addButton("paymentTerms")} ${addButton("purchaseOrder")} `;
 
@@ -518,7 +583,7 @@ const customerDetailsTemplate = html`
   ${addButton("shipToName")} ${addButton("shipToAddress")} ${addButton("billToMail")} ${addButton("billToPhone")}
 `;
 
-render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
+// render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.vfs = pdfFonts.vfs;
@@ -588,11 +653,13 @@ if (id("downloadButton")) id("downloadButton").addEventListener("click", downloa
 if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
 if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
 
-if (id("invoiceNum")) id("invoiceNum").addEventListener("change", changeInvNum, false);
+function changeValues(text) {
+  variables[text] = id(text).value;
+  renderlayout1();
+}
 
-function changeInvNum() {
-  invoiceNum = id("invoiceNum").value;
-  variables["invoiceNum"] = invoiceNum;
+function changeLabel(text) {
+  variables[text + "Label"] = id(text + "Label").value;
   renderlayout1();
 }
 
