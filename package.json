@@ -13,13 +13,13 @@
     "loadjs": "^4.2.0",
     "locales": "0.0.2",
     "moment": "^2.24.0",
-    "npm-check-updates": "^4.0.5",
     "pdfjs-dist": "^2.3.200",
     "pdfmake": "^0.1.65",
     "prettier": "^2.0.2",
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
+    "npm-check-updates": "^4.1.0",
     "@tailwindcss/custom-forms": "0.2.1",
     "@babel/core": "7.9.0",
     "parcel-bundler": "^1.12.4"

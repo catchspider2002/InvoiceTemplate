@@ -1,36 +1,36 @@
-import pdfMake from "pdfmake/build/pdfmake";
+// import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
-import pdfFonts from "./vfs_fonts";
+// import pdfFonts from "./vfs_fonts";
 
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
-pdfMake.vfs = pdfFonts.vfs;
+// pdfMake.vfs = pdfFonts.vfs;
 
-pdfMake.fonts = {
-  PTSans: {
-          normal: 'PTSans-Regular.ttf',
-          bold: 'PTSans-Bold.ttf',
-          italics: 'PTSans-Regular.ttf',
-          bolditalics: 'PTSans-Regular.ttf'
-  },
-  SourceSans: {
-          normal: 'SourceSansPro-Regular.ttf',
-          bold: 'SourceSansPro-Bold.ttf',
-          italics: 'SourceSansPro-Regular.ttf',
-          bolditalics: 'SourceSansPro-Regular.ttf'
-  },
-  VarelaRound: {
-          normal: 'VarelaRound-Regular.ttf',
-          bold: 'VarelaRound-Regular.ttf',
-          italics: 'VarelaRound-Regular.ttf',
-          bolditalics: 'VarelaRound-Regular.ttf'
-  },
-  Roboto: {
-          normal: 'Roboto-Regular.ttf',
-          bold: 'Roboto-Medium.ttf',
-          italics: 'Roboto-Regular.ttf',
-          bolditalics: 'Roboto-Regular.ttf'
-  }
-};
+// pdfMake.fonts = {
+//   PTSans: {
+//           normal: 'PTSans-Regular.ttf',
+//           bold: 'PTSans-Bold.ttf',
+//           italics: 'PTSans-Regular.ttf',
+//           bolditalics: 'PTSans-Regular.ttf'
+//   },
+//   SourceSans: {
+//           normal: 'SourceSansPro-Regular.ttf',
+//           bold: 'SourceSansPro-Bold.ttf',
+//           italics: 'SourceSansPro-Regular.ttf',
+//           bolditalics: 'SourceSansPro-Regular.ttf'
+//   },
+//   VarelaRound: {
+//           normal: 'VarelaRound-Regular.ttf',
+//           bold: 'VarelaRound-Regular.ttf',
+//           italics: 'VarelaRound-Regular.ttf',
+//           bolditalics: 'VarelaRound-Regular.ttf'
+//   },
+//   Roboto: {
+//           normal: 'Roboto-Regular.ttf',
+//           bold: 'Roboto-Medium.ttf',
+//           italics: 'Roboto-Regular.ttf',
+//           bolditalics: 'Roboto-Regular.ttf'
+//   }
+// };
 
 
 // Invoice - 17.72px
@@ -343,21 +343,17 @@ let layout1 = val => {
               {
                 stack: [
                   labelText(val.billingFromLabel, val.colorPrimary, ["h3", "bMarginSM"]),
-                  labelText(val.sellerName, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerCompany, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine1, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine2, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine3, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine4, "", ["h4", "bMarginXS"]),
-                  labelText(val.sellerAddressLine5, "", ["h4", "bMarginXL"]),
                   labelText(val.billingToLabel, val.colorPrimary, ["h3", "bMarginSM"]),
-                  labelText(val.clientName, "", ["h4", "bMarginXS"]),
                   labelText(val.clientCompany, "", ["h4", "bMarginXS"]),
                   labelText(val.clientAddressLine1, "", ["h4", "bMarginXS"]),
                   labelText(val.clientAddressLine2, "", ["h4", "bMarginXS"]),
                   labelText(val.clientAddressLine3, "", ["h4", "bMarginXS"]),
-                  labelText(val.clientAddressLine4, "", ["h4", "bMarginXS"]),
-                  labelText(val.clientAddressLine5, "", ["h4"])
+                  labelText(val.clientAddressLine4, "", ["h4"])
                 ]
               }
             ]
@@ -510,9 +506,9 @@ let layout1 = val => {
       }
     ],
     styles: styles(),
-    defaultStyle: {
-      font: 'VarelaRound'
-    }
+    // defaultStyle: {
+    //   font: 'VarelaRound'
+    // }
   };
 };
 
@@ -542,9 +538,9 @@ let layout2 = val => {
       }
     ],
     styles: styles(),
-    defaultStyle: {
-      font: 'VarelaRound'
-    }
+    // defaultStyle: {
+    //   font: 'VarelaRound'
+    // }
   };
 };
 

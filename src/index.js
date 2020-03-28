@@ -2,8 +2,8 @@
 // Also on https://codesandbox.io/s/oj81y
 
 import pdfMake from "pdfmake/build/pdfmake";
-// import pdfFonts from "pdfmake/build/vfs_fonts";
-import pdfFonts from "./vfs_fonts";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+// import pdfFonts from "./vfs_fonts";
 import moment from "moment";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
@@ -149,37 +149,10 @@ let invoiceNum = "000021";
 let invoiceDate = moment("20200131").format(dateFormat);
 let dueDate = moment("20200205").format(dateFormat);
 
-let billingFromLabel = "Billing From";
-let sellerName = "Your Name";
-let sellerCompany = "Your Company";
 let sellerAddressLabel = "Address";
-let sellerAddressLine1 = "9999 Street Name";
-let sellerAddressLine2 = "Some Area";
-let sellerAddressLine3 = "Some Place";
-let sellerAddressLine4 = "New York City";
-let sellerAddressLine5 = "NY 00010 USA";
-
-let billingToLabel = "Bill To";
-let clientName = "Client Name";
-let clientCompany = "Client Company";
 let clientAddressLabel = "Address";
-let clientAddressLine1 = "1111 Street Name";
-let clientAddressLine2 = "Some Area";
-let clientAddressLine3 = "Some Place";
-let clientAddressLine4 = "New York City";
-let clientAddressLine5 = "NY 00011 USA";
-
-let shipToLabel = "Bill To";
-let clientShipName = "Client Name";
-let clientShipCompany = "Client Company";
 let clientShipAddressLabel = "Address";
-let clientShipAddressLine1 = "1111 Street Name";
-let clientShipAddressLine2 = "Some Area";
-let clientShipAddressLine3 = "Some Place";
-let clientShipAddressLine4 = "New York City";
-let clientShipAddressLine5 = "NY 00011 USA";
 
-let amountDueLabel = "Amount Due";
 let amountDue = "$2000";
 let terms = "5 Days";
 let purchaseOrder = "454523";
@@ -208,34 +181,31 @@ let variables = {
   invoiceNum: invoiceNum,
   invoiceDate: invoiceDate,
   dueDate: dueDate,
-  billingFromLabel: billingFromLabel,
-  sellerName: sellerName,
-  sellerCompany: sellerCompany,
+  billingFromLabel: lang["billFrom"],
+  // sellerName: sellerName,
+  sellerCompany: lang["companyName"],
   sellerAddressLabel: sellerAddressLabel,
-  sellerAddressLine1: sellerAddressLine1,
-  sellerAddressLine2: sellerAddressLine2,
-  sellerAddressLine3: sellerAddressLine3,
-  sellerAddressLine4: sellerAddressLine4,
-  sellerAddressLine5: sellerAddressLine5,
-  billingToLabel: billingToLabel,
-  clientName: clientName,
-  clientCompany: clientCompany,
+  sellerAddressLine1: lang["addressLine1"],
+  sellerAddressLine2: lang["addressLine2"],
+  sellerAddressLine3: lang["addressLine3"],
+  sellerAddressLine4: lang["addressLine4"],
+  billingToLabel: lang["billTo"],
+  // clientName: clientName,
+  clientCompany: lang["companyName"],
   clientAddressLabel: clientAddressLabel,
-  clientAddressLine1: clientAddressLine1,
-  clientAddressLine2: clientAddressLine2,
-  clientAddressLine3: clientAddressLine3,
-  clientAddressLine4: clientAddressLine4,
-  clientAddressLine5: clientAddressLine5,
-  shipToLabel: shipToLabel,
-  clientShipName: clientShipName,
-  clientShipCompany: clientShipCompany,
+  clientAddressLine1: lang["addressLine1"],
+  clientAddressLine2: lang["addressLine2"],
+  clientAddressLine3: lang["addressLine3"],
+  clientAddressLine4: lang["addressLine4"],
+  shipToLabel: lang["shipTo"],
+  // clientShipName: clientShipName,
+  clientShipCompany: lang["companyName"],
   clientShipAddressLabel: clientShipAddressLabel,
-  clientShipAddressLine1: clientShipAddressLine1,
-  clientShipAddressLine2: clientShipAddressLine2,
-  clientShipAddressLine3: clientShipAddressLine3,
-  clientShipAddressLine4: clientShipAddressLine4,
-  clientShipAddressLine5: clientShipAddressLine5,
-  amountDueLabel: amountDueLabel,
+  clientShipAddressLine1: lang["addressLine1"],
+  clientShipAddressLine2: lang["addressLine2"],
+  clientShipAddressLine3: lang["addressLine3"],
+  clientShipAddressLine4: lang["addressLine4"],
+  amountDueLabel: lang["amountDue"],
   amountDue: amountDue,
   termsLabel: lang["paymentTerms"],
   terms: terms,
@@ -280,20 +250,22 @@ let mandatoryEditableFields = ["invoiceNum", "invoiceDate", "dueDate"];
 
 let optionalFields = ["companyLogo"];
 
-let optionalEditableFields = [
-  "phone",
-  "email",
-  "website",
-  "facebook",
-  "twitter",
-  "instagram",
-  "paymentTerms",
-  "purchaseOrder",
-  "shipToName",
-  "shipToAddress",
-  "billToMail",
-  "billToPhone"
-];
+// let optionalEditableFields = [
+//   "phone",
+//   "email",
+//   "website",
+//   "facebook",
+//   "twitter",
+//   "instagram",
+//   "paymentTerms",
+//   "purchaseOrder",
+//   "shipToName",
+//   "shipToAddress",
+//   "billToMail",
+//   "billToPhone"
+// ];
+
+let optionalEditableFields = ["paymentTerms", "purchaseOrder"];
 
 let direction = "ltr";
 let alignment = "text-left";
@@ -312,10 +284,10 @@ const assignValues = () => {
   //   id(item + "Label").textContent = id(item + "Input").value;
   // });
 
-  // optionalEditableFields.forEach(item => {
-  //   removeFields(item);
-  //   hideInput(item);
-  // });
+  optionalEditableFields.forEach(item => {
+    removeFields(item);
+    // hideInput(item);
+  });
 
   // optionalFields.forEach(item => {
   //   removeFields(item);
@@ -468,17 +440,18 @@ const inputLabel = (text, textSize = "text-base") => html`
   <input
     id="${text}Label"
     class="form-input ${textSize} rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
-  border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+  border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
     type="text"
     value=${lang[text]}
-    @change=${() => changeLabel(name)}
+    @change=${() => changeLabel(text)}
+    onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
   />
 `;
 
 const inputOutput = (name, text, textSize = "text-base") => html`
   <input
     id="${name}"
-    class="form-input ${textSize} rounded-none font-semibold self-center text-green-500 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+    class="form-input ${textSize} rounded-none font-semibold self-center text-green-500 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
     type="text"
     value=${text}
     @change=${() => changeValues(name)}
@@ -491,45 +464,42 @@ const header = text => html`
   </div>
 `;
 
-const companyLayout = text =>
+const invoice2Column = (text, value) =>
   html`
-    ${header("Company Details")}
-    <div class="flex flex-wrap overflow-hidden flex-col text-left">
-    ${inputLabel("billingFrom")} ${inputOutput("invoiceDate", "100")} ${inputOutput("dueDate", "100")}
+    <div id="${text}LabelWrapper" class="flex flex-row">
+      ${inputLabel(text)} ${inputOutput(text, value)}
     </div>
-    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
-    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
 
 const invoiceLayout = text =>
   html`
-    ${header("Invoice Details")} ${inputLabel("invoice", "text-5xl")}
-    <div class="flex flex-wrap overflow-hidden">
-      <div class="w-1/4 overflow-hidden">
-        ${inputLabel("invoiceNum")}
-      </div>
-      <div class="w-3/4 overflow-hidden">
-        ${inputOutput("invoiceNum", "100")}
-      </div>
-      <div class="w-1/4 overflow-hidden">
-        ${inputLabel("invoiceDate")}
-      </div>
-      <div class="w-3/4 overflow-hidden">
-        ${inputOutput("invoiceDate", "100")}
-      </div>
-      <div class="w-1/4 overflow-hidden">
-        ${inputLabel("dueDate")}
-      </div>
-      <div class="w-3/4 overflow-hidden">
-        ${inputOutput("dueDate", "100")}
-      </div>
-    </div>
+    ${header("Invoice Details")} ${inputLabel("invoice", "text-5xl")} ${invoice2Column("invoiceNum", 100)} ${invoice2Column("invoiceDate", 100)}
+    ${invoice2Column("dueDate", 100)} ${invoice2Column("paymentTerms", 100)} ${invoice2Column("purchaseOrder", 100)}
     <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
 
-render(companyLayout("company"), document.getElementById("newCompanyCard"));
+const companyLayout = text =>
+  html`
+    ${header("Company Details")} ${inputLabel("billFrom")} ${inputOutput("sellerCompany", lang["companyName"])}
+    ${inputOutput("sellerAddressLine1", lang["addressLine1"])} ${inputOutput("sellerAddressLine2", lang["addressLine2"])}
+    ${inputOutput("sellerAddressLine3", lang["addressLine3"])} ${inputOutput("sellerAddressLine4", lang["addressLine4"])}
+    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
+    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
+  `;
+
+const customerLayout = text =>
+  html`
+    ${header("Customer Details")} ${inputLabel("billTo")} ${inputOutput("clientCompany", lang["companyName"])}
+    ${inputOutput("clientAddressLine1", lang["addressLine1"])} ${inputOutput("clientAddressLine2", lang["addressLine2"])}
+    ${inputOutput("clientAddressLine3", lang["addressLine3"])} ${inputOutput("clientAddressLine4", lang["addressLine4"])}
+    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
+    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
+  `;
+
 render(invoiceLayout("invoice"), document.getElementById("newInvoiceCard"));
+render(companyLayout("company"), document.getElementById("newCompanyCard"));
+render(customerLayout("customer"), document.getElementById("newCustomerCard"));
 // render(card("company"), document.getElementById("companyCard"));
 // render(card("invoice"), document.getElementById("invoiceCard"));
 // render(card("customer"), document.getElementById("customerCard"));
@@ -573,7 +543,7 @@ const companyDetailsTemplate = html`
   ${addButton("instagram")}
 `;
 
-// render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
+render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
 
 const invoiceDetailsTemplate = html` ${addButton("paymentTerms")} ${addButton("purchaseOrder")} `;
 
@@ -583,10 +553,10 @@ const customerDetailsTemplate = html`
   ${addButton("shipToName")} ${addButton("shipToAddress")} ${addButton("billToMail")} ${addButton("billToPhone")}
 `;
 
-// render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
+render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
 
-// pdfMake.vfs = pdfFonts.pdfMake.vfs;
-pdfMake.vfs = pdfFonts.vfs;
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 // var derivedLang = "es";
 if (lang) assignValues();
@@ -599,32 +569,32 @@ if (lang) assignValues();
 
 // loadjs("./locales/locale.es.js", assignValues);
 
-pdfMake.fonts = {
-  // PTSans: {
-  //   normal: "PTSans-Regular.ttf",
-  //   bold: "PTSans-Bold.ttf",
-  //   italics: "PTSans-Regular.ttf",
-  //   bolditalics: "PTSans-Regular.ttf"
-  // },
-  // SourceSans: {
-  //   normal: "SourceSansPro-Regular.ttf",
-  //   bold: "SourceSansPro-Bold.ttf",
-  //   italics: "SourceSansPro-Regular.ttf",
-  //   bolditalics: "SourceSansPro-Regular.ttf"
-  // },
-  // Roboto: {
-  //   normal: "Roboto-Regular.ttf",
-  //   bold: "Roboto-Medium.ttf",
-  //   italics: "Roboto-Regular.ttf",
-  //   bolditalics: "Roboto-Regular.ttf"
-  // },
-  VarelaRound: {
-    normal: "VarelaRound-Regular.ttf",
-    bold: "VarelaRound-Regular.ttf",
-    italics: "VarelaRound-Regular.ttf",
-    bolditalics: "VarelaRound-Regular.ttf"
-  }
-};
+// pdfMake.fonts = {
+//   // PTSans: {
+//   //   normal: "PTSans-Regular.ttf",
+//   //   bold: "PTSans-Bold.ttf",
+//   //   italics: "PTSans-Regular.ttf",
+//   //   bolditalics: "PTSans-Regular.ttf"
+//   // },
+//   // SourceSans: {
+//   //   normal: "SourceSansPro-Regular.ttf",
+//   //   bold: "SourceSansPro-Bold.ttf",
+//   //   italics: "SourceSansPro-Regular.ttf",
+//   //   bolditalics: "SourceSansPro-Regular.ttf"
+//   // },
+//   // Roboto: {
+//   //   normal: "Roboto-Regular.ttf",
+//   //   bold: "Roboto-Medium.ttf",
+//   //   italics: "Roboto-Regular.ttf",
+//   //   bolditalics: "Roboto-Regular.ttf"
+//   // },
+//   VarelaRound: {
+//     normal: "VarelaRound-Regular.ttf",
+//     bold: "VarelaRound-Regular.ttf",
+//     italics: "VarelaRound-Regular.ttf",
+//     bolditalics: "VarelaRound-Regular.ttf"
+//   }
+// };
 
 const download = () => {
   console.log("download");
