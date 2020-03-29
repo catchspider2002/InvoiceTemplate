@@ -65,10 +65,6 @@ let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 // - Project Name
 // - Payment (Visa 8118)
 // - Shipping (Express Shipping)
-// Bill To Details
-// - Bill To Name
-// - Bill To Address
-// - Bill To Phone
 // Ship To Details
 // - Ship To Name
 // - Ship To Address
@@ -189,6 +185,8 @@ let variables = {
   sellerAddressLine2: lang["addressLine2"],
   sellerAddressLine3: lang["addressLine3"],
   sellerAddressLine4: lang["addressLine4"],
+  sellerPhone: lang["phone"],
+  sellerEmail: lang["email"],
   billingToLabel: lang["billTo"],
   // clientName: clientName,
   clientCompany: lang["companyName"],
@@ -197,6 +195,8 @@ let variables = {
   clientAddressLine2: lang["addressLine2"],
   clientAddressLine3: lang["addressLine3"],
   clientAddressLine4: lang["addressLine4"],
+  clientPhone: lang["phone"],
+  clientEmail: lang["email"],
   shipToLabel: lang["shipTo"],
   // clientShipName: clientShipName,
   clientShipCompany: lang["companyName"],
@@ -214,10 +214,6 @@ let variables = {
   paymentMethodLabel: lang["paymentMethod"],
   paymentMethod: paymentMethod,
   notes: notes,
-  phoneLabel: lang["phone"],
-  phone: phone,
-  emailLabel: lang["email"],
-  email: email,
   websiteLabel: lang["website"],
   website: website,
   facebookLabel: lang["facebook"],
@@ -232,14 +228,26 @@ const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
 
 const id = text => document.getElementById(text);
 
-const showFields = field => {
+const show2Fields = field => {
   id(field + "LabelWrapper").style.display = "flex";
   id(field).style.display = "block";
   id(field + "Button").style.display = "none";
 };
 
-const removeFields = field => {
+const showField = field => {
+  id(field).style.display = "flex";
+  id(field).style.display = "block";
+  id(field + "Button").style.display = "none";
+};
+
+const remove2Fields = field => {
   id(field + "LabelWrapper").style.display = "none";
+  id(field).style.display = "none";
+  id(field + "Button").style.display = "block";
+};
+
+const removeField = field => {
+  console.log("removeField: " + field);
   id(field).style.display = "none";
   id(field + "Button").style.display = "block";
 };
@@ -265,7 +273,8 @@ let optionalFields = ["companyLogo"];
 //   "billToPhone"
 // ];
 
-let optionalEditableFields = ["paymentTerms", "purchaseOrder"];
+let optional2ColumnFields = ["paymentTerms", "purchaseOrder"];
+let optional1ColumnField = ["sellerPhone", "sellerEmail", "website", "facebook", "twitter", "instagram"];
 
 let direction = "ltr";
 let alignment = "text-left";
@@ -284,13 +293,18 @@ const assignValues = () => {
   //   id(item + "Label").textContent = id(item + "Input").value;
   // });
 
-  optionalEditableFields.forEach(item => {
-    removeFields(item);
+  optional2ColumnFields.forEach(item => {
+    remove2Fields(item);
+    // hideInput(item);
+  });
+
+  optional1ColumnField.forEach(item => {
+    removeField(item);
     // hideInput(item);
   });
 
   // optionalFields.forEach(item => {
-  //   removeFields(item);
+  //   removewFields(item);
   // });
 
   flatpickr.localize(flatpickr.l10ns.fr);
@@ -331,11 +345,23 @@ const labelUpdate = text => {
 
 let canUpdate = true;
 
-const addButton = text =>
+const add2ColumnButton = text =>
   html`
     <button
       id="${text}Button"
-      @click=${() => showFields(text)}
+      @click=${() => show2Fields(text)}
+      class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
+      title="Add ${lang[text]}"
+    >
+      <span>+ ${lang[text]}</span>
+    </button>
+  `;
+
+const addButton = (name, text) =>
+  html`
+    <button
+      id="${name}Button"
+      @click=${() => showField(name)}
       class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
       title="Add ${lang[text]}"
     >
@@ -349,7 +375,7 @@ const removeButton = text =>
       id="${text}RemoveButton"
       class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
       title="Remove field"
-      @click=${() => removeFields(text)}
+      @click=${() => remove2Fields(text)}
     >
       <i class="gg-trash"></i>
     </button>
@@ -439,19 +465,18 @@ const card = text =>
 const inputLabel = (text, textSize = "text-base") => html`
   <input
     id="${text}Label"
-    class="form-input ${textSize} rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
+    class="form-input ${textSize} mb-4 rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
   border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
     type="text"
     value=${lang[text]}
     @change=${() => changeLabel(text)}
-    onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
   />
 `;
 
 const inputOutput = (name, text, textSize = "text-base") => html`
   <input
     id="${name}"
-    class="form-input ${textSize} rounded-none font-semibold self-center text-green-500 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
+    class="form-input ${textSize} mb-4 rounded-none font-semibold self-center text-blue-300 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
     type="text"
     value=${text}
     @change=${() => changeValues(name)}
@@ -459,7 +484,7 @@ const inputOutput = (name, text, textSize = "text-base") => html`
 `;
 
 const header = text => html`
-  <div class="flex flex-wrap overflow-hidden bg-green-800 -mx-6 -my-4 px-6 py-4 mb-4">
+  <div class="flex flex-wrap overflow-hidden bg-blue-700 -mx-6 -my-4 px-6 py-4 mb-4">
     ${text}
   </div>
 `;
@@ -484,6 +509,8 @@ const companyLayout = text =>
     ${header("Company Details")} ${inputLabel("billFrom")} ${inputOutput("sellerCompany", lang["companyName"])}
     ${inputOutput("sellerAddressLine1", lang["addressLine1"])} ${inputOutput("sellerAddressLine2", lang["addressLine2"])}
     ${inputOutput("sellerAddressLine3", lang["addressLine3"])} ${inputOutput("sellerAddressLine4", lang["addressLine4"])}
+    ${inputOutput("sellerPhone", lang["phone"])} ${inputOutput("sellerEmail", lang["email"])} ${inputOutput("website", lang["website"])}
+    ${inputOutput("facebook", lang["facebook"])} ${inputOutput("twitter", lang["twitter"])} ${inputOutput("instagram", lang["instagram"])}
     <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
@@ -493,6 +520,7 @@ const customerLayout = text =>
     ${header("Customer Details")} ${inputLabel("billTo")} ${inputOutput("clientCompany", lang["companyName"])}
     ${inputOutput("clientAddressLine1", lang["addressLine1"])} ${inputOutput("clientAddressLine2", lang["addressLine2"])}
     ${inputOutput("clientAddressLine3", lang["addressLine3"])} ${inputOutput("clientAddressLine4", lang["addressLine4"])}
+    ${inputOutput("clientPhone", lang["phone"])} ${inputOutput("clientEmail", lang["email"])}
     <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
@@ -538,20 +566,19 @@ const itemFieldsTemplate = html`
 
 // render(itemFieldsTemplate, document.getElementById("itemFields"));
 
+const invoiceDetailsTemplate = html` ${add2ColumnButton("paymentTerms")} ${add2ColumnButton("purchaseOrder")} `;
+
+render(invoiceDetailsTemplate, document.getElementById("optionalInvoiceDetails"));
+
 const companyDetailsTemplate = html`
-  ${addButton("companyLogo")} ${addButton("phone")} ${addButton("email")} ${addButton("website")} ${addButton("facebook")} ${addButton("twitter")}
-  ${addButton("instagram")}
+  ${addButton("companyLogo")} ${addButton("sellerPhone", "phone")} ${addButton("sellerEmail", "email")} ${addButton("website", "website")}
+  ${addButton("facebook", "facebook")} ${addButton("twitter", "twitter")} ${addButton("instagram", "instagram")} ${addButton("customField")}
+  ${addButton("customField")}
 `;
 
 render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
 
-const invoiceDetailsTemplate = html` ${addButton("paymentTerms")} ${addButton("purchaseOrder")} `;
-
-render(invoiceDetailsTemplate, document.getElementById("optionalInvoiceDetails"));
-
-const customerDetailsTemplate = html`
-  ${addButton("shipToName")} ${addButton("shipToAddress")} ${addButton("billToMail")} ${addButton("billToPhone")}
-`;
+const customerDetailsTemplate = html` ${addButton("phone")} ${addButton("email")} ${addButton("customField")} ${addButton("customField")}`;
 
 render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
 

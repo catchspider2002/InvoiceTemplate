@@ -24,6 +24,7 @@
   customerDetails: "Çúƨƭô₥èř Ðèƭáïℓƨ ℓôřè",
   billTo: "ßïℓℓ Tô ℓ",
   billToName: "ßïℓℓ Tô Ná₥è ℓôř",
+  shipTo: "ßïℓℓ Tô ℓ",
   shipToName: "§λïƥ Tô Ná₥è ℓôř",
   shipToAddress: "§λïƥ Tô Âδδřèƨƨ ℓôřè",
   billToMail: "ßïℓℓ Tô É-₥áïℓ ℓôř",
@@ -43,5 +44,6 @@
   clickToAdd: "Çℓïçƙ ƭô Âδδ ℓôř",
   optional: "Óƥƭïôñáℓ ℓ",
   removeField: "Rè₥ôƲè Fïèℓδ ℓôř",
-  editLabel: "Éδïƭ £áβèℓ ℓô"
+  editLabel: "Éδïƭ £áβèℓ ℓô",
+  customField: "Éδïƭ £áβèℓ ℓô"
 };

@@ -32,7 +32,6 @@
 //   }
 // };
 
-
 // Invoice - 17.72px
 // 8.86px
 // 4.64px
@@ -130,7 +129,7 @@ const textWithRule = () => {
       body: [[labelText("invoiceLabel", "red", ["h1", "right"])], [""]]
     },
     layout: {
-      hLineWidth: function(i, node) {
+      hLineWidth: function (i, node) {
         return i === 0 || i === node.table.body.length ? 0 : 1;
       },
       vLineWidth: number0
@@ -227,7 +226,7 @@ let layout1 = val => {
   pdfMake.tableLayouts = {
     verticalDividerLayout: {
       hLineWidth: number0,
-      vLineWidth: function(i, node) {
+      vLineWidth: function (i, node) {
         return i > 1 && i < node.table.widths.length - 1 ? 1 : 0;
       }
     },
@@ -263,7 +262,7 @@ let layout1 = val => {
       hLineWidth: hHeaderBorder, // bottomBorderThickThin,
       vLineWidth: number0,
       hLineColor: val.colorPrimary,
-      hLineStyle: function(i, node) {
+      hLineStyle: function (i, node) {
         if (i === 1) {
           return null;
         }
@@ -362,7 +361,7 @@ let layout1 = val => {
         style: "hMargin50",
         layout: {
           hLineWidth: number0,
-          vLineWidth: function(i, node) {
+          vLineWidth: function (i, node) {
             return i === 3 ? 1 : 0;
           },
           vLineColor: "black"
@@ -505,7 +504,7 @@ let layout1 = val => {
         }
       }
     ],
-    styles: styles(),
+    styles: styles()
     // defaultStyle: {
     //   font: 'VarelaRound'
     // }
@@ -537,7 +536,7 @@ let layout2 = val => {
         ]
       }
     ],
-    styles: styles(),
+    styles: styles()
     // defaultStyle: {
     //   font: 'VarelaRound'
     // }

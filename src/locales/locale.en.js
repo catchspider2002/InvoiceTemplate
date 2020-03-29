@@ -24,6 +24,7 @@
   customerDetails: "Customer Details",
   billTo: "Bill To",
   billToName: "Bill To Name",
+  shipTo: "Ship To",
   shipToName: "Ship To Name",
   shipToAddress: "Ship To Address",
   billToMail: "Bill To E-mail",
@@ -43,5 +44,6 @@
   clickToAdd: "Click to Add",
   optional: "Optional",
   removeField: "Remove Field",
-  editLabel: "Edit Label"
+  editLabel: "Edit Label",
+  customField: "Custom Field"
 };

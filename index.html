@@ -65,16 +65,13 @@
                 </label>
               </div>
             </div>
-            <div class="container flex overflow-x-auto justify-center w-full">
-              <div>One - 1</div>
-              <div>Two - 2</div>
-              <div>Three - 3</div>
-              <div>Four - 4</div>
-              <div>Five - 5</div>
-              <div>Six - 6</div>
-              <div>Seven - 7</div>
-            </div>
 
+            <input
+              class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-48 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              id="inline-full-name"
+              type="text"
+              placeholder="eg. #INV-100001"
+            />
             <br />
             <br />
             <!-- Actual UI -->
@@ -88,10 +85,55 @@
             <!-- <div id="invoiceCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div> -->
 
             <!-- Customer Details -->
-            <div id="/customerCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+            <!-- <div id="customerCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div> -->
 
             <!-- Item Detail -->
-            <div id="itemDetailCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+            <div id="itemDetailCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
+              <div class="overflow-x-auto">
+                <table>
+                  <tr>
+                    <th class="p-2">Serial Number</th>
+                    <th class="p-2">Item Name</th>
+                    <th class="p-2">Item Description</th>
+                    <th class="p-2">Quantity</th>
+                    <th class="p-2">Price</th>
+                    <th class="p-2">Tax</th>
+                    <th class="p-2">Discount</th>
+                    <th class="p-2">Total</th>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>Newport Jeans</td>
+                    <td>Item Description</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                    <td>94</td>
+                    <td>94</td>
+                    <td>94</td>
+                    <td>94</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Adam</td>
+                    <td>Johnson</td>
+                    <td>67</td>
+                    <td>67</td>
+                    <td>67</td>
+                    <td>67</td>
+                    <td>67</td>
+                    <td>67</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
 
             <!-- Item Summary -->
             <div id="itemSummaryCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
