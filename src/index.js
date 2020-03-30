@@ -4,7 +4,8 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 // import pdfFonts from "./vfs_fonts";
-import moment from "moment";
+// import moment from "moment";
+// import "moment/min/locales.min";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
@@ -121,19 +122,14 @@ dateFormat = "MM/DD/YYYY"; // 02/19/2020
 // dateFormat="YYYY/M/D" // 2020/2/19
 // dateFormat="DD/MM/YYYY" // 19/02/2020
 // dateFormat="D/M/YYYY" // 19/2/2020
-// dateFormat="YYYY, MMMM DD" // 2020, February 19
+dateFormat = "YYYY, MMMM DD"; // 2020, February 19
 // dateFormat="YYYY, MMM DD" // 2020, Feb 19
 
 let currency1;
 let currency2;
 let currencyPrecision;
 
-// moment.locale("tr");
-// console.log(moment(1316116057189).fromNow()); // il y a une heure
-// moment.locale('en');
-// console.log(moment(1316116057189).fromNow()); // an hour ago
-
-let headerLeft = moment().format(dateFormat);
+// let headerLeft = moment().format(dateFormat);
 let headerCenter = "NEW HEADER CENTER";
 let headerRight = "NEW HEADER RIGHT";
 
@@ -142,8 +138,9 @@ let footerCenter = "NEW FOOTER CENTER";
 let footerRight = "NEW FOOTER RIGHT";
 
 let invoiceNum = "000021";
-let invoiceDate = moment("20200131").format(dateFormat);
-let dueDate = moment("20200205").format(dateFormat);
+let invoiceDate = "20200131"; //moment("20200131").format(dateFormat);
+// let dueDate = moment("20200205").format(dateFormat);
+let dueDate = "20200131";
 
 let sellerAddressLabel = "Address";
 let clientAddressLabel = "Address";
@@ -342,13 +339,13 @@ const assignValues = () => {
 
   optional2ColumnFields.forEach(item => {
     // remove2Fields(item);
-    buttonToggle(item)
+    buttonToggle(item);
     // hideInput(item);
   });
 
   optional1ColumnField.forEach(item => {
     // removeField(item);
-    buttonToggle(item)
+    buttonToggle(item);
     // hideInput(item);
   });
 
@@ -356,7 +353,7 @@ const assignValues = () => {
   //   removewFields(item);
   // });
 
-  flatpickr.localize(flatpickr.l10ns.fr);
+  flatpickr.localize(flatpickr.l10ns.tr);
 
   flatpickr("#invoiceDate", {
     dateFormat: "Y, F d",
@@ -367,30 +364,37 @@ const assignValues = () => {
     dateFormat: "Y, F d",
     disableMobile: "true"
   });
+
+  // moment.locale("fr");
+  // console.log(moment().format(dateFormat)); // il y a une heure
+  // moment.locale("tr");
+  // console.log(moment(1316116057189).fromNow()); // an hour ago
+  // moment.locale("fr");
+  // console.log(moment(1316116057189).fromNow()); // il y a une heure
 };
 
-const hideInput = text => {
-  id(text + "Input").style.display = "none";
-  id(text + "Label").style.display = "block";
-};
+// const hideInput = text => {
+//   id(text + "Input").style.display = "none";
+//   id(text + "Label").style.display = "block";
+// };
 
-const showInput = text => {
-  console.log(text);
-  id(text + "Input").style.display = "block";
-  id(text + "Label").style.display = "none";
-};
+// const showInput = text => {
+//   console.log(text);
+//   id(text + "Input").style.display = "block";
+//   id(text + "Label").style.display = "none";
+// };
 
-const labelUpdate = text => {
-  if (canUpdate) {
-    id(text + "Label").textContent = id(text + "Input").value;
-    variables["label" + initCap(text)] = id(text + "Label").textContent;
-    renderlayout1();
-  } else {
-    canUpdate = true;
-    id(text + "Input").value = id(text + "Label").textContent;
-  }
-  hideInput(text);
-};
+// const labelUpdate = text => {
+//   if (canUpdate) {
+//     id(text + "Label").textContent = id(text + "Input").value;
+//     variables["label" + initCap(text)] = id(text + "Label").textContent;
+//     renderlayout1();
+//   } else {
+//     canUpdate = true;
+//     id(text + "Input").value = id(text + "Label").textContent;
+//   }
+//   hideInput(text);
+// };
 
 let canUpdate = true;
 
@@ -402,7 +406,7 @@ const add2ColumnButton = text =>
       class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
       title="Add ${lang[text]}"
     >
-      <span>+ ${lang[text]}</span>
+      <span>${lang[text]}</span>
     </button>
   `;
 
@@ -414,7 +418,7 @@ const addButton = (name, text) =>
       class="px-3 py-2 mb-2 mr-2 font-semibold bg-gray-700 rounded hover:bg-gray-600"
       title="Add ${lang[text]}"
     >
-      <span>+ ${lang[text]}</span>
+      <span>${lang[text]}</span>
     </button>
   `;
 
@@ -430,16 +434,16 @@ const addButton = (name, text) =>
 //     </button>
 //   `;
 
-const editButton = text =>
-  html`
-    <button
-      class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
-      @click=${() => showInput(text)}
-      title="Edit label"
-    >
-      <i class="gg-pen"></i>
-    </button>
-  `;
+// const editButton = text =>
+//   html`
+//     <button
+//       class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
+//       @click=${() => showInput(text)}
+//       title="Edit label"
+//     >
+//       <i class="gg-pen"></i>
+//     </button>
+//   `;
 
 const label = text => {
   return html`
@@ -447,41 +451,41 @@ const label = text => {
   `;
 };
 
-const labelInput = text => {
-  return html`
-    <input
-      id="${text}Input"
-      class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
-      border-yellow-600 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
-      type="text"
-      value="${lang[text]}"
-      @change=${() => labelUpdate(text)}
-      @keydown=${e => {
-        if (e.key === "Escape") {
-          console.log("Esc");
-          canUpdate = false;
-          hideInput(text);
-        }
-      }}
-    />
-  `;
-};
+// const labelInput = text => {
+//   return html`
+//     <input
+//       id="${text}Input"
+//       class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
+//       border-yellow-600 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
+//       type="text"
+//       value="${lang[text]}"
+//       @change=${() => labelUpdate(text)}
+//       @keydown=${e => {
+//         if (e.key === "Escape") {
+//           console.log("Esc");
+//           canUpdate = false;
+//           hideInput(text);
+//         }
+//       }}
+//     />
+//   `;
+// };
 
-const labelRequired = text => {
-  return html`
-    <div class="mt-6 mb-2 flex w-full justify-end">
-      ${label(text)}
-    </div>
-  `;
-};
+// const labelRequired = text => {
+//   return html`
+//     <div class="mt-6 mb-2 flex w-full justify-end">
+//       ${label(text)}
+//     </div>
+//   `;
+// };
 
-const labelRequiredEditable = text => {
-  return html`
-    <div class="mt-6 mb-2 flex w-full justify-end">
-      $ ${labelInput(text)} ${editButton(text)}
-    </div{label(text)}>
-  `;
-};
+// const labelRequiredEditable = text => {
+//   return html`
+//     <div class="mt-6 mb-2 flex w-full justify-end">
+//       $ ${labelInput(text)} ${editButton(text)}
+//     </div{label(text)}>
+//   `;
+// };
 
 // const labelOptional = text =>
 //   html`
@@ -525,7 +529,7 @@ const inputLabel = (text, textSize = "text-base") => html`
 const inputOutput = (name, text, textSize = "text-base") => html`
   <input
     id="${name}"
-    class="form-input ${textSize} mb-4 rounded-none font-semibold self-center text-blue-300 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
+    class="form-input ${textSize} mb-4 rounded-none self-center text-blue-300 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
     type="text"
     value=${text}
     @change=${() => changeValues(name)}
@@ -547,8 +551,9 @@ const invoice2Column = (text, value) =>
 
 const invoiceLayout = text =>
   html`
-    ${header("Invoice Details")} ${inputLabel("invoice", "text-5xl")} ${invoice2Column("invoiceNum", 100)} ${invoice2Column("invoiceDate", 100)}
-    ${invoice2Column("dueDate", 100)} ${invoice2Column("paymentTerms", 100)} ${invoice2Column("purchaseOrder", 100)}
+    ${header("Invoice Details")} ${inputLabel("invoice", "text-5xl")} ${invoice2Column("invoiceNum", 100)}
+    ${invoice2Column("invoiceDate", "20200101")} ${invoice2Column("dueDate", "20200101")} ${invoice2Column("paymentTerms", 100)}
+    ${invoice2Column("purchaseOrder", 100)}
     <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
