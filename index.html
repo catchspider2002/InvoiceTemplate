@@ -14,7 +14,7 @@
   </head>
 
   <body dir="ltr" class="bg-gray-800 text-gray-300">
-    <div class="p-4 m-0 list-none flex bg-gray-700 justify-around flex-row flex-wrap">
+    <div class="p-4 m-0 list-none flex bg-gray-800 justify-around flex-row flex-wrap">
       <div class="p-5 mt-5 w-full md:w-1/2 font-bold text-center">
         <div class="tabbed">
           <ul class="bg-gray-900 top-0 fixed p-0">
@@ -73,6 +73,7 @@
               placeholder="eg. #INV-100001"
             />
             <br />
+
             <br />
             <!-- Actual UI -->
             <!-- Company Details -->
@@ -90,46 +91,48 @@
             <!-- Item Detail -->
             <div id="itemDetailCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8">
               <div class="overflow-x-auto">
-                <table>
+                <table id="id_of_table" border="1">
                   <tr>
-                    <th class="p-2">Serial Number</th>
-                    <th class="p-2">Item Name</th>
-                    <th class="p-2">Item Description</th>
-                    <th class="p-2">Quantity</th>
-                    <th class="p-2">Price</th>
-                    <th class="p-2">Tax</th>
-                    <th class="p-2">Discount</th>
-                    <th class="p-2">Total</th>
+                    <th class="px-2">S. No</th>
+                    <th class="px-2">Item & Item Description</th>
+                    <th class="px-2">Quantity</th>
+                    <th class="px-2">Price</th>
+                    <th class="px-2">Tax</th>
+                    <th class="px-2">Discount</th>
+                    <th class="px-2">Total</th>
                   </tr>
                   <tr>
+                    <td>2</td>
+                    <td>Newport Jeans<br />Size 34</td>
                     <td>1</td>
-                    <td>Newport Jeans</td>
-                    <td>Item Description</td>
-                    <td>50</td>
-                    <td>50</td>
-                    <td>50</td>
-                    <td>50</td>
-                    <td>50</td>
+                    <td>34.99</td>
+                    <td>1.99</td>
+                    <td>3.99</td>
+                    <td>32.99</td>
                   </tr>
                   <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                    <td>94</td>
-                    <td>94</td>
-                    <td>94</td>
-                    <td>94</td>
-                    <td>94</td>
+                    <td>3</td>
+                    <td class="whitespace-no-wrap">three three three three</td>
+                    <td class="whitespace-no-wrap">trois troistrois trois trois trois</td>
+                    <td class="whitespace-no-wrap">drei drei drei drei drei</td>
                   </tr>
                   <tr>
-                    <td>Adam</td>
-                    <td>Johnson</td>
-                    <td>67</td>
-                    <td>67</td>
-                    <td>67</td>
-                    <td>67</td>
-                    <td>67</td>
-                    <td>67</td>
+                    <td>4</td>
+                    <td>four</td>
+                    <td>quattre</td>
+                    <td>vier</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>five</td>
+                    <td>cinq</td>
+                    <td>f&uuml;nf</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>six</td>
+                    <td>six</td>
+                    <td>sechs</td>
                   </tr>
                 </table>
               </div>
