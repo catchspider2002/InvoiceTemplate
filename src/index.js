@@ -353,16 +353,18 @@ const assignValues = () => {
   //   removewFields(item);
   // });
 
-  flatpickr.localize(flatpickr.l10ns.tr);
+  flatpickr.localize(flatpickr.l10ns.pl);
 
   flatpickr("#invoiceDate", {
     dateFormat: "Y, F d",
-    disableMobile: "true"
+    disableMobile: "true",
+    defaultDate: "today"
   });
 
   flatpickr("#dueDate", {
     dateFormat: "Y, F d",
-    disableMobile: "true"
+    disableMobile: "true",
+    defaultDate: "today"
   });
 
   // moment.locale("fr");
@@ -372,31 +374,6 @@ const assignValues = () => {
   // moment.locale("fr");
   // console.log(moment(1316116057189).fromNow()); // il y a une heure
 };
-
-// const hideInput = text => {
-//   id(text + "Input").style.display = "none";
-//   id(text + "Label").style.display = "block";
-// };
-
-// const showInput = text => {
-//   console.log(text);
-//   id(text + "Input").style.display = "block";
-//   id(text + "Label").style.display = "none";
-// };
-
-// const labelUpdate = text => {
-//   if (canUpdate) {
-//     id(text + "Label").textContent = id(text + "Input").value;
-//     variables["label" + initCap(text)] = id(text + "Label").textContent;
-//     renderlayout1();
-//   } else {
-//     canUpdate = true;
-//     id(text + "Input").value = id(text + "Label").textContent;
-//   }
-//   hideInput(text);
-// };
-
-let canUpdate = true;
 
 const add2ColumnButton = text =>
   html`
@@ -422,99 +399,6 @@ const addButton = (name, text) =>
     </button>
   `;
 
-// const removeButton = text =>
-//   html`
-//     <button
-//       id="${text}RemoveButton"
-//       class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft2}"
-//       title="Remove field"
-//       @click=${() => remove2Fields(text)}
-//     >
-//       <i class="gg-trash"></i>
-//     </button>
-//   `;
-
-// const editButton = text =>
-//   html`
-//     <button
-//       class="w-8 h-8 font-semibold rounded hover:bg-gray-900 flex justify-center items-center ${marginLeft4}"
-//       @click=${() => showInput(text)}
-//       title="Edit label"
-//     >
-//       <i class="gg-pen"></i>
-//     </button>
-//   `;
-
-const label = text => {
-  return html`
-    <label id="${text}Label" class="block text-base font-semibold flex-grow truncate mt-1 ${alignment}" htmlFor="${text}">${lang[text]}</label>
-  `;
-};
-
-// const labelInput = text => {
-//   return html`
-//     <input
-//       id="${text}Input"
-//       class="w-full form-input text-base rounded-none font-semibold self-center text-gray-400 bg-transparent border-0 border-b
-//       border-yellow-600 p-0 focus:outline-none focus:shadow-none focus:border-blue-300"
-//       type="text"
-//       value="${lang[text]}"
-//       @change=${() => labelUpdate(text)}
-//       @keydown=${e => {
-//         if (e.key === "Escape") {
-//           console.log("Esc");
-//           canUpdate = false;
-//           hideInput(text);
-//         }
-//       }}
-//     />
-//   `;
-// };
-
-// const labelRequired = text => {
-//   return html`
-//     <div class="mt-6 mb-2 flex w-full justify-end">
-//       ${label(text)}
-//     </div>
-//   `;
-// };
-
-// const labelRequiredEditable = text => {
-//   return html`
-//     <div class="mt-6 mb-2 flex w-full justify-end">
-//       $ ${labelInput(text)} ${editButton(text)}
-//     </div{label(text)}>
-//   `;
-// };
-
-// const labelOptional = text =>
-//   html`
-//     <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
-//       ${label(text)} ${removeButton(text)}
-//     </div>
-//   `;
-
-// const labelOptionalEditable = text =>
-//   html`
-//     <div id="${text}LabelWrapper" class="mt-6 mb-2 flex w-full justify-end">
-//       ${label(text)} ${labelInput(text)} ${editButton(text)} ${removeButton(text)}
-//     </div>
-//   `;
-
-const inputText = text => html` <input id="${text}" class="w-full form-input self-center text-gray-800" placeholder="100" type="text" /> `;
-
-const textArea = text => html` <textarea id="${text}" class="w-full form-input self-center text-gray-600" placeholder="100" rows="5"></textarea> `;
-
-const card = text =>
-  html`
-    <div class="font-semibold text-xl ${alignment}">
-      ${lang[text + "Details"]}
-    </div>
-    <div id="${text}Fields" class="flex flex-wrap items-center"></div>
-    <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
-    <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
-  `;
-
 const inputLabel = (text, textSize = "text-base") => html`
   <input
     id="${text}Label"
@@ -536,6 +420,15 @@ const inputOutput = (name, text, textSize = "text-base") => html`
   />
 `;
 
+const inputOutputDate = (name, textSize = "text-base") => html`
+  <input
+    id="${name}"
+    class="form-input ${textSize} mb-4 rounded-none self-center text-blue-300 bg-transparent border-0 border-b border-transparent p-0 focus:outline-none focus:shadow-none focus:border-blue-300 w-full"
+    type="date"
+    @change=${() => changeValues(name)}
+  />
+`;
+
 const header = text => html`
   <div class="flex flex-wrap overflow-hidden bg-blue-700 -mx-6 -my-4 px-6 py-4 mb-4">
     ${text}
@@ -549,11 +442,18 @@ const invoice2Column = (text, value) =>
     </div>
   `;
 
+// ${invoice2Column("invoiceDate", "20200101")} ${invoice2Column("dueDate", "20200101")}
+
 const invoiceLayout = text =>
   html`
     ${header("Invoice Details")} ${inputLabel("invoice", "text-5xl")} ${invoice2Column("invoiceNum", 100)}
-    ${invoice2Column("invoiceDate", "20200101")} ${invoice2Column("dueDate", "20200101")} ${invoice2Column("paymentTerms", 100)}
-    ${invoice2Column("purchaseOrder", 100)}
+    <div id="invoiceDateLabelWrapper" class="flex flex-row">
+      ${inputLabel("invoiceDate")} ${inputOutputDate("invoiceDate")}
+    </div>
+    <div id="dueDateLabelWrapper" class="flex flex-row">
+      ${inputLabel("dueDate")} ${inputOutputDate("dueDate")}
+    </div>
+    ${invoice2Column("paymentTerms", 100)} ${invoice2Column("purchaseOrder", 100)}
     <label class="block text-base font-semibold mt-6 mb-2 w-full ${alignment}">${lang["optionalFields"]} - ${lang["clickToAdd"]}</label>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
@@ -582,36 +482,6 @@ const customerLayout = text =>
 render(invoiceLayout("invoice"), document.getElementById("newInvoiceCard"));
 render(companyLayout("company"), document.getElementById("newCompanyCard"));
 render(customerLayout("customer"), document.getElementById("newCustomerCard"));
-// render(card("company"), document.getElementById("companyCard"));
-// render(card("invoice"), document.getElementById("invoiceCard"));
-// render(card("customer"), document.getElementById("customerCard"));
-
-// const companyFieldsTemplate = html`
-//   ${labelRequired("companyName")} ${inputText("companyName")} ${labelRequired("companyAddress")} ${textArea("companyAddress")}
-//   ${labelOptional("companyLogo")} ${inputText("companyLogo")} ${labelOptionalEditable("phone")} ${inputText("phone")}
-//   ${labelOptionalEditable("email")} ${inputText("email")} ${labelOptionalEditable("website")} ${inputText("website")}
-//   ${labelOptionalEditable("facebook")} ${inputText("facebook")} ${labelOptionalEditable("twitter")} ${inputText("twitter")}
-//   ${labelOptionalEditable("instagram")} ${inputText("instagram")}
-// `;
-
-// render(companyFieldsTemplate, document.getElementById("companyFields"));
-
-// const invoiceFieldsTemplate = html`
-//   ${labelRequiredEditable("invoiceNum")} ${inputText("invoiceNum")} ${labelRequiredEditable("invoiceDate")} ${inputText("invoiceDate")}
-//   ${labelRequiredEditable("dueDate")} ${inputText("dueDate")} ${labelOptionalEditable("paymentTerms")} ${inputText("paymentTerms")}
-//   ${labelOptionalEditable("purchaseOrder")} ${inputText("purchaseOrder")}
-// `;
-
-// render(invoiceFieldsTemplate, document.getElementById("invoiceFields"));
-
-// const customerFieldsTemplate = html`
-//   ${labelRequired("billToName")} ${inputText("billToName")} ${labelRequired("billToAddress")} ${textArea("billToAddress")}
-//   ${labelOptionalEditable("shipToName")} ${inputText("shipToName")} ${labelOptionalEditable("shipToAddress")} ${textArea("shipToAddress")}
-//   ${labelOptionalEditable("billToMail")} ${inputText("billToMail")} ${labelOptionalEditable("billToPhone")} ${inputText("billToPhone")}
-// `;
-
-// render(customerFieldsTemplate, document.getElementById("customerFields"));
-
 // const itemFieldsTemplate = html`
 //   ${labelRequiredEditable("itemName")} ${inputText("itemName")} ${labelRequiredEditable("itemDescription")} ${inputText("itemDescription")}
 //   ${labelRequiredEditable("quantity")} ${inputText("quantity")} ${labelRequiredEditable("unitPrice")} ${inputText("unitPrice")}
