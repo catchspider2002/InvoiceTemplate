@@ -4,8 +4,8 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 // import pdfFonts from "./vfs_fonts";
-// import moment from "moment";
-// import "moment/min/locales.min";
+import moment from "moment";
+import "moment/min/locales.min";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
@@ -15,6 +15,8 @@ import lib from "./functions";
 import flatpickr from "flatpickr";
 // import Turkish from "flatpickr/dist/l10n/tr.js";
 import language from "flatpickr/dist/l10n/";
+
+const locale = "es";
 
 // Paper Size - A4 or Letter - radio
 // Font - Dropdown - Show list of languages the font supports
@@ -258,44 +260,6 @@ const buttonToggle = field => {
   }
 };
 
-// const buttonDisable = classList => {
-//   console.log("Button disable");
-//   if (classList.contains("bg-red-700")) {
-//     classList.remove("bg-red-700");
-//     classList.remove("hover:bg-red-600");
-//     classList.add("bg-gray-700");
-//     classList.add("hover:bg-gray-600");
-//   }
-// };
-
-// const show2Fields = field => {
-//   id(field + "LabelWrapper").style.display = "flex";
-//   id(field).style.display = "block";
-//   // id(field + "Button").style.display = "none";
-//   buttonToggle(id(field + "Button", field).classList);
-// };
-
-// const showField = field => {
-//   // id(field).style.display = "flex";
-//   id(field).style.display = "block";
-//   // id(field + "Button").style.display = "none";
-//   buttonToggle(id(field + "Button", field).classList);
-// };
-
-// const remove2Fields = field => {
-//   id(field + "LabelWrapper").style.display = "none";
-//   id(field).style.display = "none";
-//   // id(field + "Button").style.display = "block";
-//   buttonDisable(id(field + "Button").classList);
-// };
-
-// const removeField = field => {
-//   // console.log("removeField: " + field);
-//   id(field).style.display = "none";
-//   // id(field + "Button").style.display = "block";
-//   buttonDisable(id(field + "Button").classList);
-// };
-
 let mandatoryFields = ["companyName", "companyAddress", "billToName", "billToAddress"];
 
 let mandatoryEditableFields = ["invoiceNum", "invoiceDate", "dueDate"];
@@ -353,7 +317,7 @@ const assignValues = () => {
   //   removewFields(item);
   // });
 
-  flatpickr.localize(flatpickr.l10ns.pl);
+  flatpickr.localize(flatpickr.l10ns[locale]);
 
   flatpickr("#invoiceDate", {
     dateFormat: "Y, F d",
@@ -367,6 +331,10 @@ const assignValues = () => {
     defaultDate: "today"
   });
 
+  variables["invoiceDate"] = id("invoiceDate").value;
+  variables["dueDate"] = id("dueDate").value;
+  renderlayout1();
+
   // moment.locale("fr");
   // console.log(moment().format(dateFormat)); // il y a une heure
   // moment.locale("tr");
@@ -374,6 +342,25 @@ const assignValues = () => {
   // moment.locale("fr");
   // console.log(moment(1316116057189).fromNow()); // il y a une heure
 };
+
+moment.locale(locale);
+
+const items = [moment().format(dateFormat), "01 Feb 2019"];
+
+const itemTemplates = [];
+for (const i of items) {
+  itemTemplates.push(html`<option>${i}</option>`);
+}
+
+const dateFormatSelect = text =>
+  html`
+    <span class="text-gray-200">Date Format</span>
+    <select class="form-select block w-full mt-1 text-black">
+      ${itemTemplates}
+    </select>
+  `;
+
+render(dateFormatSelect("invoice"), id("dateFormat"));
 
 const add2ColumnButton = text =>
   html`
@@ -589,8 +576,6 @@ function renderNew(def) {
     renderPDF(dataURL);
   });
 }
-
-renderNew(docDef);
 
 function renderPDF(url, options) {
   options = options || { scale: 0.95 };
