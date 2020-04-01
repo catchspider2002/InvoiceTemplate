@@ -24,7 +24,7 @@
   customerDetails: "Çúƨƭô₥èř Ðèƭáïℓƨ ℓôřè",
   billTo: "ßïℓℓ Tô ℓ",
   billToName: "ßïℓℓ Tô Ná₥è ℓôř",
-  shipTo: "ßïℓℓ Tô ℓ",
+  shipTo: "§λïƥ Tô ℓ",
   shipToName: "§λïƥ Tô Ná₥è ℓôř",
   shipToAddress: "§λïƥ Tô Âδδřèƨƨ ℓôřè",
   billToMail: "ßïℓℓ Tô É-₥áïℓ ℓôř",
@@ -36,6 +36,8 @@
   quantity: "Qúáñƭïƭ¥ ℓ",
   unitPrice: "Ûñïƭ Þřïçè ℓô",
   tax: "Táж ",
+  discount: "Ðïƨçôúñƭ ℓ",
+  total: "Tôƭáℓ ℓ",
   extendedPrice: "Éжƭèñδèδ Þřïçè ℓôř",
   amountDue: "Â₥ôúñƭ Ðúè ℓô",
   subtotal: "§úβ Tôƭáℓ ℓô",
@@ -45,5 +47,5 @@
   optional: "Óƥƭïôñáℓ ℓ",
   removeField: "Rè₥ôƲè Fïèℓδ ℓôř",
   editLabel: "Éδïƭ £áβèℓ ℓô",
-  customField: "Éδïƭ £áβèℓ ℓô"
+  customField: "Çúƨƭô₥ Fïèℓδ ℓôř"
 };

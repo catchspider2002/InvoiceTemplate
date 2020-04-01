@@ -4,8 +4,8 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 // import pdfFonts from "./vfs_fonts";
-import moment from "moment";
-import "moment/min/locales.min";
+// import moment from "moment";
+// import "moment/min/locales.min";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
@@ -13,10 +13,40 @@ import lang from "./locales/locale.en.js";
 import { html, render } from "lit-html";
 import lib from "./functions";
 import flatpickr from "flatpickr";
+import Pickr from "@simonwep/pickr";
+import "@simonwep/pickr/dist/themes/monolith.min.css"; // 'monolith' theme
+
 // import Turkish from "flatpickr/dist/l10n/tr.js";
 import language from "flatpickr/dist/l10n/";
 
-const locale = "es";
+const locale = "en";
+
+const items = [
+  "F J Y",
+  "M J Y",
+  "F d, Y",
+  "M d, Y",
+  "m/d/Y",
+  "m/d/y",
+  "n/j/Y",
+  "n/j/y",
+  "d F Y",
+  "d M Y",
+  "d-M-y",
+  "d-m-Y",
+  "d-m-y",
+  "j-n-Y",
+  "j-n-y",
+  "d/m/Y",
+  "j/n/Y",
+  "d.m.y",
+  "j.n.y",
+  "Y, F d",
+  "Y, M d",
+  "Y-m-d",
+  "Y/m/d",
+  "Y/n/j"
+];
 
 // Paper Size - A4 or Letter - radio
 // Font - Dropdown - Show list of languages the font supports
@@ -102,30 +132,7 @@ let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 // Page Number
 // Dropdown
 
-let dateFormat = "MMMM Do YYYY"; // February 19th 2020
-dateFormat = "MMM Do YYYY"; // Feb 19th 2020
-dateFormat = "DD-MM-YYYY"; // 19-02-2020
-dateFormat = "DD-MM-YY"; // 19-02-20
-dateFormat = "D-M-YY"; // 19-2-20
-dateFormat = "D-M-YYYY"; // 19-2-2020
-dateFormat = "DD.MM.YY"; // 19.02.20
-dateFormat = "D.M.YY"; // 19.2.20
-dateFormat = "YYYY-MM-DD"; // 2020-02-19
-dateFormat = "DD MMMM YYYY"; // 19 February 2020
-dateFormat = "DD MMM YYYY"; // 19 Feb 2020
-dateFormat = "M/D/YYYY"; // 2/19/2020
-dateFormat = "M/D/YY"; // 2/19/20
-dateFormat = "MM/DD/YYYY"; // 02/19/2020
-// dateFormat="MM/DD/YY" // 02/19/20
-// dateFormat="MMMM DD, YYYY" // February 19, 2020
-// dateFormat="MMM DD, YYYY" // Feb 19, 2020
-// dateFormat="DD-MMM-YY" // 19-Feb-20
-// dateFormat="YYYY/MM/DD" // 2020/02/19
-// dateFormat="YYYY/M/D" // 2020/2/19
-// dateFormat="DD/MM/YYYY" // 19/02/2020
-// dateFormat="D/M/YYYY" // 19/2/2020
-dateFormat = "YYYY, MMMM DD"; // 2020, February 19
-// dateFormat="YYYY, MMM DD" // 2020, Feb 19
+let dateFormat = "F J Y";
 
 let currency1;
 let currency2;
@@ -140,7 +147,7 @@ let footerCenter = "NEW FOOTER CENTER";
 let footerRight = "NEW FOOTER RIGHT";
 
 let invoiceNum = "000021";
-let invoiceDate = "20200131"; //moment("20200131").format(dateFormat);
+let invoiceDate = "20200131";
 // let dueDate = moment("20200205").format(dateFormat);
 let dueDate = "20200131";
 
@@ -319,48 +326,90 @@ const assignValues = () => {
 
   flatpickr.localize(flatpickr.l10ns[locale]);
 
+  variables["invoiceDate"] = id("invoiceDate").value;
+  variables["dueDate"] = id("dueDate").value;
+
+  const getFormattedDate = format => {
+    flatpickr("#dueDate", {
+      dateFormat: format,
+      defaultDate: "today"
+    });
+    return [format, id("dueDate").value];
+  };
+
+  const itemTemplates = [];
+  for (const i of items) {
+    itemTemplates.push(html`<option value=${getFormattedDate(i)[0]}>${getFormattedDate(i)[1]}</option>`);
+  }
+
+  const setDateFormat = () => {
+    // console.log(id("date").value);
+    dateFormat = id("date").value;
+
+    flatpickr("#invoiceDate", {
+      dateFormat: dateFormat,
+      disableMobile: "true",
+      defaultDate: "today"
+    });
+
+    flatpickr("#dueDate", {
+      dateFormat: dateFormat,
+      disableMobile: "true",
+      defaultDate: "today"
+    });
+    renderlayout1();
+  };
+
+  const dateFormatSelect = text =>
+    html`
+      <span class="text-gray-200">Date Format</span>
+      <select id="date" class="form-select block w-full mt-1 text-black" @change=${() => setDateFormat()}>
+        ${itemTemplates}
+      </select>
+    `;
+
+  render(dateFormatSelect("invoice"), id("dateFormat"));
+
   flatpickr("#invoiceDate", {
-    dateFormat: "Y, F d",
+    dateFormat: dateFormat,
     disableMobile: "true",
     defaultDate: "today"
   });
 
   flatpickr("#dueDate", {
-    dateFormat: "Y, F d",
+    dateFormat: dateFormat,
     disableMobile: "true",
     defaultDate: "today"
   });
 
-  variables["invoiceDate"] = id("invoiceDate").value;
-  variables["dueDate"] = id("dueDate").value;
+  const pickr = Pickr.create({
+    el: ".pickr",
+    theme: "monolith", // or 'monolith', or 'nano'
+
+    swatches: null,
+
+    components: {
+      // Main components
+      preview: true,
+      opacity: false,
+      hue: true,
+
+      // Input / output Options
+      interaction: {
+        hex: true,
+        rgba: false,
+        hsla: true,
+        hsva: true,
+        cmyk: false,
+        input: true,
+        clear: false,
+        save: false
+      }
+    }
+  });
+
   renderlayout1();
-
-  // moment.locale("fr");
-  // console.log(moment().format(dateFormat)); // il y a une heure
-  // moment.locale("tr");
-  // console.log(moment(1316116057189).fromNow()); // an hour ago
-  // moment.locale("fr");
-  // console.log(moment(1316116057189).fromNow()); // il y a une heure
 };
-
-moment.locale(locale);
-
-const items = [moment().format(dateFormat), "01 Feb 2019"];
-
-const itemTemplates = [];
-for (const i of items) {
-  itemTemplates.push(html`<option>${i}</option>`);
-}
-
-const dateFormatSelect = text =>
-  html`
-    <span class="text-gray-200">Date Format</span>
-    <select class="form-select block w-full mt-1 text-black">
-      ${itemTemplates}
-    </select>
-  `;
-
-render(dateFormatSelect("invoice"), id("dateFormat"));
 
 const add2ColumnButton = text =>
   html`
@@ -492,6 +541,43 @@ render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails")
 const customerDetailsTemplate = html` ${addButton("phone")} ${addButton("email")} ${addButton("customField")} ${addButton("customField")}`;
 
 render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
+
+const itemTable = text =>
+  html`
+    <div class="overflow-x-auto">
+      <table id="id_of_table" border="1">
+        <tr>
+          <th class="px-2">${inputLabel("serialNumber")}</th>
+          <th class="px-2">${inputLabel("item")}</th>
+          <th class="px-2">${inputLabel("quantity")}</th>
+          <th class="px-2">${inputLabel("unitPrice")}</th>
+          <th class="px-2">${inputLabel("tax")}</th>
+          <th class="px-2">${inputLabel("discount")}</th>
+          <th class="px-2">${inputLabel("total")}</th>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Newport Jeans<br />Size 34</td>
+          <td>1</td>
+          <td>34.99</td>
+          <td>1.99</td>
+          <td>3.99</td>
+          <td>32.99</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td class="whitespace-no-wrap">three three three three</td>
+          <td class="whitespace-no-wrap">trois troistrois trois trois trois</td>
+          <td class="whitespace-no-wrap">drei drei drei drei drei</td>
+          <td>1.99</td>
+          <td>3.99</td>
+          <td>32.99</td>
+        </tr>
+      </table>
+    </div>
+  `;
+
+render(itemTable(), document.getElementById("itemDetailCard"));
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 // pdfMake.vfs = pdfFonts.vfs;

@@ -36,6 +36,8 @@
   quantity: "Quantity",
   unitPrice: "Unit Price",
   tax: "Tax",
+  discount: "Discount",
+  total: "Total",
   extendedPrice: "Extended Price",
   amountDue: "Amount Due",
   subtotal: "Sub Total",
