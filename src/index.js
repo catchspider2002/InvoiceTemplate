@@ -397,7 +397,7 @@ const assignValues = () => {
       // Input / output Options
       interaction: {
         hex: true,
-        rgba: false,
+        rgba: true,
         hsla: true,
         hsva: true,
         cmyk: false,
