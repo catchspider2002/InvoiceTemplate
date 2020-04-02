@@ -341,13 +341,13 @@ let layout1 = val => {
               {},
               {
                 stack: [
-                  labelText(val.billingFromLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                  labelText(val.billFromLabel, val.colorPrimary, ["h3", "bMarginSM"]),
                   labelText(val.sellerCompany, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine1, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine2, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine3, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine4, "", ["h4", "bMarginXS"]),
-                  labelText(val.billingToLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                  labelText(val.billToLabel, val.colorPrimary, ["h3", "bMarginSM"]),
                   labelText(val.clientCompany, "", ["h4", "bMarginXS"]),
                   labelText(val.clientAddressLine1, "", ["h4", "bMarginXS"]),
                   labelText(val.clientAddressLine2, "", ["h4", "bMarginXS"]),
@@ -378,12 +378,12 @@ let layout1 = val => {
           body: [
             // Table Header
             [
-              labelText("Product", val.colorPrimary, ["h3", "bold"]),
-              labelText("Qty", val.colorPrimary, ["h3", "bold", "center"]),
-              labelText("Price", val.colorPrimary, ["h3", "bold", "right"]),
-              labelText("Tax", val.colorPrimary, ["h3", "bold", "right"]),
-              labelText("Discount", val.colorPrimary, ["h3", "bold", "right"]),
-              labelText("Total", val.colorPrimary, ["h3", "bold", "right"])
+              labelText(val.itemLabel, val.colorPrimary, ["h3", "bold"]),
+              labelText(val.quantityLabel, val.colorPrimary, ["h3", "bold", "center"]),
+              labelText(val.unitPriceLabel, val.colorPrimary, ["h3", "bold", "right"]),
+              labelText(val.taxLabel, val.colorPrimary, ["h3", "bold", "right"]),
+              labelText(val.discountLabel, val.colorPrimary, ["h3", "bold", "right"]),
+              labelText(val.totalLabel, val.colorPrimary, ["h3", "bold", "right"])
             ],
             // Items
             // Item 1
@@ -522,7 +522,7 @@ let layout2 = val => {
       {
         columns: [
           {
-            text: "billingFromLabel",
+            text: "billFromLabel",
             style: ["bold"]
           },
           {
@@ -530,7 +530,7 @@ let layout2 = val => {
           },
           coloredRect(40, val.colorPrimary),
           {
-            text: "billingToLabel",
+            text: "billToLabel",
             style: ["bold"]
           }
         ]

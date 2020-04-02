@@ -9,7 +9,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import lang from "./locales/locale.en.js";
+import lang from "./locales/locale.es.js";
 import { html, render } from "lit-html";
 import lib from "./functions";
 import flatpickr from "flatpickr";
@@ -183,7 +183,7 @@ let variables = {
   invoiceNum: invoiceNum,
   invoiceDate: invoiceDate,
   dueDate: dueDate,
-  billingFromLabel: lang["billFrom"],
+  billFromLabel: lang["billFrom"],
   // sellerName: sellerName,
   sellerCompany: lang["companyName"],
   sellerAddressLabel: sellerAddressLabel,
@@ -193,7 +193,7 @@ let variables = {
   sellerAddressLine4: lang["addressLine4"],
   sellerPhone: lang["phone"],
   sellerEmail: lang["email"],
-  billingToLabel: lang["billTo"],
+  billToLabel: lang["billTo"],
   // clientName: clientName,
   clientCompany: lang["companyName"],
   clientAddressLabel: clientAddressLabel,
@@ -211,6 +211,13 @@ let variables = {
   clientShipAddressLine2: lang["addressLine2"],
   clientShipAddressLine3: lang["addressLine3"],
   clientShipAddressLine4: lang["addressLine4"],
+  itemLabel: lang["item"],
+  itemDescriptionLabel: lang["itemDescription"],
+  quantityLabel: lang["quantity"],
+  unitPriceLabel: lang["unitPrice"],
+  taxLabel: lang["tax"],
+  discountLabel: lang["discount"],
+  totalLabel: lang["total"],
   amountDueLabel: lang["amountDue"],
   amountDue: amountDue,
   termsLabel: lang["paymentTerms"],
@@ -386,12 +393,27 @@ const assignValues = () => {
     el: ".pickr",
     theme: "monolith", // or 'monolith', or 'nano'
 
-    swatches: null,
+    swatches: [
+      "rgba(244, 67, 54, 1)",
+      "rgba(233, 30, 99, 1)",
+      "rgba(156, 39, 176, 1)",
+      "rgba(103, 58, 183, 1)",
+      "rgba(63, 81, 181, 1)",
+      "rgba(3, 169, 244, 1)",
+      "rgba(0, 188, 212, 1)",
+      "rgba(0, 150, 136, 1)",
+      "rgba(76, 175, 80, 1)",
+      "rgba(139, 195, 74, 1)",
+      "rgba(205, 220, 57, 1)",
+      "rgba(255, 235, 59, 1)",
+      "rgba(255, 193, 7, 1)",
+      "rgba(233, 30, 99, 1)"
+    ],
+    lockOpacity: true,
 
     components: {
       // Main components
       preview: true,
-      opacity: false,
       hue: true,
 
       // Input / output Options
@@ -403,10 +425,23 @@ const assignValues = () => {
         cmyk: false,
         input: true,
         clear: false,
-        save: false
+        save: true
       }
+    },
+
+    // Button strings, brings the possibility to use a language other than English.
+    strings: {
+      save: "Savdrf"
     }
   });
+
+  pickr.on("change", (color, instance) => {
+    console.log("change", color.toHEXA(), instance);
+    variables["colorPrimary"] = color.toHEXA();
+    renderlayout1();
+  });
+
+  console.log("Color: " + pickr.getColor().toHEXA());
 
   renderlayout1();
 };
@@ -556,9 +591,9 @@ const itemTable = text =>
           <th class="px-2">${inputLabel("total")}</th>
         </tr>
         <tr>
-          <td>2</td>
-          <td>Newport Jeans<br />Size 34</td>
-          <td>1</td>
+          <td>${inputOutput("clientCompany", lang["companyName"])}</td>
+          <td>${inputOutput("clientCompany", lang["companyName"])}</td>
+          <td>${inputOutput("clientCompany", lang["companyName"])}</td>
           <td>34.99</td>
           <td>1.99</td>
           <td>3.99</td>
