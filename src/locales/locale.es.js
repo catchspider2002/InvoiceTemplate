@@ -31,11 +31,11 @@
   billToPhone: "ßïℓℓ Tô Þλôñè ℓôř",
   itemDetails: "Ìƭè₥ Ðèƭáïℓƨ ℓôř",
   serialNumber: "§èřïáℓ Nú₥βèř ℓôř",
-  item: "Ìƭè₥ ",
+  item: "Ìƭè₥",
   itemDescription: "Ìƭè₥ Ðèƨçřïƥƭïôñ ℓôřè",
   quantity: "Qúáñƭïƭ¥ ℓ",
   unitPrice: "Ûñïƭ Þřïçè ℓô",
-  tax: "Táж ",
+  tax: "Táж",
   discount: "Ðïƨçôúñƭ ℓ",
   total: "Tôƭáℓ ℓ",
   extendedPrice: "Éжƭèñδèδ Þřïçè ℓôř",
@@ -47,5 +47,12 @@
   optional: "Óƥƭïôñáℓ ℓ",
   removeField: "Rè₥ôƲè Fïèℓδ ℓôř",
   editLabel: "Éδïƭ £áβèℓ ℓô",
-  customField: "Çúƨƭô₥ Fïèℓδ ℓôř"
+  customField: "Çúƨƭô₥ Fïèℓδ ℓôř",
+  save: "§áƲè",
+  dateFormat: "Ðáƭè Fôř₥áƭ ℓô",
+  language: "£áñϱúáϱè ℓ",
+  paperSize: "Þáƥèř §ïƺè ℓô",
+  capLabels: "Çáƥïƭáℓïƺè £áβèℓƨ ℓôřè",
+  color: "Çôℓôř ℓ",
+  
 };

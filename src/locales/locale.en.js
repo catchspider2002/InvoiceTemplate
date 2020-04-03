@@ -47,5 +47,11 @@
   optional: "Optional",
   removeField: "Remove Field",
   editLabel: "Edit Label",
-  customField: "Custom Field"
+  customField: "Custom Field",
+  save: "Save",
+  dateFormat: "Date Format",
+  language: "Language",
+  paperSize: "Paper Size",
+  capLabels: "Capitalize Labels",
+  color: "Color"
 };

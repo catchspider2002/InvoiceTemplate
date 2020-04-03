@@ -9,12 +9,15 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 // import loadjs from "loadjs";
 import PDFJS from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import lang from "./locales/locale.es.js";
+import en from "./locales/locale.en.js";
+import es from "./locales/locale.es.js";
 import { html, render } from "lit-html";
 import lib from "./functions";
 import flatpickr from "flatpickr";
 import Pickr from "@simonwep/pickr";
 import "@simonwep/pickr/dist/themes/monolith.min.css"; // 'monolith' theme
+
+let lang = en;
 
 // import Turkish from "flatpickr/dist/l10n/tr.js";
 import language from "flatpickr/dist/l10n/";
@@ -48,11 +51,11 @@ const items = [
   "Y/n/j"
 ];
 
-// Paper Size - A4 or Letter - radio
+const languages = ["en", "es"];
+
 // Font - Dropdown - Show list of languages the font supports
 // Label
 // Color
-// Capitalize
 // Font Size
 //  Font
 // Color
@@ -61,7 +64,6 @@ const items = [
 // Icons to use
 // Invoice
 // Date / Calendar
-//
 // website
 // phone
 // Email
@@ -92,7 +94,6 @@ let colorBackground = "#ffffff";
 let colorLightPrimary = lib.lightenDarkenColor(colorPrimary, 60);
 let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 
-// Invoice Header - Invoice
 // Company Logo
 // Invoice Details
 // - Project Name
@@ -104,16 +105,11 @@ let colorDarkPrimary = lib.lightenDarkenColor(colorPrimary, -60);
 // - Ship To Phone
 // Item Table
 // Item Detail
-// - Serial Number
 // - Item Header
 // - Item Details
 // - Item Image
-// - Item Description
-// - Qty
-// - Price
 // - Tax (Percent or Anount)
 // - Discount (Percent or Anount)
-// - Total
 // Item Summary
 // - Subtotal
 // - Discount (-)
@@ -169,111 +165,6 @@ let instagram = "insta-page";
 
 let notes = "Thank you for your business";
 
-let variables = {
-  paperSize: paperSize,
-  colorPrimary: colorPrimary,
-  colorLightPrimary: colorLightPrimary,
-  colorDarkPrimary: colorDarkPrimary,
-  colorLightGray: colorLightGray,
-  colorDarkGray: colorDarkGray,
-  invoiceLabel: lang["invoice"],
-  invoiceNumLabel: lang["invoiceNum"],
-  invoiceDateLabel: lang["invoiceDate"],
-  dueDateLabel: lang["dueDate"],
-  invoiceNum: invoiceNum,
-  invoiceDate: invoiceDate,
-  dueDate: dueDate,
-  billFromLabel: lang["billFrom"],
-  // sellerName: sellerName,
-  sellerCompany: lang["companyName"],
-  sellerAddressLabel: sellerAddressLabel,
-  sellerAddressLine1: lang["addressLine1"],
-  sellerAddressLine2: lang["addressLine2"],
-  sellerAddressLine3: lang["addressLine3"],
-  sellerAddressLine4: lang["addressLine4"],
-  sellerPhone: lang["phone"],
-  sellerEmail: lang["email"],
-  billToLabel: lang["billTo"],
-  // clientName: clientName,
-  clientCompany: lang["companyName"],
-  clientAddressLabel: clientAddressLabel,
-  clientAddressLine1: lang["addressLine1"],
-  clientAddressLine2: lang["addressLine2"],
-  clientAddressLine3: lang["addressLine3"],
-  clientAddressLine4: lang["addressLine4"],
-  clientPhone: lang["phone"],
-  clientEmail: lang["email"],
-  shipToLabel: lang["shipTo"],
-  // clientShipName: clientShipName,
-  clientShipCompany: lang["companyName"],
-  clientShipAddressLabel: clientShipAddressLabel,
-  clientShipAddressLine1: lang["addressLine1"],
-  clientShipAddressLine2: lang["addressLine2"],
-  clientShipAddressLine3: lang["addressLine3"],
-  clientShipAddressLine4: lang["addressLine4"],
-  itemLabel: lang["item"],
-  itemDescriptionLabel: lang["itemDescription"],
-  quantityLabel: lang["quantity"],
-  unitPriceLabel: lang["unitPrice"],
-  taxLabel: lang["tax"],
-  discountLabel: lang["discount"],
-  totalLabel: lang["total"],
-  amountDueLabel: lang["amountDue"],
-  amountDue: amountDue,
-  termsLabel: lang["paymentTerms"],
-  terms: terms,
-  purchaseOrderLabel: lang["purchaseOrder"],
-  purchaseOrder: purchaseOrder,
-  paymentMethodLabel: lang["paymentMethod"],
-  paymentMethod: paymentMethod,
-  notes: notes,
-  websiteLabel: lang["website"],
-  website: website,
-  facebookLabel: lang["facebook"],
-  facebook: facebook,
-  twitterLabel: lang["twitter"],
-  twitter: twitter,
-  instagramLabel: lang["instagram"],
-  instagram: instagram
-};
-
-function show_hide_column(col_no, do_show) {
-  var rows = document.getElementById("id_of_table").rows;
-
-  for (var row = 0; row < rows.length; row++) {
-    var cols = rows[row].cells;
-    if (col_no >= 0 && col_no < cols.length) {
-      cols[col_no].style.display = do_show ? "" : "none";
-    }
-  }
-}
-
-// show_hide_column(1, false);
-
-const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
-
-const id = text => document.getElementById(text);
-
-const buttonToggle = field => {
-  let classList = id(field + "Button", field).classList;
-  console.log("Button enable");
-  if (classList.contains("bg-gray-700")) {
-    classList.remove("bg-gray-700");
-    classList.remove("hover:bg-gray-600");
-    classList.add("bg-red-700");
-    classList.add("hover:bg-red-600");
-    if (id(field + "LabelWrapper")) id(field + "LabelWrapper").style.display = "flex";
-    id(field).style.display = "block";
-  } else {
-    classList.remove("bg-red-700");
-    classList.remove("hover:bg-red-600");
-    classList.add("bg-gray-700");
-    classList.add("hover:bg-gray-600");
-    if (id(field + "LabelWrapper")) id(field + "LabelWrapper").style.display = "none";
-    id(field).style.display = "none";
-  }
-};
-
 let mandatoryFields = ["companyName", "companyAddress", "billToName", "billToAddress"];
 
 let mandatoryEditableFields = ["invoiceNum", "invoiceDate", "dueDate"];
@@ -307,6 +198,191 @@ if (direction === "rtl") {
   marginLeft2 = "mr-2";
   marginLeft4 = "mr-4";
 }
+let variables = { paperSize: paperSize };
+
+const resetVariables = () => {
+  variables = {
+    paperSize: paperSize,
+    colorPrimary: colorPrimary,
+    colorLightPrimary: colorLightPrimary,
+    colorDarkPrimary: colorDarkPrimary,
+    colorLightGray: colorLightGray,
+    colorDarkGray: colorDarkGray,
+    invoiceLabel: lang["invoice"],
+    invoiceNumLabel: lang["invoiceNum"],
+    invoiceDateLabel: lang["invoiceDate"],
+    dueDateLabel: lang["dueDate"],
+    invoiceNum: invoiceNum,
+    invoiceDate: invoiceDate,
+    dueDate: dueDate,
+    billFromLabel: lang["billFrom"],
+    // sellerName: sellerName,
+    sellerCompany: lang["companyName"],
+    sellerAddressLabel: sellerAddressLabel,
+    sellerAddressLine1: lang["addressLine1"],
+    sellerAddressLine2: lang["addressLine2"],
+    sellerAddressLine3: lang["addressLine3"],
+    sellerAddressLine4: lang["addressLine4"],
+    sellerPhone: lang["phone"],
+    sellerEmail: lang["email"],
+    billToLabel: lang["billTo"],
+    // clientName: clientName,
+    clientCompany: lang["companyName"],
+    clientAddressLabel: clientAddressLabel,
+    clientAddressLine1: lang["addressLine1"],
+    clientAddressLine2: lang["addressLine2"],
+    clientAddressLine3: lang["addressLine3"],
+    clientAddressLine4: lang["addressLine4"],
+    clientPhone: lang["phone"],
+    clientEmail: lang["email"],
+    shipToLabel: lang["shipTo"],
+    // clientShipName: clientShipName,
+    clientShipCompany: lang["companyName"],
+    clientShipAddressLabel: clientShipAddressLabel,
+    clientShipAddressLine1: lang["addressLine1"],
+    clientShipAddressLine2: lang["addressLine2"],
+    clientShipAddressLine3: lang["addressLine3"],
+    clientShipAddressLine4: lang["addressLine4"],
+    itemLabel: lang["item"],
+    itemDescriptionLabel: lang["itemDescription"],
+    quantityLabel: lang["quantity"],
+    unitPriceLabel: lang["unitPrice"],
+    taxLabel: lang["tax"],
+    discountLabel: lang["discount"],
+    totalLabel: lang["total"],
+    amountDueLabel: lang["amountDue"],
+    amountDue: amountDue,
+    termsLabel: lang["paymentTerms"],
+    terms: terms,
+    purchaseOrderLabel: lang["purchaseOrder"],
+    purchaseOrder: purchaseOrder,
+    paymentMethodLabel: lang["paymentMethod"],
+    paymentMethod: paymentMethod,
+    notes: notes,
+    websiteLabel: lang["website"],
+    website: website,
+    facebookLabel: lang["facebook"],
+    facebook: facebook,
+    twitterLabel: lang["twitter"],
+    twitter: twitter,
+    instagramLabel: lang["instagram"],
+    instagram: instagram
+  };
+};
+
+resetVariables();
+
+let layout = "layout1";
+let docDef = lib["layout1"](variables);
+
+// Functions
+
+const show_hide_column = (col_no, do_show) => {
+  let rows = document.getElementById("id_of_table").rows;
+
+  for (let row = 0; row < rows.length; row++) {
+    let cols = rows[row].cells;
+    if (col_no >= 0 && col_no < cols.length) {
+      cols[col_no].style.display = do_show ? "" : "none";
+    }
+  }
+};
+
+const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+const id = text => document.getElementById(text);
+
+const buttonToggle = field => {
+  let classList = id(field + "Button", field).classList;
+  console.log("Button enable");
+  if (classList.contains("bg-gray-700")) {
+    classList.remove("bg-gray-700");
+    classList.remove("hover:bg-gray-600");
+    classList.add("bg-red-700");
+    classList.add("hover:bg-red-600");
+    if (id(field + "LabelWrapper")) id(field + "LabelWrapper").style.display = "flex";
+    id(field).style.display = "block";
+  } else {
+    classList.remove("bg-red-700");
+    classList.remove("hover:bg-red-600");
+    classList.add("bg-gray-700");
+    classList.add("hover:bg-gray-600");
+    if (id(field + "LabelWrapper")) id(field + "LabelWrapper").style.display = "none";
+    id(field).style.display = "none";
+  }
+};
+
+const renderPDF = (url, options) => {
+  options = options || { scale: 0.95 };
+
+  const renderPage = page => {
+    let viewport = page.getViewport(options);
+    let canvas = id("myCanvas");
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+    let ctx = canvas.getContext("2d");
+    let renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+
+    page.render(renderContext);
+  };
+
+  const renderPages = pdfDoc => {
+    for (let num = 1; num <= pdfDoc.numPages; num++) pdfDoc.getPage(num).then(renderPage);
+  };
+
+  PDFJS.disableWorker = true;
+  let loadingTask = PDFJS.getDocument(url);
+  loadingTask.promise.then(function (pdf) {
+    renderPages(pdf);
+  });
+};
+
+const renderNew = def => {
+  pdfMake.createPdf(def).getDataUrl(function (dataURL) {
+    renderPDF(dataURL);
+  });
+};
+
+const setLayout = () => {
+  docDef = lib[layout](variables);
+};
+
+const renderLayout = () => {
+  setLayout();
+  renderNew(docDef);
+};
+
+const changeValues = text => {
+  variables[text] = id(text).value;
+  renderLayout();
+};
+
+const changeLabel = text => {
+  variables[text + "Label"] = id(text + "Label").value;
+  renderLayout();
+};
+
+const download = () => {
+  console.log("download");
+  setLayout();
+  let pdf = pdfMake.createPdf(docDef);
+  pdf.download("PPRA.pdf");
+};
+
+const renderLayout1 = () => {
+  layout = "layout1";
+  renderLayout();
+};
+
+const renderLayout2 = () => {
+  layout = "layout2";
+  renderLayout();
+};
+
+// show_hide_column(1, false);
 
 const assignValues = () => {
   // mandatoryEditableFields.forEach(item => {
@@ -314,6 +390,31 @@ const assignValues = () => {
   //   // labelUpdate(item);
   //   id(item + "Label").textContent = id(item + "Input").value;
   // });
+  resetVariables();
+
+  if (id("lang")) console.log("Language: " + id("lang").value);
+
+  if (id("lang")) {
+    console.log("Language: " + id("lang").value);
+    switch (id("lang").value) {
+      case "en":
+        lang = en;
+        break;
+      case "es":
+        lang = es;
+        break;
+    }
+  }
+
+  render(invoiceLayout("invoice"), document.getElementById("newInvoiceCard"));
+  render(companyLayout("company"), document.getElementById("newCompanyCard"));
+  render(customerLayout("customer"), document.getElementById("newCustomerCard"));
+
+  render(invoiceDetailsTemplate(), document.getElementById("optionalInvoiceDetails"));
+  render(companyDetailsTemplate(), document.getElementById("optionalCompanyDetails"));
+  render(customerDetailsTemplate(), document.getElementById("optionalCustomerDetails"));
+
+  render(itemTable(), document.getElementById("itemDetailCard"));
 
   optional2ColumnFields.forEach(item => {
     // remove2Fields(item);
@@ -349,10 +450,12 @@ const assignValues = () => {
     itemTemplates.push(html`<option value=${getFormattedDate(i)[0]}>${getFormattedDate(i)[1]}</option>`);
   }
 
-  const setDateFormat = () => {
-    // console.log(id("date").value);
-    dateFormat = id("date").value;
+  const langTemplates = [];
+  for (const i of languages) {
+    langTemplates.push(html`<option value=${i}>${i}</option>`);
+  }
 
+  const setDates = () => {
     flatpickr("#invoiceDate", {
       dateFormat: dateFormat,
       disableMobile: "true",
@@ -364,35 +467,41 @@ const assignValues = () => {
       disableMobile: "true",
       defaultDate: "today"
     });
-    renderlayout1();
+  };
+
+  const setDateFormat = () => {
+    // console.log(id("date").value);
+    dateFormat = id("date").value;
+    setDates();
+    renderLayout();
   };
 
   const dateFormatSelect = text =>
     html`
       <span class="text-gray-200">Date Format</span>
-      <select id="date" class="form-select block w-full mt-1 text-black" @change=${() => setDateFormat()}>
+      <select id="date" class="form-select block w-full mt-1 text-black" @change=${setDateFormat}>
         ${itemTemplates}
       </select>
     `;
 
-  render(dateFormatSelect("invoice"), id("dateFormat"));
+  render(dateFormatSelect("invoice"), id("dateSelect"));
 
-  flatpickr("#invoiceDate", {
-    dateFormat: dateFormat,
-    disableMobile: "true",
-    defaultDate: "today"
-  });
+  const languageSelect = text =>
+    html`
+      <span class="text-gray-200">Language</span>
+      <select id="lang" class="form-select block w-full mt-1 text-black" @change=${assignValues}>
+        ${langTemplates}
+      </select>
+    `;
 
-  flatpickr("#dueDate", {
-    dateFormat: dateFormat,
-    disableMobile: "true",
-    defaultDate: "today"
-  });
+  render(languageSelect("invoice"), id("languageSelect"));
+
+  setDates();
 
   const pickr = Pickr.create({
     el: ".pickr",
-    theme: "monolith", // or 'monolith', or 'nano'
-
+    theme: "monolith",
+    lockOpacity: true,
     swatches: [
       "rgba(244, 67, 54, 1)",
       "rgba(233, 30, 99, 1)",
@@ -409,13 +518,9 @@ const assignValues = () => {
       "rgba(255, 193, 7, 1)",
       "rgba(233, 30, 99, 1)"
     ],
-    lockOpacity: true,
-
     components: {
-      // Main components
       preview: true,
       hue: true,
-
       // Input / output Options
       interaction: {
         hex: true,
@@ -428,22 +533,20 @@ const assignValues = () => {
         save: true
       }
     },
-
-    // Button strings, brings the possibility to use a language other than English.
     strings: {
-      save: "Savdrf"
+      save: lang["save"]
     }
   });
 
   pickr.on("change", (color, instance) => {
     console.log("change", color.toHEXA(), instance);
     variables["colorPrimary"] = color.toHEXA();
-    renderlayout1();
+    renderLayout();
   });
 
   console.log("Color: " + pickr.getColor().toHEXA());
 
-  renderlayout1();
+  renderLayout();
 };
 
 const add2ColumnButton = text =>
@@ -513,11 +616,9 @@ const invoice2Column = (text, value) =>
     </div>
   `;
 
-// ${invoice2Column("invoiceDate", "20200101")} ${invoice2Column("dueDate", "20200101")}
-
 const invoiceLayout = text =>
   html`
-    ${header("Invoice Details")} ${inputLabel("invoice", "text-5xl")} ${invoice2Column("invoiceNum", 100)}
+    ${header(lang["invoiceDetails"])} ${inputLabel("invoice", "text-5xl")} ${invoice2Column("invoiceNum", 100)}
     <div id="invoiceDateLabelWrapper" class="flex flex-row">
       ${inputLabel("invoiceDate")} ${inputOutputDate("invoiceDate")}
     </div>
@@ -531,7 +632,7 @@ const invoiceLayout = text =>
 
 const companyLayout = text =>
   html`
-    ${header("Company Details")} ${inputLabel("billFrom")} ${inputOutput("sellerCompany", lang["companyName"])}
+    ${header(lang["companyDetails"])} ${inputLabel("billFrom")} ${inputOutput("sellerCompany", lang["companyName"])}
     ${inputOutput("sellerAddressLine1", lang["addressLine1"])} ${inputOutput("sellerAddressLine2", lang["addressLine2"])}
     ${inputOutput("sellerAddressLine3", lang["addressLine3"])} ${inputOutput("sellerAddressLine4", lang["addressLine4"])}
     ${inputOutput("sellerPhone", lang["phone"])} ${inputOutput("sellerEmail", lang["email"])} ${inputOutput("website", lang["website"])}
@@ -542,7 +643,7 @@ const companyLayout = text =>
 
 const customerLayout = text =>
   html`
-    ${header("Customer Details")} ${inputLabel("billTo")} ${inputOutput("clientCompany", lang["companyName"])}
+    ${header(lang["customerDetails"])} ${inputLabel("billTo")} ${inputOutput("clientCompany", lang["companyName"])}
     ${inputOutput("clientAddressLine1", lang["addressLine1"])} ${inputOutput("clientAddressLine2", lang["addressLine2"])}
     ${inputOutput("clientAddressLine3", lang["addressLine3"])} ${inputOutput("clientAddressLine4", lang["addressLine4"])}
     ${inputOutput("clientPhone", lang["phone"])} ${inputOutput("clientEmail", lang["email"])}
@@ -550,32 +651,15 @@ const customerLayout = text =>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
 
-render(invoiceLayout("invoice"), document.getElementById("newInvoiceCard"));
-render(companyLayout("company"), document.getElementById("newCompanyCard"));
-render(customerLayout("customer"), document.getElementById("newCustomerCard"));
-// const itemFieldsTemplate = html`
-//   ${labelRequiredEditable("itemName")} ${inputText("itemName")} ${labelRequiredEditable("itemDescription")} ${inputText("itemDescription")}
-//   ${labelRequiredEditable("quantity")} ${inputText("quantity")} ${labelRequiredEditable("unitPrice")} ${inputText("unitPrice")}
-//   ${labelRequiredEditable("tax")} ${inputText("tax")} ${labelRequiredEditable("extendedPrice")} ${inputText("extendedPrice")}
-// `;
+const invoiceDetailsTemplate = () => html` ${add2ColumnButton("paymentTerms")} ${add2ColumnButton("purchaseOrder")} `;
 
-// render(itemFieldsTemplate, document.getElementById("itemFields"));
-
-const invoiceDetailsTemplate = html` ${add2ColumnButton("paymentTerms")} ${add2ColumnButton("purchaseOrder")} `;
-
-render(invoiceDetailsTemplate, document.getElementById("optionalInvoiceDetails"));
-
-const companyDetailsTemplate = html`
+const companyDetailsTemplate = () => html`
   ${addButton("companyLogo")} ${addButton("sellerPhone", "phone")} ${addButton("sellerEmail", "email")} ${addButton("website", "website")}
   ${addButton("facebook", "facebook")} ${addButton("twitter", "twitter")} ${addButton("instagram", "instagram")} ${addButton("customField")}
   ${addButton("customField")}
 `;
 
-render(companyDetailsTemplate, document.getElementById("optionalCompanyDetails"));
-
-const customerDetailsTemplate = html` ${addButton("phone")} ${addButton("email")} ${addButton("customField")} ${addButton("customField")}`;
-
-render(customerDetailsTemplate, document.getElementById("optionalCustomerDetails"));
+const customerDetailsTemplate = () => html` ${addButton("phone")} ${addButton("email")} ${addButton("customField")} ${addButton("customField")}`;
 
 const itemTable = text =>
   html`
@@ -591,9 +675,9 @@ const itemTable = text =>
           <th class="px-2">${inputLabel("total")}</th>
         </tr>
         <tr>
-          <td>${inputOutput("clientCompany", lang["companyName"])}</td>
-          <td>${inputOutput("clientCompany", lang["companyName"])}</td>
-          <td>${inputOutput("clientCompany", lang["companyName"])}</td>
+          <td>${inputOutput("clientCony", lang["companyName"])}</td>
+          <td>${inputOutput("clientCny", lang["companyName"])}</td>
+          <td>${inputOutput("clientCoany", lang["companyName"])}</td>
           <td>34.99</td>
           <td>1.99</td>
           <td>3.99</td>
@@ -612,21 +696,10 @@ const itemTable = text =>
     </div>
   `;
 
-render(itemTable(), document.getElementById("itemDetailCard"));
-
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 // pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-// var derivedLang = "es";
 if (lang) assignValues();
-
-// loadjs(["./locales/locale.es.js"], {
-//   success: assignValues
-// });
-
-// loadjs("locales/locale.es.js", assignValues);
-
-// loadjs("./locales/locale.es.js", assignValues);
 
 // pdfMake.fonts = {
 //   // PTSans: {
@@ -655,76 +728,9 @@ if (lang) assignValues();
 //   }
 // };
 
-const download = () => {
-  console.log("download");
-  setLayout();
-  var pdf = pdfMake.createPdf(docDef);
-  pdf.download("PPRA.pdf");
-};
-
-function renderlayout1() {
-  console.log("renderLayout1");
-  setLayout();
-  renderNew(docDef);
-}
-
-function renderlayout2() {
-  renderNew(lib.layout2(variables));
-}
-
-let docDef = lib.layout1(variables);
-
-function setLayout() {
-  docDef = lib.layout1(variables);
-}
-
 if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
-if (id("layout1")) id("layout1").addEventListener("click", renderlayout1, false);
-if (id("layout2")) id("layout2").addEventListener("click", renderlayout2, false);
-
-function changeValues(text) {
-  variables[text] = id(text).value;
-  renderlayout1();
-}
-
-function changeLabel(text) {
-  variables[text + "Label"] = id(text + "Label").value;
-  renderlayout1();
-}
-
-function renderNew(def) {
-  pdfMake.createPdf(def).getDataUrl(function (dataURL) {
-    renderPDF(dataURL);
-  });
-}
-
-function renderPDF(url, options) {
-  options = options || { scale: 0.95 };
-
-  function renderPage(page) {
-    var viewport = page.getViewport(options);
-    var canvas = id("myCanvas");
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-    var ctx = canvas.getContext("2d");
-    var renderContext = {
-      canvasContext: ctx,
-      viewport: viewport
-    };
-
-    page.render(renderContext);
-  }
-
-  const renderPages = pdfDoc => {
-    for (var num = 1; num <= pdfDoc.numPages; num++) pdfDoc.getPage(num).then(renderPage);
-  };
-
-  PDFJS.disableWorker = true;
-  var loadingTask = PDFJS.getDocument(url);
-  loadingTask.promise.then(function (pdf) {
-    renderPages(pdf);
-  });
-}
+if (id("layout1")) id("layout1").addEventListener("click", renderLayout1, false);
+if (id("layout2")) id("layout2").addEventListener("click", renderLayout2, false);
 
 (function () {
   // Get relevant elements and collections
