@@ -22,7 +22,7 @@ let lang = en;
 // import Turkish from "flatpickr/dist/l10n/tr.js";
 import language from "flatpickr/dist/l10n/";
 
-const locale = "en";
+let locale = "en";
 
 const items = [
   "F J Y",
@@ -48,10 +48,71 @@ const items = [
   "Y, M d",
   "Y-m-d",
   "Y/m/d",
-  "Y/n/j"
+  "Y/n/j",
 ];
 
-const languages = ["en", "es"];
+const languages = [
+  "en",
+  "es",
+  "fr",
+  "pt",
+  "ja",
+  "ar",
+  "at",
+  "az",
+  "be",
+  "bg",
+  "bn",
+  "bs",
+  "cat",
+  "cs",
+  "cy",
+  "da",
+  "de",
+  "eo",
+  "et",
+  "fa",
+  "fi",
+  "fo",
+  "gr",
+  "he",
+  "hi",
+  "hr",
+  "hu",
+  "id",
+  "is",
+  "it",
+  "ka",
+  "ko",
+  "km",
+  "kz",
+  "lt",
+  "lv",
+  "mk",
+  "mn",
+  "ms",
+  "my",
+  "nl",
+  "no",
+  "pa",
+  "pl",
+  "ro",
+  "ru",
+  "si",
+  "sk",
+  "sl",
+  "sq",
+  "sr",
+  "sv",
+  "th",
+  "tr",
+  "uk",
+  "vn",
+  "zh",
+  "uz",
+  "uz_latn",
+  "zh_tw",
+];
 
 // Font - Dropdown - Show list of languages the font supports
 // Label
@@ -199,6 +260,8 @@ if (direction === "rtl") {
   marginLeft4 = "mr-4";
 }
 let variables = { paperSize: paperSize };
+let itemTemplates = [];
+let langTemplates = [];
 
 const resetVariables = () => {
   variables = {
@@ -266,7 +329,7 @@ const resetVariables = () => {
     twitterLabel: lang["twitter"],
     twitter: twitter,
     instagramLabel: lang["instagram"],
-    instagram: instagram
+    instagram: instagram,
   };
 };
 
@@ -288,11 +351,11 @@ const show_hide_column = (col_no, do_show) => {
   }
 };
 
-const initCap = str => str.charAt(0).toUpperCase() + str.slice(1);
+const initCap = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-const id = text => document.getElementById(text);
+const id = (text) => document.getElementById(text);
 
-const buttonToggle = field => {
+const buttonToggle = (field) => {
   let classList = id(field + "Button", field).classList;
   console.log("Button enable");
   if (classList.contains("bg-gray-700")) {
@@ -315,7 +378,7 @@ const buttonToggle = field => {
 const renderPDF = (url, options) => {
   options = options || { scale: 0.95 };
 
-  const renderPage = page => {
+  const renderPage = (page) => {
     let viewport = page.getViewport(options);
     let canvas = id("myCanvas");
     canvas.height = viewport.height;
@@ -323,13 +386,13 @@ const renderPDF = (url, options) => {
     let ctx = canvas.getContext("2d");
     let renderContext = {
       canvasContext: ctx,
-      viewport: viewport
+      viewport: viewport,
     };
 
     page.render(renderContext);
   };
 
-  const renderPages = pdfDoc => {
+  const renderPages = (pdfDoc) => {
     for (let num = 1; num <= pdfDoc.numPages; num++) pdfDoc.getPage(num).then(renderPage);
   };
 
@@ -340,7 +403,7 @@ const renderPDF = (url, options) => {
   });
 };
 
-const renderNew = def => {
+const renderNew = (def) => {
   pdfMake.createPdf(def).getDataUrl(function (dataURL) {
     renderPDF(dataURL);
   });
@@ -355,12 +418,12 @@ const renderLayout = () => {
   renderNew(docDef);
 };
 
-const changeValues = text => {
+const changeValues = (text) => {
   variables[text] = id(text).value;
   renderLayout();
 };
 
-const changeLabel = text => {
+const changeLabel = (text) => {
   variables[text + "Label"] = id(text + "Label").value;
   renderLayout();
 };
@@ -382,6 +445,51 @@ const renderLayout2 = () => {
   renderLayout();
 };
 
+const getFormattedDate = (format) => {
+  flatpickr("#dueDate", {
+    dateFormat: format,
+    defaultDate: "today",
+  });
+  return [format, id("dueDate").value];
+};
+
+const setDates = () => {
+  flatpickr("#invoiceDate", {
+    dateFormat: dateFormat,
+    disableMobile: "true",
+    defaultDate: "today",
+  });
+
+  flatpickr("#dueDate", {
+    dateFormat: dateFormat,
+    disableMobile: "true",
+    defaultDate: "today",
+  });
+};
+
+const setDateFormat = () => {
+  // console.log(id("date").value);
+  dateFormat = id("date").value;
+  setDates();
+  renderLayout();
+};
+
+const dateFormatSelect = (text) =>
+  html`
+    <span class="text-gray-200">Date Format</span>
+    <select id="date" class="form-select block w-full mt-1 text-black" @change=${setDateFormat}>
+      ${itemTemplates}
+    </select>
+  `;
+
+const languageSelect = (text) =>
+  html`
+    <span class="text-gray-200">Language</span>
+    <select id="lang" class="form-select block w-full mt-1 text-black" @change=${assignValues}>
+      ${langTemplates}
+    </select>
+  `;
+
 // show_hide_column(1, false);
 
 const assignValues = () => {
@@ -395,14 +503,16 @@ const assignValues = () => {
   if (id("lang")) console.log("Language: " + id("lang").value);
 
   if (id("lang")) {
-    console.log("Language: " + id("lang").value);
-    switch (id("lang").value) {
+    locale = id("lang").value;
+    switch (locale) {
       case "en":
         lang = en;
         break;
       case "es":
         lang = es;
         break;
+      default:
+        lang = es;
     }
   }
 
@@ -416,13 +526,13 @@ const assignValues = () => {
 
   render(itemTable(), document.getElementById("itemDetailCard"));
 
-  optional2ColumnFields.forEach(item => {
+  optional2ColumnFields.forEach((item) => {
     // remove2Fields(item);
     buttonToggle(item);
     // hideInput(item);
   });
 
-  optional1ColumnField.forEach(item => {
+  optional1ColumnField.forEach((item) => {
     // removeField(item);
     buttonToggle(item);
     // hideInput(item);
@@ -437,62 +547,18 @@ const assignValues = () => {
   variables["invoiceDate"] = id("invoiceDate").value;
   variables["dueDate"] = id("dueDate").value;
 
-  const getFormattedDate = format => {
-    flatpickr("#dueDate", {
-      dateFormat: format,
-      defaultDate: "today"
-    });
-    return [format, id("dueDate").value];
-  };
+  itemTemplates = [];
+  langTemplates = [];
 
-  const itemTemplates = [];
   for (const i of items) {
     itemTemplates.push(html`<option value=${getFormattedDate(i)[0]}>${getFormattedDate(i)[1]}</option>`);
   }
 
-  const langTemplates = [];
   for (const i of languages) {
     langTemplates.push(html`<option value=${i}>${i}</option>`);
   }
 
-  const setDates = () => {
-    flatpickr("#invoiceDate", {
-      dateFormat: dateFormat,
-      disableMobile: "true",
-      defaultDate: "today"
-    });
-
-    flatpickr("#dueDate", {
-      dateFormat: dateFormat,
-      disableMobile: "true",
-      defaultDate: "today"
-    });
-  };
-
-  const setDateFormat = () => {
-    // console.log(id("date").value);
-    dateFormat = id("date").value;
-    setDates();
-    renderLayout();
-  };
-
-  const dateFormatSelect = text =>
-    html`
-      <span class="text-gray-200">Date Format</span>
-      <select id="date" class="form-select block w-full mt-1 text-black" @change=${setDateFormat}>
-        ${itemTemplates}
-      </select>
-    `;
-
   render(dateFormatSelect("invoice"), id("dateSelect"));
-
-  const languageSelect = text =>
-    html`
-      <span class="text-gray-200">Language</span>
-      <select id="lang" class="form-select block w-full mt-1 text-black" @change=${assignValues}>
-        ${langTemplates}
-      </select>
-    `;
 
   render(languageSelect("invoice"), id("languageSelect"));
 
@@ -516,7 +582,7 @@ const assignValues = () => {
       "rgba(205, 220, 57, 1)",
       "rgba(255, 235, 59, 1)",
       "rgba(255, 193, 7, 1)",
-      "rgba(233, 30, 99, 1)"
+      "rgba(233, 30, 99, 1)",
     ],
     components: {
       preview: true,
@@ -530,12 +596,12 @@ const assignValues = () => {
         cmyk: false,
         input: true,
         clear: false,
-        save: true
-      }
+        save: true,
+      },
     },
     strings: {
-      save: lang["save"]
-    }
+      save: lang["save"],
+    },
   });
 
   pickr.on("change", (color, instance) => {
@@ -549,7 +615,7 @@ const assignValues = () => {
   renderLayout();
 };
 
-const add2ColumnButton = text =>
+const add2ColumnButton = (text) =>
   html`
     <button
       id="${text}Button"
@@ -603,7 +669,7 @@ const inputOutputDate = (name, textSize = "text-base") => html`
   />
 `;
 
-const header = text => html`
+const header = (text) => html`
   <div class="flex flex-wrap overflow-hidden bg-blue-700 -mx-6 -my-4 px-6 py-4 mb-4">
     ${text}
   </div>
@@ -616,7 +682,7 @@ const invoice2Column = (text, value) =>
     </div>
   `;
 
-const invoiceLayout = text =>
+const invoiceLayout = (text) =>
   html`
     ${header(lang["invoiceDetails"])} ${inputLabel("invoice", "text-5xl")} ${invoice2Column("invoiceNum", 100)}
     <div id="invoiceDateLabelWrapper" class="flex flex-row">
@@ -630,7 +696,7 @@ const invoiceLayout = text =>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
 
-const companyLayout = text =>
+const companyLayout = (text) =>
   html`
     ${header(lang["companyDetails"])} ${inputLabel("billFrom")} ${inputOutput("sellerCompany", lang["companyName"])}
     ${inputOutput("sellerAddressLine1", lang["addressLine1"])} ${inputOutput("sellerAddressLine2", lang["addressLine2"])}
@@ -641,7 +707,7 @@ const companyLayout = text =>
     <div id="optional${initCap(text)}Details" class="flex flex-wrap text-sm text-white -mr-2"></div>
   `;
 
-const customerLayout = text =>
+const customerLayout = (text) =>
   html`
     ${header(lang["customerDetails"])} ${inputLabel("billTo")} ${inputOutput("clientCompany", lang["companyName"])}
     ${inputOutput("clientAddressLine1", lang["addressLine1"])} ${inputOutput("clientAddressLine2", lang["addressLine2"])}
@@ -661,7 +727,7 @@ const companyDetailsTemplate = () => html`
 
 const customerDetailsTemplate = () => html` ${addButton("phone")} ${addButton("email")} ${addButton("customField")} ${addButton("customField")}`;
 
-const itemTable = text =>
+const itemTable = (text) =>
   html`
     <div class="overflow-x-auto">
       <table id="id_of_table" border="1">
@@ -767,7 +833,7 @@ if (id("layout2")) id("layout2").addEventListener("click", renderLayout2, false)
     tab.parentNode.setAttribute("role", "presentation");
 
     // Handle clicking of tabs for mouse users
-    tab.addEventListener("click", e => {
+    tab.addEventListener("click", (e) => {
       e.preventDefault();
       let currentTab = tablist.querySelector("[aria-selected]");
       if (e.currentTarget !== currentTab) {
@@ -776,7 +842,7 @@ if (id("layout2")) id("layout2").addEventListener("click", renderLayout2, false)
     });
 
     // Handle keydown events for keyboard users
-    tab.addEventListener("keydown", e => {
+    tab.addEventListener("keydown", (e) => {
       // Get the index of the current tab in the tabs node list
       let index = Array.prototype.indexOf.call(tabs, e.currentTarget);
       // Work out which key the user is pressing and
