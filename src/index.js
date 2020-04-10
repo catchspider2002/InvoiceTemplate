@@ -474,19 +474,19 @@ const setDateFormat = () => {
   renderLayout();
 };
 
-const dateFormatSelect = (text) =>
-  html`
-    <span class="text-gray-200">Date Format</span>
-    <select id="date" class="form-select block w-full mt-1 text-black" @change=${setDateFormat}>
-      ${itemTemplates}
-    </select>
-  `;
-
-const languageSelect = (text) =>
+const languageSelect = () =>
   html`
     <span class="text-gray-200">Language</span>
     <select id="lang" class="form-select block w-full mt-1 text-black" @change=${assignValues}>
       ${langTemplates}
+    </select>
+  `;
+
+const dateFormatSelect = () =>
+  html`
+    <span class="text-gray-200">Date Format</span>
+    <select id="date" class="form-select block w-full mt-1 text-black" @change=${setDateFormat}>
+      ${itemTemplates}
     </select>
   `;
 
@@ -498,9 +498,6 @@ const assignValues = () => {
   //   // labelUpdate(item);
   //   id(item + "Label").textContent = id(item + "Input").value;
   // });
-  resetVariables();
-
-  if (id("lang")) console.log("Language: " + id("lang").value);
 
   if (id("lang")) {
     locale = id("lang").value;
@@ -515,6 +512,8 @@ const assignValues = () => {
         lang = es;
     }
   }
+
+  resetVariables();
 
   render(invoiceLayout("invoice"), document.getElementById("newInvoiceCard"));
   render(companyLayout("company"), document.getElementById("newCompanyCard"));
@@ -542,27 +541,27 @@ const assignValues = () => {
   //   removewFields(item);
   // });
 
-  flatpickr.localize(flatpickr.l10ns[locale]);
-
-  variables["invoiceDate"] = id("invoiceDate").value;
-  variables["dueDate"] = id("dueDate").value;
-
   itemTemplates = [];
   langTemplates = [];
-
-  for (const i of items) {
-    itemTemplates.push(html`<option value=${getFormattedDate(i)[0]}>${getFormattedDate(i)[1]}</option>`);
-  }
 
   for (const i of languages) {
     langTemplates.push(html`<option value=${i}>${i}</option>`);
   }
 
-  render(dateFormatSelect("invoice"), id("dateSelect"));
+  render(languageSelect(), id("languageSelect"));
 
-  render(languageSelect("invoice"), id("languageSelect"));
+  flatpickr.localize(flatpickr.l10ns[locale]);
+
+  for (const i of items) {
+    itemTemplates.push(html`<option value=${getFormattedDate(i)[0]}>${getFormattedDate(i)[1]}</option>`);
+  }
+
+  render(dateFormatSelect(), id("dateSelect"));
 
   setDates();
+
+  variables["invoiceDate"] = id("invoiceDate").value;
+  variables["dueDate"] = id("dueDate").value;
 
   const pickr = Pickr.create({
     el: ".pickr",
@@ -766,6 +765,18 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 // pdfMake.vfs = pdfFonts.vfs;
 PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 if (lang) assignValues();
+
+// Input File
+// const reader = new FileReader();
+// const fileInput = document.getElementById("file");
+// const img = document.getElementById("img");
+// reader.onload = (e) => {
+//   img.src = e.target.result;
+// };
+// fileInput.addEventListener("change", (e) => {
+//   const f = e.target.files[0];
+//   reader.readAsDataURL(f);
+// });
 
 // pdfMake.fonts = {
 //   // PTSans: {
