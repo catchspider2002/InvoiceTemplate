@@ -53,5 +53,5 @@
   language: "Language",
   paperSize: "Paper Size",
   capLabels: "Capitalize Labels",
-  color: "Color"
+  color: "Color",
 };

@@ -15,21 +15,24 @@
   </head>
 
   <body dir="ltr" class="bg-gray-800 text-gray-300">
-    <div class="p-4 m-0 list-none flex bg-gray-800 justify-around flex-row flex-wrap">
-      <div class="p-5 mt-5 w-full md:w-1/2 font-bold text-center">
+    <div class="m-0 list-none flex bg-gray-800 justify-around flex-row flex-wrap">
+      <div class="mt-8 w-full md:w-1/2 font-bold text-center">
         <div class="tabbed">
-          <ul class="bg-gray-900 top-0 fixed p-0">
+          <ul class="bg-gray-900 top-0 fixed p-0 w-full md:w-1/2">
             <li class="inline-block">
               <a class="inline-block no-underline px-4 py-2" href="#section1">Layout</a>
             </li>
-            <li class="inline-block">
+            <!-- <li class="inline-block">
               <a class="inline-block no-underline px-4 py-2" href="#section2">Content</a>
-            </li>
+            </li> -->
             <li class="inline-block">
               <a class="inline-block no-underline px-4 py-2" href="#section3">Template</a>
             </li>
+            <li class="inline-block md:hidden">
+              <a class="inline-block no-underline px-4 py-2" href="#section4">PDF Preview</a>
+            </li>
           </ul>
-          <section id="section1">
+          <section id="section1" class="p-8">
             <button id="layout1" class="px-4 py-2 text-sm mb-4 mx-2 font-bold bg-gray-900 rounded hover:bg-gray-600">
               Layout 1
             </button>
@@ -103,11 +106,14 @@
               </div>
             </div>
           </section>
-          <section id="section2">
+          <!-- <section id="section2">
             <div id="companyCard" class="w-full rounded overflow-hidden shadow-lg bg-black px-6 py-4 mb-8"></div>
+          </section> -->
+          <section id="section3" class="p-8">
+            <h2>Templatwe</h2>
           </section>
-          <section id="section3">
-            <h2>Template</h2>
+          <section id="section4" class="p-8">
+            <h2>Preview</h2>
           </section>
         </div>
       </div>

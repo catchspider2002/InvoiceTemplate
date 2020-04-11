@@ -106,9 +106,9 @@
 
 /* Tabs */
 
-[role="tablist"] {
+/* [role="tablist"] {
   width: calc(50% - 20px);
-}
+} */
 
 [role="tablist"] [aria-selected] {
   background: #fff;

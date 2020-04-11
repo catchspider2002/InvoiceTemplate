@@ -12,7 +12,7 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import en from "./locales/locale.en.js";
 import es from "./locales/locale.es.js";
 import { html, render } from "lit-html";
-import lib from "./functions.js";
+import lib from "./functions";
 import flatpickr from "flatpickr";
 import Pickr from "@simonwep/pickr";
 import "@simonwep/pickr/dist/themes/monolith.min.css"; // 'monolith' theme
@@ -356,7 +356,7 @@ const initCap = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const id = (text) => document.getElementById(text);
 
 const buttonToggle = (field) => {
-  let classList = id(field + "Button").classList;
+  let classList = id(field + "Button", field).classList;
   console.log("Button enable");
   if (classList.contains("bg-gray-700")) {
     classList.remove("bg-gray-700");
@@ -471,8 +471,6 @@ const setDateFormat = () => {
   // console.log(id("date").value);
   dateFormat = id("date").value;
   setDates();
-  variables["invoiceDate"] = id("invoiceDate").value;
-  variables["dueDate"] = id("dueDate").value;
   renderLayout();
 };
 
@@ -606,28 +604,12 @@ const assignValues = () => {
   });
 
   pickr.on("change", (color, instance) => {
-    // colorPrimary = color.toHEXA();
-
-    color
-      .toHEXA()
-      .then(function (colr) {
-        colorPrimary = colr;
-        variables["colorPrimary"] = colorPrimary;
-        console.log("Color: " + colorPrimary);
-      })
-      // .then(console.log("Color: " + colorPrimary))
-      .then(resetVariables)
-      .then(renderLayout)
-      .catch(function (error) {
-        console.log(error);
-      });
-    // console.log("Color: " + colorPrimary);
-    // variables["colorPrimary"] = colorPrimary;
-    // resetVariables();
-    // renderLayout();
+    console.log("change", color.toHEXA(), instance);
+    variables["colorPrimary"] = color.toHEXA();
+    renderLayout();
   });
 
-  // console.log("Color: " + pickr.getColor().toHEXA());
+  console.log("Color: " + pickr.getColor().toHEXA());
 
   renderLayout();
 };
@@ -737,15 +719,14 @@ const customerLayout = (text) =>
 const invoiceDetailsTemplate = () => html` ${add2ColumnButton("paymentTerms")} ${add2ColumnButton("purchaseOrder")} `;
 
 const companyDetailsTemplate = () => html`
-  ${addButton("companyLogo", "phone")} ${addButton("sellerPhone", "phone")} ${addButton("sellerEmail", "email")} ${addButton("website", "website")}
-  ${addButton("facebook", "facebook")} ${addButton("twitter", "twitter")} ${addButton("instagram", "instagram")} ${addButton("customField", "phone")}
-  ${addButton("customField", "phone")}
+  ${addButton("companyLogo")} ${addButton("sellerPhone", "phone")} ${addButton("sellerEmail", "email")} ${addButton("website", "website")}
+  ${addButton("facebook", "facebook")} ${addButton("twitter", "twitter")} ${addButton("instagram", "instagram")} ${addButton("customField")}
+  ${addButton("customField")}
 `;
 
-const customerDetailsTemplate = () =>
-  html` ${addButton("phone", "phone")} ${addButton("email", "email")} ${addButton("customField", "phone")} ${addButton("customField", "phone")}`;
+const customerDetailsTemplate = () => html` ${addButton("phone")} ${addButton("email")} ${addButton("customField")} ${addButton("customField")}`;
 
-const itemTable = () =>
+const itemTable = (text) =>
   html`
     <div class="overflow-x-auto">
       <table id="id_of_table" border="1">
