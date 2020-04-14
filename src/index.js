@@ -390,6 +390,11 @@ const renderPDF = (url, options) => {
     };
 
     page.render(renderContext);
+
+    if (ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+    }
   };
 
   const renderPages = (pdfDoc) => {
@@ -606,25 +611,24 @@ const assignValues = () => {
   });
 
   pickr.on("change", (color, instance) => {
-    // colorPrimary = color.toHEXA();
+    colorPrimary = color.toHEXA();
 
-    color
-      .toHEXA()
-      .then(function (colr) {
-        colorPrimary = colr;
-        variables["colorPrimary"] = colorPrimary;
-        console.log("Color: " + colorPrimary);
-      })
-      // .then(console.log("Color: " + colorPrimary))
-      .then(resetVariables)
-      .then(renderLayout)
-      .catch(function (error) {
-        console.log(error);
-      });
-    // console.log("Color: " + colorPrimary);
-    // variables["colorPrimary"] = colorPrimary;
-    // resetVariables();
-    // renderLayout();
+    // color
+    //   .toHEXA()
+    //   .then(function (colr) {
+    //     colorPrimary = colr;
+    //     variables["colorPrimary"] = colorPrimary;
+    //     console.log("Color: " + colorPrimary);
+    //   })
+    //   .then(resetVariables)
+    //   .then(renderLayout)
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    console.log("Color: " + colorPrimary);
+    variables["colorPrimary"] = colorPrimary;
+    resetVariables();
+    renderLayout();
   });
 
   // console.log("Color: " + pickr.getColor().toHEXA());

@@ -223,7 +223,9 @@ const zebraBackground = (i, node) => ((i % 2 === 0) & (i !== node.table.headerRo
 const headerBackground = (i, node) => (i === node.table.headerRows - 1 ? "#CCCCCC" : null);
 
 let layout1 = (val) => {
-  console.log("Function color: " + val.colorPrimary);
+  let colorPrimary = val.colorPrimary;
+  console.log("Function color: " + colorPrimary);
+
   pdfMake.tableLayouts = {
     verticalDividerLayout: {
       hLineWidth: number0,
@@ -234,15 +236,15 @@ let layout1 = (val) => {
     dashOutline: {
       hLineWidth: hOuterBorder,
       vLineWidth: vOuterBorder,
-      vLineColor: val.colorPrimary,
-      hLineColor: val.colorPrimary,
+      vLineColor: colorPrimary,
+      hLineColor: colorPrimary,
       hLineStyle: dottedLine,
       vLineStyle: dottedLine,
     },
     itemLayout1: {
       hLineWidth: bottomBorderThickThin,
       vLineWidth: number0,
-      hLineColor: val.colorPrimary,
+      hLineColor: colorPrimary,
       paddingLeft: paddingLeftEdge,
       paddingRight: paddingRightEdge,
       paddingTop: setTopMarginOfCellForVerticalCentering,
@@ -250,7 +252,7 @@ let layout1 = (val) => {
     itemLayout1a: {
       hLineWidth: bottomBorderThin,
       vLineWidth: number0,
-      hLineColor: val.colorPrimary,
+      hLineColor: colorPrimary,
       paddingTop: number8,
       paddingRight: paddingRightEdge,
     },
@@ -262,7 +264,7 @@ let layout1 = (val) => {
       fillColor: zebraBackground,
       hLineWidth: hHeaderBorder, // bottomBorderThickThin,
       vLineWidth: number0,
-      hLineColor: val.colorPrimary,
+      hLineColor: colorPrimary,
       hLineStyle: function (i, node) {
         if (i === 1) {
           return null;
@@ -276,7 +278,7 @@ let layout1 = (val) => {
     itemLayout2a: {
       hLineWidth: bottomBorderThin,
       vLineWidth: number0,
-      hLineColor: val.colorPrimary,
+      hLineColor: colorPrimary,
       hLineStyle: dottedLine,
       paddingTop: number8,
       paddingLeft: paddingLeft,
@@ -314,7 +316,7 @@ let layout1 = (val) => {
     },
     content: [
       {
-        svg: '<svg width="' + val.paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:' + val.colorPrimary + '" /></svg>',
+        svg: '<svg width="' + val.paperSize.width + '" height="10"><rect width="100%" height="10" style="fill:' + colorPrimary + '" /></svg>',
       },
       spacer(50),
       {
@@ -330,25 +332,25 @@ let layout1 = (val) => {
               {},
               {
                 stack: [
-                  labelText(val.invoiceLabel, val.colorPrimary, ["h1", "bold", "bMarginXL"]),
-                  labelText(val.invoiceNumLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                  labelText(val.invoiceLabel, colorPrimary, ["h1", "bold", "bMarginXL"]),
+                  labelText(val.invoiceNumLabel, colorPrimary, ["h3", "bMarginSM"]),
                   labelText(val.invoiceNum, "", ["h2", "bMarginXL"]),
-                  labelText(val.invoiceDateLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                  labelText(val.invoiceDateLabel, colorPrimary, ["h3", "bMarginSM"]),
                   labelText(val.invoiceDate, "", ["h2", "bMarginXL"]),
-                  labelText(val.dueDateLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                  labelText(val.dueDateLabel, colorPrimary, ["h3", "bMarginSM"]),
                   labelText(val.dueDate, "", ["h2", "bMarginXL"]),
                 ],
               },
               {},
               {
                 stack: [
-                  labelText(val.billFromLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                  labelText(val.billFromLabel, colorPrimary, ["h3", "bMarginSM"]),
                   labelText(val.sellerCompany, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine1, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine2, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine3, "", ["h4", "bMarginXS"]),
                   labelText(val.sellerAddressLine4, "", ["h4", "bMarginXS"]),
-                  labelText(val.billToLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                  labelText(val.billToLabel, colorPrimary, ["h3", "bMarginSM"]),
                   labelText(val.clientCompany, "", ["h4", "bMarginXS"]),
                   labelText(val.clientAddressLine1, "", ["h4", "bMarginXS"]),
                   labelText(val.clientAddressLine2, "", ["h4", "bMarginXS"]),
@@ -379,12 +381,12 @@ let layout1 = (val) => {
           body: [
             // Table Header
             [
-              labelText(val.itemLabel, val.colorPrimary, ["h3", "bold"]),
-              labelText(val.quantityLabel, val.colorPrimary, ["h3", "bold", "center"]),
-              labelText(val.unitPriceLabel, val.colorPrimary, ["h3", "bold", "right"]),
-              labelText(val.taxLabel, val.colorPrimary, ["h3", "bold", "right"]),
-              labelText(val.discountLabel, val.colorPrimary, ["h3", "bold", "right"]),
-              labelText(val.totalLabel, val.colorPrimary, ["h3", "bold", "right"]),
+              labelText(val.itemLabel, colorPrimary, ["h3", "bold"]),
+              labelText(val.quantityLabel, colorPrimary, ["h3", "bold", "center"]),
+              labelText(val.unitPriceLabel, colorPrimary, ["h3", "bold", "right"]),
+              labelText(val.taxLabel, colorPrimary, ["h3", "bold", "right"]),
+              labelText(val.discountLabel, colorPrimary, ["h3", "bold", "right"]),
+              labelText(val.totalLabel, colorPrimary, ["h3", "bold", "right"]),
             ],
             // Items
             // Item 1
@@ -428,9 +430,9 @@ let layout1 = (val) => {
               heights: 20,
               body: [
                 // Total
-                [labelText("Subtotal", val.colorPrimary, ["h3", "bold"]), labelText("$2000.00", "", ["h3", "right"])],
-                [labelText("Tax 21%", val.colorPrimary, ["h3", "bold"]), labelText("$523.13", "", ["h3", "right"])],
-                [labelText("TOTAL", val.colorPrimary, ["h3", "bold"]), labelText("$999.99", "", ["h3", "right"])],
+                [labelText("Subtotal", colorPrimary, ["h3", "bold"]), labelText("$2000.00", "", ["h3", "right"])],
+                [labelText("Tax 21%", colorPrimary, ["h3", "bold"]), labelText("$523.13", "", ["h3", "right"])],
+                [labelText("TOTAL", colorPrimary, ["h3", "bold"]), labelText("$999.99", "", ["h3", "right"])],
               ],
             }, // table
             style: "hMargin50",
@@ -451,11 +453,11 @@ let layout1 = (val) => {
             [{}, {}, {}, {}, {}, {}, {}],
             [
               {},
-              labelText(val.dueDateLabel, val.colorPrimary, ["h4", "right", "tMarginMD"]),
-              labelText(val.dueDate, val.colorPrimary, ["h2", "bold"]),
+              labelText(val.dueDateLabel, colorPrimary, ["h4", "right", "tMarginMD"]),
+              labelText(val.dueDate, colorPrimary, ["h2", "bold"]),
               {},
-              labelText(val.amountDueLabel, val.colorPrimary, ["h4", "right", "tMarginMD"]),
-              labelText(val.amountDue, val.colorPrimary, ["h2", "bold"]),
+              labelText(val.amountDueLabel, colorPrimary, ["h4", "right", "tMarginMD"]),
+              labelText(val.amountDue, colorPrimary, ["h2", "bold"]),
               {},
             ],
             [{}, {}, {}, {}, {}, {}, {}],
@@ -480,7 +482,7 @@ let layout1 = (val) => {
                     [
                       {
                         stack: [
-                          labelText(val.paymentMethodLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                          labelText(val.paymentMethodLabel, colorPrimary, ["h3", "bMarginSM"]),
                           labelText(val.paymentMethod, "", ["h2", "bMarginXL"]),
                           spacer(40),
                           { text: val.notes },
@@ -488,9 +490,9 @@ let layout1 = (val) => {
                       },
                       {
                         stack: [
-                          labelText(val.termsLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                          labelText(val.termsLabel, colorPrimary, ["h3", "bMarginSM"]),
                           labelText(val.terms, "", ["h2", "bMarginXL"]),
-                          labelText(val.purchaseOrderLabel, val.colorPrimary, ["h3", "bMarginSM"]),
+                          labelText(val.purchaseOrderLabel, colorPrimary, ["h3", "bMarginSM"]),
                           labelText(val.purchaseOrder, "", ["h2", "bMarginXL"]),
                         ],
                       },
@@ -513,6 +515,7 @@ let layout1 = (val) => {
 };
 
 let layout2 = (val) => {
+  let colorPrimary = val.colorPrimary;
   return {
     pageSize: {
       width: val.paperSize.width,
@@ -529,7 +532,7 @@ let layout2 = (val) => {
           {
             svg: '<svg width="100" height="40"><rect width="100%" height="100%" style="fill:green" /></svg>',
           },
-          coloredRect(40, val.colorPrimary),
+          coloredRect(40, colorPrimary),
           {
             text: "billToLabel",
             style: ["bold"],
