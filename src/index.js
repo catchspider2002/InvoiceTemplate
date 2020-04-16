@@ -530,7 +530,7 @@ const assignValues = () => {
   render(companyDetailsTemplate(), document.getElementById("optionalCompanyDetails"));
   render(customerDetailsTemplate(), document.getElementById("optionalCustomerDetails"));
 
-  render(itemTable(), document.getElementById("itemDetailCard"));
+  render(itemTable(), id("itemDetailCard"));
 
   optional2ColumnFields.forEach((item) => {
     // remove2Fields(item);
@@ -749,6 +749,22 @@ const companyDetailsTemplate = () => html`
 const customerDetailsTemplate = () =>
   html` ${addButton("phone", "phone")} ${addButton("email", "email")} ${addButton("customField", "phone")} ${addButton("customField", "phone")}`;
 
+let itemDetails = ["companyName", "companyName", "companyName", "0.0", "0.0", "0.0", "0.0"];
+let itemDetailsTemplate = [];
+
+for (const i of itemDetails) {
+  itemDetailsTemplate.push(html`<td>${i}</td>`);
+}
+
+function createNewLine() {
+  render(itemLine(), id("id_of_table"));
+}
+
+const itemLine = () =>
+  html` <tr>
+    ${itemDetailsTemplate}
+  </tr>`;
+
 const itemTable = () =>
   html`
     <div class="overflow-x-auto">
@@ -762,24 +778,7 @@ const itemTable = () =>
           <th class="px-2">${inputLabel("discount")}</th>
           <th class="px-2">${inputLabel("total")}</th>
         </tr>
-        <tr>
-          <td>${inputOutput("clientCony", lang["companyName"])}</td>
-          <td>${inputOutput("clientCny", lang["companyName"])}</td>
-          <td>${inputOutput("clientCoany", lang["companyName"])}</td>
-          <td>34.99</td>
-          <td>1.99</td>
-          <td>3.99</td>
-          <td>32.99</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td class="whitespace-no-wrap">three three three three</td>
-          <td class="whitespace-no-wrap">trois troistrois trois trois trois</td>
-          <td class="whitespace-no-wrap">drei drei drei drei drei</td>
-          <td>1.99</td>
-          <td>3.99</td>
-          <td>32.99</td>
-        </tr>
+        ${itemLine()} ${itemLine()}
       </table>
     </div>
   `;
@@ -831,6 +830,7 @@ if (lang) assignValues();
 if (id("downloadButton")) id("downloadButton").addEventListener("click", download, false);
 if (id("layout1")) id("layout1").addEventListener("click", renderLayout1, false);
 if (id("layout2")) id("layout2").addEventListener("click", renderLayout2, false);
+if (id("newLine")) id("newLine").addEventListener("click", createNewLine, false);
 
 (function () {
   // Get relevant elements and collections
