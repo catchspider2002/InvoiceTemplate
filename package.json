@@ -9,21 +9,21 @@
     "build": "parcel build index.html --public-url ./"
   },
   "dependencies": {
-    "@simonwep/pickr": "^1.5.1",
-    "flatpickr": "^4.6.3",
-    "lit-html": "^1.2.1",
-    "loadjs": "^4.2.0",
+    "@simonwep/pickr": "^1.9.1",
+    "flatpickr": "^4.6.13",
+    "lit-html": "^3.3.2",
+    "loadjs": "^4.3.0",
     "locales": "0.0.2",
-    "pdfjs-dist": "^2.3.200",
-    "pdfmake": "^0.1.65",
-    "prettier": "^2.0.2",
-    "tailwindcss": "^1.2.0"
+    "pdfjs-dist": "^5.7.284",
+    "pdfmake": "^0.3.8",
+    "prettier": "^3.8.3",
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "npm-check-updates": "^4.1.1",
+    "npm-check-updates": "^22.2.0",
     "@tailwindcss/custom-forms": "0.2.1",
-    "@babel/core": "7.9.0",
-    "parcel-bundler": "^1.12.4"
+    "@babel/core": "7.29.0",
+    "parcel-bundler": "^1.12.5"
   },
   "keywords": [
     "javascript",
